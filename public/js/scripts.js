@@ -1,0 +1,1 @@
+$(document).ready(function(){$("#is_free").on("change",function(){console.log($(this).val()),0==$(this).val()?$("#delivery_cost").fadeIn():$("#delivery_cost").fadeOut()}),$(".select2").select2({placeholder:"Select"}),$(".table").DataTable({info:!1,paging:!1,searching:!1,columnDefs:[{orderable:!1,targets:-1}],sorting:[]})});
