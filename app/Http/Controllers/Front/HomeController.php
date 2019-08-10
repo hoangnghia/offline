@@ -94,5 +94,6 @@ class HomeController
         $customer->save();
         request()->session()->flash('message', 'Thêm thành công !!!');
         return redirect(url('employee/add') . '/' . $request->local_id);
+
     }
 }
