@@ -12,10 +12,12 @@
                     <thead>
                     <tr>
                         <td>STT</td>
-                        <td>Tên chi nhánh</td>
-                        <td>Chi tiết</td>
-                        <td>Loại</td>
-                        <td>Local</td>
+                        <td>Tên đối tác</td>
+                        <td>Số điện thoại</td>
+                        <td>Email</td>
+                        <td>Địa chỉ</td>
+                        <td>Ghi chú</td>
+                        <td>Pg</td>
                         <td>Trạng thái</td>
                         <td>Ngày tạo</td>
                         <td>Option</td>
@@ -70,7 +72,7 @@
             },
 
             ajax: {
-                url: '{!! url('/admin/branchs/getListData') !!}',
+                url: '{!! url('/admin/agencys/getListData') !!}',
                 data: function (d) {
                 }
             },
@@ -81,23 +83,11 @@
                     }
                 },
                 {data: 'name', name: 'name'},
-                {data: 'description', name: 'description'},
-                {
-                    data: 'type', name: 'type', render: function (data, type, row) {
-                        var name = '';
-                        if (data == 1) {
-                            name = "Chợ";
-                        } else if (data == 0) {
-                            name = "Siêu thị";
-                        }
-                        return '<p>' + name + '</p>';
-                    }
-                },
-                {
-                    data: 'address_local', name: 'address_local', render: function (data, type, row) {
-                        return  data ;
-                    }
-                },
+                {data: 'phone', name: 'phone'},
+                {data: 'email', name: 'email'},
+                {data: 'address', name: 'address'},
+                {data: 'note', name: 'note'},
+                {data: 'list_user', name: 'list_user'},
                 {
                     data: 'status', name: 'status', render: function (data, type, row) {
                         var css = '';
@@ -111,13 +101,13 @@
                             css = "btn-danger";
                             name = "Inactive";
                         }
-                        return '<a href="{{url('admin/branchs/status') .'/'}}' + row.id + '" class="btn ' + css + '">' + name + '</a>';
+                        return '<a href="{{url('admin/agencys/status') .'/'}}' + row.id + '" class="btn ' + css + '">' + name + '</a>';
                     }
                 },
                 {data: 'created_at', name: 'created_at'},
                 {
                     data: 'id', name: 'id', render: function (data, type, row) {
-                        return '<a href="{{url('admin/branchs/edit') .'/'}}' + row.id +'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> || <a href="{{url('admin/branchs/delete') .'/'}}' + row.id + '"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+                        return '<a href="{{url('admin/agencys/edit') .'/'}}' + row.id +'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> || <a href="{{url('admin/agencys/delete') .'/'}}' + row.id + '"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                     }
                 },
             ]

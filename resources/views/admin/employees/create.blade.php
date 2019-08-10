@@ -34,15 +34,6 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="role">Campain</label>
-                        <select name="role" id="role" class="form-control select2">
-                            <option></option>
-                            @foreach($roles as $role)
-                                <option value="{{ $role->id }}">{{ ucfirst($role->name) }}</option>
-                            @endforeach
-                        </select>
-                    </div>
                     @include('admin.shared.status-select', ['status' => 0])
                 </div>
                 <!-- /.box-body -->

@@ -10,7 +10,7 @@
               enctype="multipart/form-data">
             {{ csrf_field() }}
         <input type="text" id="login" class="fadeIn second" name="name" placeholder="Họ và tên" required>
-        <input type="text" id="login" class="fadeIn second" name="campaign_id" value="{{$id}}" style="display: none">
+        <input type="text" id="login" class="fadeIn second" name="local_id" value="{{$id}}" style="display: none">
             <input type="text" id="Name" class="fadeIn second" name="phone" placeholder="Số điện thoại" required>
             <input type="date" id="Birthday" class="form-control" name="date" placeholder="Năm sinh">
             <input type="email" id="Email" class="fadeIn second" name="email" placeholder="Email">

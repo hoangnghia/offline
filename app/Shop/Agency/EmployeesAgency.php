@@ -6,22 +6,19 @@
  * Time: 1:35 PM
  */
 
-namespace App\Shop\Local;
+namespace App\Shop\Agency;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Local extends Model
+class EmployeesAgency extends Model
 {
     use Notifiable;
-    protected $table = 'local';
+    protected $table = 'employees_agency';
     protected $fillable = [
-        'name',
-        'branch_id',
-        'address',
-        'status',
-        'created_at',
-        'updated_at'
+        'agency_id',
+        'employees_id',
     ];
+
     /**
      * The attributes that should be hidden for arrays.
      *

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Campaigns;
 
 use App\Http\Controllers\Controller;
+use App\Shop\Agency\Agency;
 use App\Shop\Branchs\Branch;
 use App\Shop\Campaigns\Campaign;
 use App\Shop\Employees\Employee;
@@ -43,6 +44,17 @@ class CampaignController extends Controller
             ->select('b.*')
             ->orderBy('b.created_at', 'desc');
         $datatables = DataTables::of($campaign);
+        $datatables->addColumn('status-type', function ($model) {
+            $a = Carbon::now()->toDateString();
+            if ($a >= $model->time_start && $a <= $model->time_end) {
+                $status = 1;
+            } elseif ($model->time_start < $a) {
+                $status = 2;
+            } else {
+                $status = 3;
+            }
+            return $status;
+        });
         return $datatables->make(true);
     }
 
@@ -53,12 +65,7 @@ class CampaignController extends Controller
     {
         $branch = Branch::all();
         $local = Local::all();
-        $agency = DB::table('employees as e')
-            ->select('e.*')
-            ->join('role_user as r', 'r.user_id', '=', 'e.id')
-            ->where('r.role_id', 3)
-            ->orderBy('e.created_at', 'desc')
-            ->get();
+        $agency = Agency::all();
         return view('admin.campaign.create', [
             'branch' => $branch,
             'local' => $local,
@@ -75,7 +82,7 @@ class CampaignController extends Controller
             $campaign->address = $request['customer-reason'];
             $campaign->taget = $request['taget'];
             $campaign->cost = $request['cost'];
-            $campaign->agency_id = json_encode($request['agency-list']);
+            $campaign->agency_id = $request['agency'];
             $campaign->time_start = date('Y-m-d H:i:s', strtotime($request['set-start-date']));
             $campaign->time_end = date('Y-m-d H:i:s', strtotime($request['set-end-date']));
             $campaign->created_at = Carbon::now();
@@ -90,7 +97,7 @@ class CampaignController extends Controller
                 $local_campaing->save();
             }
             request()->session()->flash('message', 'Thêm thành công !!!');
-            return redirect()->route('admin.campaigns.index');
+            return redirect('admin/campaign/user/' . $campaign->id);
         }
         request()->session()->flash('message', 'Thêm thất bại !!!');
         return redirect()->route('admin.campaigns.index');
@@ -129,13 +136,13 @@ class CampaignController extends Controller
             $campaign = Campaign::where('id', $id)->first();
             $branch = Branch::all();
             $local = DB::table('local_campaign as l')
-                ->select('l.*', 'w.branch_id','w.name','w.address')
+                ->select('l.*', 'w.branch_id', 'w.name', 'w.address')
                 ->join('local as w', 'w.id', '=', 'l.local_id')
                 ->where('l.campaign_id', $id)
                 ->orderBy('l.created_at', 'desc')
                 ->get();
             $user = DB::table('employees as e')
-                ->select('e.*', 'r.role_id','r.user_id')
+                ->select('e.*', 'r.role_id', 'r.user_id')
                 ->join('role_user as r', 'r.user_id', '=', 'e.id')
                 ->where('r.role_id', 3)
                 ->orderBy('e.created_at', 'desc')
@@ -151,24 +158,35 @@ class CampaignController extends Controller
         return redirect()->route('admin.campaign.index');
 
     }
+
     public function user($id)
     {
         if (isset($id)) {
+//            $campaignUser = LocalUser::where('campaign_id',$id)->get();
+            $campaign = DB::table('campaign as c')
+                ->select('c.*', 'b.name as name_branchs', 'c.name as agency_name')
+                ->join('branchs as b', 'b.id', '=', 'c.address')
+                ->join('agency as a', 'a.id', '=', 'c.agency_id')
+                ->where('c.id', $id)
+                ->first();
+
             $local = DB::table('local_campaign as l')
-                ->select('l.*', 'w.branch_id','w.name','w.address')
+                ->select('l.*', 'w.branch_id', 'w.name', 'w.address')
                 ->join('local as w', 'w.id', '=', 'l.local_id')
                 ->where('l.campaign_id', $id)
                 ->orderBy('l.created_at', 'desc')
                 ->get();
             $user = DB::table('employees as e')
-                ->select('e.*', 'r.role_id','r.user_id')
-                ->join('role_user as r', 'r.user_id', '=', 'e.id')
-                ->where('r.role_id', 3)
+                ->select('e.*', 'ea.agency_id')
+                ->join('employees_agency as ea', 'ea.employees_id', '=', 'e.id')
+                ->where('ea.agency_id', $campaign->agency_id)
                 ->orderBy('e.created_at', 'desc')
                 ->get();
             return view('admin.campaign.user', [
                 'local' => $local,
                 'idcampaign' => $id,
+                'campaign' => $campaign,
+//                'campaignUser' => $campaignUser,
                 'user' => $user
             ]);
         }
@@ -176,32 +194,36 @@ class CampaignController extends Controller
         return redirect()->route('admin.campaign.index');
 
     }
+
     public function postUserCampaign(Request $request)
     {
+        $local = LocalCampaign::where('campaign_id', $request->idcampaign)->get();
+        foreach ($local as $item) {
+            $user = 'local' . $item->id . '_local_user';
+            if (isset($request->$user)) {
+//                dd($local);
+                $taget_post = 'taget_local_' . $item->id;
+                $tagetUser = $request->$taget_post / count($request->$user);
+                foreach ($request->$user as $itemUser) {
+                    $campaign = new LocalUser();
+                    $campaign->user_id = $itemUser;
+                    $campaign->local_id = $item->local_id;
+                    $campaign->local_campaign_id = $item->id;
+                    $campaign->taget = round($tagetUser);
+                    $campaign->campaign_id = $request->idcampaign;
+                    $campaign->created_at = Carbon::now();
+                    $campaign->updated_at = Carbon::now();
+                    $campaign->save();
+                }
 
-        $local = LocalCampaign::where('campaign_id',$request->idcampaign)->get();
-
-        foreach ($local as $item)
-        {
-//            dd($request);
-            $user = 'local'.$item->id.'_local_user';
-            foreach ($request->$user as $itemUser)
-            {
-                $campaign = new LocalUser();
-                $campaign->user_id = $itemUser;
-                $campaign->local_id = $item->local_id;
-                $campaign->campaign_id = $request->idcampaign;
-                $campaign->created_at = Carbon::now();
-                $campaign->updated_at = Carbon::now();
-                $campaign->save();
+                $taget = LocalCampaign::where('local_id', $item->local_id)->first();
+                $taget->taget = $request->$taget_post;
+                $taget->save();
+            } else {
+                request()->session()->flash('error', 'Bạn chưa chọn nhân viên !!!');
+                return redirect('admin/campaign/user/' . $request->idcampaign);
             }
-            $taget_post ='taget_local_'.$item->id;
-            $taget = LocalCampaign::where('local_id',$item->local_id)->first();
-            $taget->taget =  $request->$taget_post;
-            $taget->save();
         }
-
-
         request()->session()->flash('message', 'Thêm thành công !!!');
         return redirect()->route('admin.campaigns.index');
     }

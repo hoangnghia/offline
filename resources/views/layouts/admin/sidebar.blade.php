@@ -145,7 +145,7 @@
 
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-star"></i> <span>Campaipn</span>
+                        <i class="fa fa-star"></i> <span>Chiến dịch</span>
                         <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                 </span>
@@ -167,6 +167,19 @@
                         <li><a href="{{ route('admin.branch.index') }}"><i class="fa fa-circle-o"></i> Danh sách</a>
                         </li>
                         <li><a href="{{ route('admin.branch.create') }}"><i class="fa fa-plus"></i> Tạo mới</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-star"></i> <span>Đối tác(Agency)</span>
+                        <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ route('admin.agencys.index') }}"><i class="fa fa-circle-o"></i> Danh sách</a>
+                        </li>
+                        <li><a href="{{ route('admin.agencys.create') }}"><i class="fa fa-plus"></i> Tạo mới</a></li>
                     </ul>
                 </li>
             @endif

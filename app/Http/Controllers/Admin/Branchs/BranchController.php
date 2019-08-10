@@ -29,8 +29,18 @@ class BranchController extends Controller
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $customers = DB::table('branchs as b')
             ->select('b.*')
-            ->orderBy('b.created_at', 'desc');
+            ->orderBy('b.created_at', 'desc')->get();
+//        dd($customers);
         $datatables = DataTables::of($customers);
+        $datatables->addColumn('address_local', function ($model) {
+            $local = Local::where('branch_id', $model->id)->get();
+            $options = '';
+            foreach ($local as $item) {
+//                $options .= '<b>' . $item->name . '</b>';
+                $options .= $item->name . ', ';
+            }
+            return $options;
+        });
         return $datatables->make(true);
     }
 
@@ -108,7 +118,7 @@ class BranchController extends Controller
     {
         if (isset($id)) {
             $branch = Branch::where('id', $id)->delete();
-            $local = Local::where('branch_id',$id)->delete();
+            $local = Local::where('branch_id', $id)->delete();
             request()->session()->flash('message', 'Xóa thành công !!!');
             return redirect()->route('admin.branch.index');
         }

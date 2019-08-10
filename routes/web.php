@@ -92,10 +92,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::get('branchs/edit/{id}', 'Branchs\BranchController@edit')->name('branch.edit');
             Route::get('branchs/delete/{id}', 'Branchs\BranchController@delete')->name('branch.delete');
 
-
+            // Danh sách agencys
+            Route::GET('agencys/index', 'Agencys\AgencyController@index')->name('agencys.index');
+            Route::GET('agencys/getListData', 'Agencys\AgencyController@getListData')->name('agencys.getListData');
+            Route::GET('agencys/create', 'Agencys\AgencyController@getAddAgency')->name('agencys.create');
+            Route::POST('agencys/store', 'Agencys\AgencyController@postAddAgency')->name('agencys.store');
+            Route::get('agencys/status/{id}', 'Agencys\AgencyController@status')->name('agencys.status');
+            Route::get('agencys/delete/{id}', 'Agencys\AgencyController@delete')->name('agencys.delete');
+            Route::get('agencys/edit/{id}', 'Agencys\AgencyController@edit')->name('agencys.edit');
+            Route::post('agencys/destroy', 'Agencys\AgencyController@destroy')->name('agencys.destroy');
         });
     });
-
 });
 
 Route::namespace('Front')->group(function () {

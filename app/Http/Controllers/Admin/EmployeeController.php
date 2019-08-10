@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Shop\Admins\Requests\CreateEmployeeRequest;
 use App\Shop\Admins\Requests\UpdateEmployeeRequest;
+use App\Shop\Agency\EmployeesAgency;
+use App\Shop\Employees\Employee;
 use App\Shop\Employees\Repositories\EmployeeRepository;
 use App\Shop\Employees\Repositories\Interfaces\EmployeeRepositoryInterface;
 use App\Shop\Roles\Repositories\RoleRepositoryInterface;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
@@ -42,8 +45,14 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $list = $this->employeeRepo->listEmployees('created_at', 'desc');
+//        $list = $this->employeeRepo->listEmployees('created_at', 'desc');
 
+        $list = DB::table('employees as e')
+            ->select('e.*','ro.display_name')
+            ->join('role_user as r', 'r.user_id', '=', 'e.id')
+            ->join('roles as ro', 'ro.id', '=', 'r.role_id')
+            ->orderBy('e.created_at', 'desc')
+            ->get();
         return view('admin.employees.list', [
             'employees' => $this->employeeRepo->paginateArrayResults($list->all())
         ]);
@@ -157,11 +166,17 @@ class EmployeeController extends Controller
      */
     public function destroy(int $id)
     {
-        $employee = $this->employeeRepo->findEmployeeById($id);
-        $employeeRepo = new EmployeeRepository($employee);
-        $employeeRepo->deleteEmployee();
-
-        return redirect()->route('admin.employees.index')->with('message', 'Xóa thành công');
+        $employeesAgency = EmployeesAgency::where('employees_id',$id)->get();
+        $count = count($employeesAgency);
+        if ($count == 0)
+        {
+            $list = DB::table('employees')->where('id',$id)->delete();
+            return redirect()->route('admin.employees.index')->with('message', 'Xóa thành công');
+        }
+//        $employee = $this->employeeRepo->findEmployeeById($id);
+//        $employeeRepo = new EmployeeRepository($employee);
+//        $employeeRepo->deleteEmployee();
+        return redirect()->route('admin.employees.index')->with('error', 'Error ! Nhân sự có liên kết, không thể xóa.');
     }
     /**
      * Remove the specified resource from storage.

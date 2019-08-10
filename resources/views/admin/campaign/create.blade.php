@@ -12,24 +12,20 @@
 
                     <div class="form-group">
                         <label for="name">Tên chiến dịch <span class="text-danger">*</span></label>
-                        <input type="text" name="name" id="name" placeholder="Tên danh mục" class="form-control"
+                        <input type="text" name="name" id="name" placeholder="Tên chiến dịch" class="form-control"
                                value="{{ old('name') }}">
                     </div>
                     <div class="form-group">
-                        <label for="description">Mô tả danh mục </label>
-                        <textarea class="form-control ckeditor" name="description" id="description" rows="3"
-                                  placeholder="Mô tả danh mục">{{ old('description') }}</textarea>
+                        <label for="name">Đối tác<span class="text-danger">*</span></label>
+                        <select class="form-control"
+                                name="agency">
+                            <option class="agency">Danh sách đối tác</option>
+                            @foreach($agency as $agencyItem)
+                                <option class="agency"
+                                        value="{{ $agencyItem->id }}">{{ $agencyItem->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                    {{--<div class="form-group">--}}
-                        {{--<select class="form-control"--}}
-                                {{--id="agency-reason" multiple="multiple"--}}
-                                {{--name="agency-list[]">--}}
-                            {{--@foreach($agency as $agencyItem)--}}
-                                {{--<option class="agency"--}}
-                                        {{--value="{{ $agencyItem->id }}">{{ $agencyItem->name }}</option>--}}
-                            {{--@endforeach--}}
-                        {{--</select>--}}
-                    {{--</div>--}}
                     <div class="form-group">
                         <label for="name">Địa chỉ<span class="text-danger">*</span></label>
                         <select data-value="status"
@@ -37,7 +33,7 @@
                                 class="changeValue form-control"
                                 id="customer-reason"
                         >
-                            <option>Chọn chi nhánh</option>
+                            <option>Chọn địa chỉ</option>
                             @foreach($branch as $item)
                                 <option class="local-id" value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
@@ -63,11 +59,16 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Chi phí<span class="text-danger">*</span></label>
-                        <input type="number" id="cost" name="cost" value=""/>vnđ
+                        <input type="number" id="cost" name="cost" value=""/>(VNĐ)
                     </div>
                     <div class="form-group">
                         <label for="name">Taget<span class="text-danger">*</span></label>
-                        <input type="number" id="taget" name="taget" value=""/>
+                        <input type="number" id="taget" name="taget" value=""/>(Phiếu ghi)
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Mô tả </label>
+                        <textarea class="form-control ckeditor" name="description" id="description" rows="3"
+                                  placeholder="Mô tả">{{ old('description') }}</textarea>
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -81,9 +82,6 @@
         </div>
         <!-- /.box -->
     </section>
-    <style type="text/css">
-
-    </style>
     <!-- /.content -->
     <script type="text/javascript">
         $('.local').addClass('hide');
@@ -92,7 +90,8 @@
             $('#add-campaign #local-hide').removeClass('hide');
             var field = $(this).data("value");
             var local = $(this).data("local");
-            $local = $('.local-id').val();
+            $local = $(this).val();
+            $('#add-campaign .local').addClass('hide');
             $("#add-campaign .local-" + $local).removeClass('hide');
         });
 
@@ -100,10 +99,10 @@
             includeSelectAllOption: true,
             nonSelectedText: '-- Danh sách local --',
         });
-        $('#agency-reason').multiselect({
-            includeSelectAllOption: true,
-            nonSelectedText: '-- Danh sách user --',
-        });
+        // $('#agency-reason').multiselect({
+        //     includeSelectAllOption: true,
+        //     nonSelectedText: '-- Danh sách user --',
+        // });
 
 
     </script>

@@ -16,6 +16,7 @@
                             <td class="col-md-1">ID</td>
                             <td class="col-md-4">Tên nhân viên</td>
                             <td class="col-md-3">Email</td>
+                            <td class="col-md-3">Vai trò</td>
                             <td class="col-md-2">Tình trạng</td>
                             <td class="col-md-2">Hành động</td>
                         </tr>
@@ -26,6 +27,7 @@
                             <td>{{ $employee->id }}</td>
                             <td>{{ $employee->name }}</td>
                             <td>{{ $employee->email }}</td>
+                            <td>{{ $employee->display_name }}</td>
                             <td>
                                 <form action="{{ route('admin.employee.status', $employee->id) }}" method="post" class="form-horizontal">
                                     {{ csrf_field() }}
