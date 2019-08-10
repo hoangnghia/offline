@@ -106,10 +106,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
 });
 
 Route::namespace('Front')->group(function () {
-//    Route::get('/', 'LoginController@showLoginForm')->name('front.login');
-//    Route::post('front/login', 'LoginController@login')->name('front.login');
-//    Route::get('front/logout', 'LoginController@logout')->name('front.logout');
-
+    Route::get('/', 'LoginController@showLoginForm')->name('front.login');
+    Route::post('front/login', 'LoginController@login')->name('front.login');
+    Route::get('front/logout', 'LoginController@logout')->name('front.logout');
 });
 
 
