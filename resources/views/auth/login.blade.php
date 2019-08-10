@@ -2,6 +2,7 @@
 
 @section('content')
     <hr>
+
     <!-- Main content -->
     <section class="container content">
         <div class="col-md-12">@include('layouts.errors-and-messages')</div>
