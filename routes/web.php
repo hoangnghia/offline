@@ -112,6 +112,7 @@ Route::namespace('Front')->group(function () {
 });
 
 
+
 Route::namespace('Front')->group(function () {
     Route::get('employee/dashboard', 'HomeController@index')->name('employee.dashboard');
     Route::get('employee/add/{id}', 'HomeController@add')->name('employee.add');
