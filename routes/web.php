@@ -55,7 +55,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::resource('attributes', 'Attributes\AttributeController');
             Route::resource('attributes.values', 'Attributes\AttributeValueController');
             Route::resource('brands', 'Brands\BrandController');
-
         });
         Route::group(['middleware' => ['role:admin|superadmin, guard:employee']], function () {
             Route::resource('employees', 'EmployeeController');
@@ -87,11 +86,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::GET('branch/create', 'Branchs\BranchController@getAddBranch')->name('branch.create');
             Route::POST('branch/store', 'Branchs\BranchController@postAddBranch')->name('branch.store');
             Route::GET('branch/{id}/edit', 'Branchs\BranchController@getEditBranch')->name('branch.edit');
-            Route::PUT('branch/{id}/edit', 'Branchs\BranchController@updateEditBranch')->name('branch.update');
+//            Route::PUT('branchs/{id}/edit', 'Branchs\BranchController@updateEditBranch')->name('branch.update');
             Route::post('branch/{id}', 'Branchs\BranchController@destroy')->name('branch.destroy');
             Route::get('branchs/status/{id}', 'Branchs\BranchController@status')->name('branch.status');
             Route::get('branchs/edit/{id}', 'Branchs\BranchController@edit')->name('branch.edit');
             Route::get('branchs/delete/{id}', 'Branchs\BranchController@delete')->name('branch.delete');
+            Route::POST('branchs/updata', 'Branchs\BranchController@updateEditBranch')->name('branch.updata');
 
             // Danh sách agencys
             Route::GET('agencys/index', 'Agencys\AgencyController@index')->name('agencys.index');

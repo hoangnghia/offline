@@ -9,7 +9,7 @@
                   enctype="multipart/form-data">
                 <div class="box-body">
                     {{ csrf_field() }}
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <h2 class="text-center">
                             Thêm chi nhánh mới</h2>
                         <div class="form-group">
@@ -22,27 +22,28 @@
                             <textarea class="form-control" name="description" id="description" rows="5"
                                       placeholder="Mô tả chi tiết">{{ old('description') }}</textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="type">Loại<span class="text-danger">*</span></label>
-                            <select name="type" id="type" class="form-control select">
-                                <option value="0"
-                                        @if(old('status') == 0) selected="selected" @endif>Siêu thị
-                                </option>
-                                <option value="1"
-                                        @if(old('status') == 1) selected="selected" @endif>Chợ
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group" id="dynamicTable">
+                        {{--<div class="form-group">--}}
+                            {{--<label for="type">Loại<span class="text-danger">*</span></label>--}}
+                            {{--<select name="type" id="type" class="form-control select">--}}
+                                {{--<option value="0"--}}
+                                        {{--@if(old('status') == 0) selected="selected" @endif>Siêu thị--}}
+                                {{--</option>--}}
+                                {{--<option value="1"--}}
+                                        {{--@if(old('status') == 1) selected="selected" @endif>Chợ--}}
+                                {{--</option>--}}
+                            {{--</select>--}}
+                        {{--</div>--}}
+                        <div class="form-group local" id="dynamicTable">
                             <label for="name" style="width: 100%;">Tên local</label>
-                            <input style="width: 45%;display: inline-block; margin-bottom: 5px" type="text"
+                            <input style="width: 30%;display: inline-block; margin-bottom: 5px" type="text"
                                    name="addmore"
                                    placeholder="Tên local"
                                    class="form-control"/>
-                            <input type="text" style="width: 45%;display: inline-block; margin-bottom: 5px"
+                            <input type="text" style="width: 30%;display: inline-block; margin-bottom: 5px"
                                    name="addmore"
                                    placeholder="Địa chỉ"
                                    class="form-control"/>
+                            <select style="width: 30%;display: inline-block; margin-bottom: 5px" name="type" id="type" class="form-control select"><option value="0">Siêu thị</option><option value="1">Chợ</option></select>
                         </div>
                         <button style="display: block" type="button" name="add" id="add" class="btn btn-success">Thêm
                             local
@@ -66,7 +67,7 @@
         var i = 0;
         $("#add").click(function () {
             ++i;
-            $("#dynamicTable").append('<div class="local"><input style="width: 45%;display: inline-block;  margin-bottom: 5px;margin-right: 4px;" type="text" name="addmore" placeholder="Tên local" class="form-control"/><input type="text" style="width: 45%;display: inline-block; margin-bottom: 5px;margin-right: 5px;" name="addmore-address" placeholder="Địa chỉ" class="form-control"/><button type="button" class="btn btn-danger remove-div">Xóa</button></div>');
+            $("#dynamicTable").append('<div class="local"><input style="width: 30%;display: inline-block;  margin-bottom: 5px;margin-right: 4px;" type="text" name="addmore" placeholder="Tên local" class="form-control"/><input type="text" style="width: 30%;display: inline-block; margin-bottom: 5px;margin-right: 5px;" name="addmore-address" placeholder="Địa chỉ" class="form-control"/><select style="width: 30%;display: inline-block; margin-bottom: 5px;margin-right: 5px;" name="type" id="type" class="form-control select"><option value="0">Siêu thị</option><option value="1">Chợ</option></select><button type="button" class="btn btn-danger remove-div">Xóa</button></div>');
             // $("#dynamicTable").append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][qty]" placeholder="Enter your Qty" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][price]" placeholder="Enter your Price" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr">Remove</button></td></tr>');
         });
         $(document).on('click', '.remove-div', function () {
@@ -80,11 +81,12 @@
                 var localData = {};
                 localData.addmore = $(this).find("[name=addmore]").val()
                 localData["addmore-address"] = $(this).find("[name=addmore-address]").val()
+                localData["type"] = $(this).find("[name=type]").val()
                 localsData.push(localData);
             })
             var name = $("#name").val();
             var description = $("#description").val();
-            var type = $("#type").val();
+            // var type = $("#type").val();
             $.ajax({
                 type: 'POST',
                 headers: {
@@ -96,7 +98,7 @@
                     name: name,
                     local: localsData,
                     description: description,
-                    type: type
+                    // type: type
                 },
             }).done(function (response) {
                 if (response.result) {

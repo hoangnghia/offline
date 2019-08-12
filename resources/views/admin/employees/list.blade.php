@@ -32,7 +32,6 @@
                                 <form action="{{ route('admin.employee.status', $employee->id) }}" method="post" class="form-horizontal">
                                     {{ csrf_field() }}
                                     @if($employee->status == 1)
-
                                         <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-check"></i></button>
                                     @else
                                         <span style="display: none; visibility: hidden">0</span>
@@ -59,7 +58,6 @@
         </div>
         <!-- /.box -->
         @endif
-
     </section>
     <!-- /.content -->
 @endsection

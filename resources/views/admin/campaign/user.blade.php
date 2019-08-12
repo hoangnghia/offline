@@ -54,6 +54,7 @@
                             @endforeach
                         </div>
                     @endif
+
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">

@@ -56,7 +56,6 @@ class BranchController extends Controller
 
     public function postAddBranch(Request $request)
     {
-
         if ($request['name'] != null) {
             $local = '';
             if (isset($request['local'])) {
@@ -64,7 +63,7 @@ class BranchController extends Controller
             }
             $branch = new Branch();
             $branch->name = $request['name'];
-            $branch->type = $request['type'];
+//            $branch->type = $request['type'];
             $branch->description = $request['description'];
             $branch->local = $local;
             $branch->created_at = Carbon::now();
@@ -75,12 +74,11 @@ class BranchController extends Controller
                 $local->branch_id = $branch->id;
                 $local->name = $item['addmore'];
                 $local->address = $item['addmore-address'];
+                $local->type = $item['type'];
                 $local->created_at = Carbon::now();
                 $local->updated_at = Carbon::now();
                 $local->save();
             }
-
-
             return json_encode([
                 'result' => true,
             ]);
@@ -135,12 +133,45 @@ class BranchController extends Controller
     {
         if (isset($id)) {
             $branch = Branch::where('id', $id)->first();
+            $local = Local::where('branch_id', $id)->get();
             return view('admin.branch.edit', [
-                'branch' => $branch
+                'branch' => $branch,
+                'local' => $local
             ]);
         }
         request()->session()->flash('message', 'ID không tồn tại hoặc Null !!!');
         return redirect()->route('admin.branch.index');
-
+    }
+    public function updateEditBranch(Request $request)
+    {
+        if ($request['name'] != null) {
+            $local = '';
+            if (isset($request['local'])) {
+                $local = serialize($request['local']);
+            }
+            $branch = Branch::where('id',$request['id'])->first();
+            $branch->name = $request['name'];
+            $branch->description = $request['description'];
+            $branch->local = $local;
+            $branch->updated_at = Carbon::now();
+            $branch->save();
+            Local::where('branch_id',$request['id'])->delete();
+            foreach ($request['local'] as $item) {
+                $local = new Local();
+                $local->branch_id = $branch->id;
+                $local->name = $item['addmore'];
+                $local->address = $item['addmore-address'];
+                $local->type = $item['type'];
+                $local->created_at = Carbon::now();
+                $local->updated_at = Carbon::now();
+                $local->save();
+            }
+            return json_encode([
+                'result' => true,
+            ]);
+        }
+        return json_encode([
+            'result' => false,
+        ]);
     }
 }

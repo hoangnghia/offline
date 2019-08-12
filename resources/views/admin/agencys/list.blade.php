@@ -7,7 +7,7 @@
     <!-- Default box -->
         <div class="box">
             <div class="box-body">
-                <h2>Brands</h2>
+                <h2>Dan sách đối tác</h2>
                 <table id="list-branchs" class="table">
                     <thead>
                     <tr>

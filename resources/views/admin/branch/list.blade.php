@@ -14,7 +14,7 @@
                         <td>STT</td>
                         <td>Tên chi nhánh</td>
                         <td>Chi tiết</td>
-                        <td>Loại</td>
+                        {{--<td>Loại</td>--}}
                         <td>Local</td>
                         <td>Trạng thái</td>
                         <td>Ngày tạo</td>
@@ -82,17 +82,17 @@
                 },
                 {data: 'name', name: 'name'},
                 {data: 'description', name: 'description'},
-                {
-                    data: 'type', name: 'type', render: function (data, type, row) {
-                        var name = '';
-                        if (data == 1) {
-                            name = "Chợ";
-                        } else if (data == 0) {
-                            name = "Siêu thị";
-                        }
-                        return '<p>' + name + '</p>';
-                    }
-                },
+                // {
+                //     data: 'type', name: 'type', render: function (data, type, row) {
+                //         var name = '';
+                //         if (data == 1) {
+                //             name = "Chợ";
+                //         } else if (data == 0) {
+                //             name = "Siêu thị";
+                //         }
+                //         return '<p>' + name + '</p>';
+                //     }
+                // },
                 {
                     data: 'address_local', name: 'address_local', render: function (data, type, row) {
                         return  data ;
