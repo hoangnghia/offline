@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class RedirectIfNotEmployee
+class RedirectIfNotFront
 {
     /**
      * Handle an incoming request.
@@ -18,7 +18,7 @@ class RedirectIfNotEmployee
     {
         if (!auth()->guard($guard)->check()) {
             $request->session()->flash('error', 'You must be an employee to see this page');
-            return redirect(route('admin.login'));
+            return redirect(route('front.login'));
         }
         return $next($request);
     }

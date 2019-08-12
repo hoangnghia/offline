@@ -111,9 +111,10 @@ Route::namespace('Front')->group(function () {
     Route::post('front/login', 'LoginController@login')->name('front.login');
     Route::get('front/logout', 'LoginController@logout')->name('front.logout');
 });
+
+Route::group(['middleware' => ['front']], function () {
 Route::namespace('Front')->group(function () {
-    Route::group(['middleware' => ['role:admin|superadmin|employee,']], function () {
-    Route::get('employee/dashboard', 'HomeController@index')->name('employee.dashboard')->middleware();
+    Route::get('employee/dashboard', 'HomeController@index')->name('employee.dashboard');
     Route::get('employee/add/{id}', 'HomeController@add')->name('employee.add');
     Route::get('employee/customer/{id}', 'HomeController@customer')->name('employee.customer');
     Route::POST('employee/add', 'HomeController@postAddCustomer')->name('employee.add');
