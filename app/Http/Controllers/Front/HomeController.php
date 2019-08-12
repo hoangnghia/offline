@@ -60,7 +60,7 @@ class HomeController extends Controller
         $customer->email = $request->email;
         $customer->service = $request->service;
         if ($request->local_id != 0) {
-            $customer->local_id = $request->local_id;
+            $customer->local_user_id = $request->local_id;
         }
         $customer->note = $request->note;
         $customer->created_at = Carbon::now();
