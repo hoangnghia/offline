@@ -1,41 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Front;
-
-use App\Shop\Categories\Category;
-use App\Shop\Categories\Repositories\Interfaces\CategoryRepositoryInterface;
-use App\Shop\Carts\Repositories\Interfaces\CartRepositoryInterface;
+use App\Http\Controllers\Controller;
 use App\Shop\Customer\Customer;
-use App\Shop\Local\LocalUser;
-use App\Shop\Products\Product;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\DB;
 
-class HomeController
+class HomeController extends Controller
 {
-    use AuthenticatesUsers;
-    /**
-     * @var CategoryRepositoryInterface
-     */
-    private $categoryRepo;
-    /**
-     * @var CartRepositoryInterface
-     */
-    private $cartRepo;
-
-    /**
-     * HomeController constructor.
-     * @param CategoryRepositoryInterface $categoryRepository
-     */
-    public function __construct(CategoryRepositoryInterface $categoryRepository, CartRepositoryInterface $cartRepository)
-    {
-        $this->categoryRepo = $categoryRepository;
-        $this->cartRepo = $cartRepository;
-    }
-
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */

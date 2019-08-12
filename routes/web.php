@@ -25,6 +25,7 @@ Route::namespace('Admin')->group(function () {
 Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.'], function () {
     Route::namespace('Admin')->group(function () {
         Route::group(['middleware' => ['role:admin|superadmin|clerk, guard:employee']], function () {
+
             Route::get('/', 'DashboardController@index')->name('dashboard');
             Route::namespace('Products')->group(function () {
                 Route::resource('products', 'ProductController');
@@ -110,12 +111,12 @@ Route::namespace('Front')->group(function () {
     Route::post('front/login', 'LoginController@login')->name('front.login');
     Route::get('front/logout', 'LoginController@logout')->name('front.logout');
 });
-
-
-
 Route::namespace('Front')->group(function () {
-    Route::get('employee/dashboard', 'HomeController@index')->name('employee.dashboard');
+    Route::group(['middleware' => ['role:admin|superadmin|clerk, guard:employee']], function () {
+    Route::get('employee/dashboard', 'HomeController@index')->name('employee.dashboard')->middleware();
     Route::get('employee/add/{id}', 'HomeController@add')->name('employee.add');
     Route::get('employee/customer/{id}', 'HomeController@customer')->name('employee.customer');
     Route::POST('employee/add', 'HomeController@postAddCustomer')->name('employee.add');
 });
+});
+
