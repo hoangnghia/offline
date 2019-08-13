@@ -23,6 +23,7 @@ class Customer extends Authenticatable
         'email',
         'service',
         'note',
+        'parent_id',
         'status',
         'local_user_id',
         'created_at',

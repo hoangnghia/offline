@@ -1,14 +1,15 @@
 @extends('layouts.front.app')
 
 @section('content')
-    @include('layouts.errors-and-messages')
+
     <div id="formContent">
-        <h2 class="fadeIn first"> Thêm khách hàng </h2>
-        <form id="add-campaign" action="{{ route('employee.add') }}" method="post" class="form"
+        <h2 class="fadeIn first"> Thêm người thân của {{$customer->name}}</h2>
+        @include('layouts.errors-and-messages')
+        <form id="add-campaign" action="{{ route('employee.postAddRelatives') }}" method="post" class="form"
               enctype="multipart/form-data">
             {{ csrf_field() }}
             <input type="text" id="login" class="fadeIn second" name="name" placeholder="Họ và tên" required>
-            <input type="text" id="login" class="fadeIn second" name="local_id" value="{{$id}}" style="display: none">
+            <input type="text" id="login" class="fadeIn second" name="customer" value="{{$customer->id}}" style="display: none">
             <input type="text" id="Name" class="fadeIn second" name="phone" placeholder="Số điện thoại" required>
             <input type="date" id="Birthday" class="form-control" name="date" placeholder="Năm sinh">
             <select name="service" id="service" class="fadeIn second">

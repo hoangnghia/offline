@@ -10,6 +10,8 @@ use App\Shop\Employees\Employee;
 use App\Shop\Local\Local;
 use App\Shop\Local\LocalUser;
 use App\Shop\LocalCampaign\LocalCampaign;
+use App\Shop\Service\LocalServices;
+use App\Shop\Service\Service;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -182,11 +184,12 @@ class CampaignController extends Controller
                 ->where('ea.agency_id', $campaign->agency_id)
                 ->orderBy('e.created_at', 'desc')
                 ->get();
+            $service = Service::where('status', true)->get();
             return view('admin.campaign.user', [
                 'local' => $local,
                 'idcampaign' => $id,
                 'campaign' => $campaign,
-//                'campaignUser' => $campaignUser,
+                'service' => $service,
                 'user' => $user
             ]);
         }
@@ -197,6 +200,7 @@ class CampaignController extends Controller
 
     public function postUserCampaign(Request $request)
     {
+//        dd($request);
         $local = LocalCampaign::where('campaign_id', $request->idcampaign)->get();
         foreach ($local as $item) {
             $user = 'local' . $item->id . '_local_user';
@@ -215,10 +219,19 @@ class CampaignController extends Controller
                     $campaign->updated_at = Carbon::now();
                     $campaign->save();
                 }
-
                 $taget = LocalCampaign::where('local_id', $item->local_id)->first();
                 $taget->taget = $request->$taget_post;
                 $taget->save();
+                $service = 'services-' . $item->id;
+                foreach ($request->$service as $itemService) {
+                    $serviceLocal = new LocalServices();
+                    $serviceLocal->service_id = $itemService;
+                    $serviceLocal->local_id = $item->local_id;
+                    $serviceLocal->campaign_id = $request->idcampaign;
+                    $serviceLocal->created_at = Carbon::now();
+                    $serviceLocal->updated_at = Carbon::now();
+                    $serviceLocal->save();
+                }
             } else {
                 request()->session()->flash('error', 'Bạn chưa chọn nhân viên !!!');
                 return redirect('admin/campaign/user/' . $request->idcampaign);

@@ -127,6 +127,8 @@ Route::group(['middleware' => ['front']], function () {
         Route::get('employee/add/{id}', 'HomeController@add')->name('employee.add');
         Route::get('employee/customer/{id}', 'HomeController@customer')->name('employee.customer');
         Route::POST('employee/add', 'HomeController@postAddCustomer')->name('employee.add');
+        Route::get('employee/addRelatives/{id}', 'HomeController@AddRelatives')->name('employee.addRelatives');
+        Route::POST('employee/postAddRelatives', 'HomeController@postAddRelatives')->name('employee.postAddRelatives');
     });
 });
 
