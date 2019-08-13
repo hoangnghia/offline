@@ -24,7 +24,9 @@
                     <a href=" {{url('employee/add') .'/'.$item->local_user_id}}">Thêm khách hàng</a>
                     <a href="{{ url('employee/customer').'/'.$item->local_user_id }}">DS khách hàng</a>
                 </div>
-                @endforeach
+
             </div>
+        @endforeach
     </div>
+
 @endsection

@@ -102,6 +102,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::get('agencys/delete/{id}', 'Agencys\AgencyController@delete')->name('agencys.delete');
             Route::get('agencys/edit/{id}', 'Agencys\AgencyController@edit')->name('agencys.edit');
             Route::post('agencys/destroy', 'Agencys\AgencyController@destroy')->name('agencys.destroy');
+            // Danh sách dịch vụ
+            Route::GET('services/index', 'Services\ServiceController@index')->name('services.index');
+            Route::GET('services/getListData', 'Services\ServiceController@getListData')->name('services.getListData');
+            Route::GET('services/create', 'Services\ServiceController@getAddService')->name('services.create');
+            Route::POST('services/store', 'Services\ServiceController@postAddService')->name('services.store');
+            Route::get('services/status/{id}', 'Services\ServiceController@status')->name('services.status');
+            Route::get('services/delete/{id}', 'Services\ServiceController@delete')->name('services.delete');
+            Route::get('services/edit/{id}', 'Services\ServiceController@edit')->name('services.edit');
+            Route::post('services/destroy', 'Services\ServiceController@destroy')->name('services.destroy');
         });
     });
 });
@@ -113,11 +122,11 @@ Route::namespace('Front')->group(function () {
 });
 
 Route::group(['middleware' => ['front']], function () {
-Route::namespace('Front')->group(function () {
-    Route::get('employee/dashboard', 'HomeController@index')->name('employee.dashboard');
-    Route::get('employee/add/{id}', 'HomeController@add')->name('employee.add');
-    Route::get('employee/customer/{id}', 'HomeController@customer')->name('employee.customer');
-    Route::POST('employee/add', 'HomeController@postAddCustomer')->name('employee.add');
-});
+    Route::namespace('Front')->group(function () {
+        Route::get('employee/dashboard', 'HomeController@index')->name('employee.dashboard');
+        Route::get('employee/add/{id}', 'HomeController@add')->name('employee.add');
+        Route::get('employee/customer/{id}', 'HomeController@customer')->name('employee.customer');
+        Route::POST('employee/add', 'HomeController@postAddCustomer')->name('employee.add');
+    });
 });
 
