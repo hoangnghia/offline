@@ -57,10 +57,10 @@
                         <label for="name">Thời gian kết thúc<span class="text-danger">*</span></label>
                         <input type="text" id="set-end-date" name="set-end-date" value=""/>
                     </div>
-                    <div class="form-group">
-                        <label for="name">Chi phí<span class="text-danger">*</span></label>
-                        <input type="number" id="cost" name="cost" value=""/>(VNĐ)
-                    </div>
+                    {{--<div class="form-group">--}}
+                        {{--<label for="name">Chi phí<span class="text-danger">*</span></label>--}}
+                        {{--<input type="number" id="cost" name="cost" value=""/>(VNĐ)--}}
+                    {{--</div>--}}
                     <div class="form-group">
                         <label for="name">Taget<span class="text-danger">*</span></label>
                         <input type="number" id="taget" name="taget" value=""/>(Phiếu ghi)

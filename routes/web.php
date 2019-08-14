@@ -33,10 +33,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::get('remove-image-product', 'ProductController@removeImage')->name('product.remove.image');
                 Route::get('remove-image-thumb', 'ProductController@removeThumbnail')->name('product.remove.thumb');
             });
-            Route::namespace('Customers')->group(function () {
-                Route::resource('customers', 'CustomerController');
-                Route::resource('customers.addresses', 'CustomerAddressController');
-            });
             Route::namespace('Categories')->group(function () {
                 Route::resource('categories', 'CategoryController');
                 Route::get('sync-category-from-zalo', 'CategoryController@synchronized')->name('categories.sync.zalo');
@@ -111,6 +107,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::get('services/delete/{id}', 'Services\ServiceController@delete')->name('services.delete');
             Route::get('services/edit/{id}', 'Services\ServiceController@edit')->name('services.edit');
             Route::post('services/destroy', 'Services\ServiceController@destroy')->name('services.destroy');
+
+            // Danh sách khách hàng đăng ký
+            Route::GET('customer/index', 'Customers\CustomerController@index')->name('customer.index');
+            Route::GET('customer/getListData', 'Customers\CustomerController@getListData')->name('customer.getListData');
+            Route::get('customer/detail/{id}', 'Customers\CustomerController@detail')->name('customer.detail');
+            Route::POST('customer/detailUpload', 'Customers\CustomerController@detailUpload')->name('customer.detailUpload');
+            Route::get('customer/status/{id}', 'Customers\CustomerController@status')->name('customer.status');
+            Route::get('customer/delete/{id}', 'Customers\CustomerController@delete')->name('customer.delete');
         });
     });
 });

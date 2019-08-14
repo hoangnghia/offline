@@ -30,10 +30,10 @@
                         <input type="text" id="set-end-date" name="set-end-date"
                                value="{{date('mm/dd/YYYY', strtotime($campaign->time_end))}}"/>
                     </div>
-                    <div class="form-group">
-                        <label for="name">Chi phí<span class="text-danger">*</span></label>
-                        <input type="text" id="cost" name="cost" value="{{$campaign->cost}}"/>vnđ
-                    </div>
+                    {{--<div class="form-group">--}}
+                        {{--<label for="name">Chi phí<span class="text-danger">*</span></label>--}}
+                        {{--<input type="text" id="cost" name="cost" value="{{$campaign->cost}}"/>vnđ--}}
+                    {{--</div>--}}
                     <div class="form-group">
                         <label for="name">Taget<span class="text-danger">*</span></label>
                         <input type="text" id="taget" name="taget" value="{{$campaign->taget}}"/>

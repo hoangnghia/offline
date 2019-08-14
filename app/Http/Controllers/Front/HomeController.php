@@ -84,6 +84,11 @@ class HomeController extends Controller
     public function postAddCustomer(Request $request)
     {
         if (isset($request->phone)) {
+            $phonecheck = strlen($request->phone);
+            if ($phonecheck != 10) {
+                request()->session()->flash('error', 'Sai số điện thoại !!!');
+                return redirect(url('employee/add') . '/' . $request->local_id);
+            }
             $checkPhone = Customer::where('phone', $request->phone)->get();
             if (count($checkPhone) > 0) {
                 request()->session()->flash('error', 'Số điện thoại tồn tại !!!');
@@ -120,6 +125,12 @@ class HomeController extends Controller
                 request()->session()->flash('error', 'Số điện thoại trùng !!!');
                 return redirect(url('employee/addRelatives') . '/' . $request->customer);
             }
+            $phonecheck = strlen($request->phone);
+            if ($phonecheck != 10) {
+                request()->session()->flash('error', 'Số điện thoại sai !!!');
+                return redirect(url('employee/addRelatives') . '/' . $request->customer);
+            }
+
             $customer = new Customer();
             $customer->name = $request->name;
             $customer->phone = $request->phone;

@@ -2,6 +2,7 @@
 @section('content')
     <div class="insurance">
         <h2 class="fadeIn first">Chiến dịch</h2>
+        @include('layouts.errors-and-messages')
         @foreach ($campaign as $item)
             <?php
             $timeNow = Carbon\Carbon::now()->toDateString();

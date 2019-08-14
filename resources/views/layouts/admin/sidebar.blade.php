@@ -26,10 +26,14 @@
             </li>
             <li class="header">Dashboard</li>
             @if($user->hasRole('admin|superadmin'))
-
+                <li class="treeview">
+                    <a href="{{ route('admin.customer.index') }}">
+                        <i class="fa fa-list-alt" aria-hidden="true"></i> <span>Danh sách khách hàng</span>
+                    </a>
+                </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-star"></i> <span>Chiến dịch</span>
+                        <i class="fa fa-calendar-minus-o" aria-hidden="true"></i> <span>Chiến dịch</span>
                         <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                 </span>
@@ -42,7 +46,7 @@
                 </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-star"></i> <span>Chi nhánh</span>
+                        <i class="fa fa-university" aria-hidden="true"></i> <span>Chi nhánh</span>
                         <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                 </span>
@@ -55,7 +59,7 @@
                 </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-star"></i> <span>Dịch vụ</span>
+                        <i class="fa fa-server" aria-hidden="true"></i> <span>Dịch vụ</span>
                         <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                 </span>
@@ -68,7 +72,7 @@
                 </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-star"></i> <span>Đối tác(Agency)</span>
+                        <i class="fa fa-handshake-o" aria-hidden="true"></i> <span>Đối tác(Agency)</span>
                         <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                 </span>
