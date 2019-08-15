@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Shop\Campaigns\Campaign;
 use App\Shop\Customer\Customer;
 use App\Shop\Local\Local;
 use App\Shop\Local\LocalUser;
@@ -94,6 +95,19 @@ class HomeController extends Controller
                 request()->session()->flash('error', 'Số điện thoại tồn tại !!!');
                 return redirect(url('employee/add') . '/' . $request->local_id);
             }
+            if (isset($request->date)) {
+                $dateNow = Carbon::now();
+                $dateAge = $request->date;
+                $yearNow = date_format($dateNow, 'Y');
+                $yearAge = date_format($dateAge, 'Y');
+                $age = $yearNow - $yearAge;
+                $localUsser = LocalUser::where('id', $request->local_id)->first();
+                $campaign = Campaign::where('id', $localUsser->local_campaign_id)->firsr();
+                if ($age < $campaign->age) {
+                    request()->session()->flash('error', 'Xin lỗi ! Bạn chưa đủ tuổi tham gia chương trình !!!');
+                    return redirect(url('employee/add') . '/' . $request->local_id);
+                }
+            }
             $customer = new Customer();
             $customer->name = $request->name;
             $customer->phone = $request->phone;
@@ -129,6 +143,19 @@ class HomeController extends Controller
             if ($phonecheck != 10) {
                 request()->session()->flash('error', 'Số điện thoại sai !!!');
                 return redirect(url('employee/addRelatives') . '/' . $request->customer);
+            }
+            if (isset($request->date)) {
+                $dateNow = Carbon::now();
+                $dateAge = $request->date;
+                $yearNow = date_format($dateNow, 'Y');
+                $yearAge = date_format($dateAge, 'Y');
+                $age = $yearNow - $yearAge;
+                $localUsser = LocalUser::where('id', $request->local_id)->first();
+                $campaign = Campaign::where('id', $localUsser->local_campaign_id)->firsr();
+                if ($age < $campaign->age) {
+                    request()->session()->flash('error', 'Xin lỗi ! Bạn chưa đủ tuổi tham gia chương trình !!!');
+                    return redirect(url('employee/addRelatives') . '/' . $request->customer);
+                }
             }
 
             $customer = new Customer();

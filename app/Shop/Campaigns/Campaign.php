@@ -17,12 +17,12 @@ class Campaign extends Model
         'address',
         'taget',
         'cost',
+        'age',
         'agency_id',
         'status',
         'created_at',
         'updated_at'
     ];
-
     /**
      * The attributes that should be hidden for arrays.
      *

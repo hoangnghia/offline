@@ -83,7 +83,7 @@ class CampaignController extends Controller
             $campaign->note = $request['description'];
             $campaign->address = $request['customer-reason'];
             $campaign->taget = $request['taget'];
-            $campaign->cost = $request['cost'];
+            $campaign->age = $request['age'];
             $campaign->agency_id = $request['agency'];
             $campaign->time_start = date('Y-m-d H:i:s', strtotime($request['set-start-date']));
             $campaign->time_end = date('Y-m-d H:i:s', strtotime($request['set-end-date']));

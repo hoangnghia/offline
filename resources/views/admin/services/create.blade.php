@@ -11,14 +11,14 @@
                     {{ csrf_field() }}
                     <div class="col-md-8">
                         <h2 class="text-center">
-                            @if(!isset($services->id))Thêm dịch vụ mới@else Cập nhật dịch vụ @endif
+                            @if(!isset($services->id))Thêm dịch vụ mới @else Cập nhật dịch vụ @endif
                         </h2>
                         <div class="form-group">
                             <label for="name">Tên dịch vụ<span class="text-danger">*</span></label>
                             @if(isset($services->id))
                             <input name="id" value="{{$services->id}}" hidden>
                             @endif
-                            <input type="text" name="name" id="name" placeholder="Tên đối tác" class="form-control"
+                            <input type="text" name="name" id="name" placeholder="Tên dịch vụ" class="form-control"
                                    value="@if(isset($services->name)) {{$services->name}} @endif">
                         </div>
                         <div class="form-group">

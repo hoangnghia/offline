@@ -62,6 +62,10 @@
                         {{--<input type="number" id="cost" name="cost" value=""/>(VNĐ)--}}
                     {{--</div>--}}
                     <div class="form-group">
+                    <label for="name">Độ tuổi<span class="text-danger">*</span></label>
+                    <input type="number" id="age" name="age" value=""/>Tuổi
+                    </div>
+                    <div class="form-group">
                         <label for="name">Taget<span class="text-danger">*</span></label>
                         <input type="number" id="taget" name="taget" value=""/>(Phiếu ghi)
                     </div>
