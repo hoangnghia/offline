@@ -103,7 +103,6 @@ class HomeController extends Controller
                 $created_at = new \DateTime($dateAge);
                 $yearAge = date_format($created_at, 'Y');
                 $age = $yearNow - $yearAge;
-                dd($age);
                 $localUsser = LocalUser::where('id', $request->local_id)->first();
                 $campaign = Campaign::where('id', $localUsser->local_campaign_id)->firsr();
 
