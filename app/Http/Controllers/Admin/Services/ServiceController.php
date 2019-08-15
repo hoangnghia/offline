@@ -26,7 +26,6 @@ class ServiceController extends Controller
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $customers = DB::table('services as s')
             ->select('s.*')
-//            ->where('s.status', true)
             ->orderBy('s.created_at', 'desc');
         $datatables = DataTables::of($customers);
         return $datatables->make(true);
