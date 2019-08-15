@@ -84,6 +84,7 @@ class HomeController extends Controller
 
     public function postAddCustomer(Request $request)
     {
+
         if (isset($request->phone)) {
             $phonecheck = strlen($request->phone);
             if ($phonecheck != 10) {
@@ -99,10 +100,13 @@ class HomeController extends Controller
                 $dateNow = Carbon::now();
                 $dateAge = $request->date;
                 $yearNow = date_format($dateNow, 'Y');
-                $yearAge = date_format($dateAge, 'Y');
+                $created_at = new \DateTime($dateAge);
+                $yearAge = date_format($created_at, 'Y');
                 $age = $yearNow - $yearAge;
+                dd($age);
                 $localUsser = LocalUser::where('id', $request->local_id)->first();
                 $campaign = Campaign::where('id', $localUsser->local_campaign_id)->firsr();
+
                 if ($age < $campaign->age) {
                     request()->session()->flash('error', 'Xin lỗi ! Bạn chưa đủ tuổi tham gia chương trình !!!');
                     return redirect(url('employee/add') . '/' . $request->local_id);
@@ -179,6 +183,5 @@ class HomeController extends Controller
                 return redirect(url('employee/addRelatives') . '/' . $request->customer);
             }
         }
-
     }
 }
