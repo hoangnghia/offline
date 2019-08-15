@@ -153,7 +153,8 @@ class HomeController extends Controller
                 $created_at = new \DateTime($dateAge);
                 $yearAge = date_format($created_at, 'Y');
                 $age = $yearNow - $yearAge;
-                $localUsser = LocalUser::where('id', $request->local_id)->first();
+                $User = Customer::where('id', $request->customer)->first();
+                $localUsser = LocalUser::where('id', $User->local_user_id)->first();
                 $campaign = Campaign::where('id', $localUsser->campaign_id)->first();
                 if ($campaign->age > $age) {
                     request()->session()->flash('error', 'Xin lỗi ! Bạn chưa đủ tuổi tham gia chương trình !!!');
