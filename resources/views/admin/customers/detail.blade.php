@@ -105,13 +105,22 @@
                                     <li>
                                         <div class="row">
                                             <div class="col-xs-3">
+                                                @if(isset($parent->name)){
                                                 {{$parent->name}}
+                                                }
+                                                @endif
                                             </div>
                                             <div class="col-xs-3">
+                                                @if(isset($parent->name)){
                                                 {{$parent->phone}}
+                                                }
+                                                @endif
                                             </div>
                                             <div class="col-xs-3">
+                                                @if(isset($parent->name)){
                                                 {{$parent->service_name}}
+                                                }
+                                                    @endif
                                             </div>
                                         </div>
                                     </li>
