@@ -104,9 +104,8 @@ class HomeController extends Controller
                 $yearAge = date_format($created_at, 'Y');
                 $age = $yearNow - $yearAge;
                 $localUsser = LocalUser::where('id', $request->local_id)->first();
-                $campaign = Campaign::where('id', $localUsser->local_campaign_id)->first();
-
-                if ($age < $campaign->age) {
+                $campaign = Campaign::where('id', $localUsser->campaign_id)->first();
+                if ($campaign->age > $age) {
                     request()->session()->flash('error', 'Xin lỗi ! Bạn chưa đủ tuổi tham gia chương trình !!!');
                     return redirect(url('employee/add') . '/' . $request->local_id);
                 }
@@ -151,16 +150,16 @@ class HomeController extends Controller
                 $dateNow = Carbon::now();
                 $dateAge = $request->date;
                 $yearNow = date_format($dateNow, 'Y');
-                $yearAge = date_format($dateAge, 'Y');
+                $created_at = new \DateTime($dateAge);
+                $yearAge = date_format($created_at, 'Y');
                 $age = $yearNow - $yearAge;
                 $localUsser = LocalUser::where('id', $request->local_id)->first();
-                $campaign = Campaign::where('id', $localUsser->local_campaign_id)->firsr();
-                if ($age < $campaign->age) {
+                $campaign = Campaign::where('id', $localUsser->campaign_id)->first();
+                if ($campaign->age > $age) {
                     request()->session()->flash('error', 'Xin lỗi ! Bạn chưa đủ tuổi tham gia chương trình !!!');
                     return redirect(url('employee/addRelatives') . '/' . $request->customer);
                 }
             }
-
             $customer = new Customer();
             $customer->name = $request->name;
             $customer->phone = $request->phone;
