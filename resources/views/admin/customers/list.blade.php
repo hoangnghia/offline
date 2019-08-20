@@ -115,6 +115,7 @@
                         <th>Người thân</th>
                         <th>Ngày tạo</th>
                         <th>SMS</th>
+                        <th>CareSoft</th>
                         <th>Tình Trạng</th>
                         <th>Option</th>
                     </tr>
@@ -286,6 +287,20 @@
                 {data: 'created_at', name: 'created_at'},
                 {
                     data: 'sms_log_id', name: 'sms_log_id', render: function (data, type, row) {
+                        var css = '';
+                        var name = '';
+                        if (data != null) {
+                            css = "sent";
+                            name = "Đã gửi";
+                        } else {
+                            css = "not-sent";
+                            name = "Chưa gửi";
+                        }
+                        return '<p class="' + css + '">' + name + '</p>';
+                    }
+                },
+                {
+                    data: 'care_soft_log_id', name: 'care_soft_log_id', render: function (data, type, row) {
                         var css = '';
                         var name = '';
                         if (data != null) {

@@ -110,6 +110,7 @@ class CustomerController extends Controller
     public function detail($id)
     {
 
+        
         $detail = DB::table('customer as c')
             ->select('c.*', 's.name as service_name', 'ca.name as campaign_name', 'e.name as employees_name', 'ca.time_start', 'ca.time_end', 'ca.taget', 'b.name as branch_name', 'a.name as agency_name', 'l.name as local_name')
             ->join('local_user as lu', 'lu.id', '=', 'c.local_user_id')

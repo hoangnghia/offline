@@ -42,9 +42,10 @@ class CampaignController extends Controller
     public function getListData()
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-        $campaign = DB::table('campaign as b')
-            ->select('b.*')
-            ->orderBy('b.created_at', 'desc');
+        $campaign = DB::table('campaign as c')
+            ->select('c.*','b.name as branch_name')
+            ->join('branchs as b', 'b.id', '=', 'c.address')
+            ->orderBy('c.created_at', 'desc');
         $datatables = DataTables::of($campaign);
         $datatables->addColumn('status-type', function ($model) {
             $a = Carbon::now()->toDateString();

@@ -15,10 +15,10 @@
                         <td>Tên Campaign</td>
                         <td>Chi Nhánh</td>
                         <td>Taget</td>
-                        <td>Chi Phí</td>
+                        {{--<td>Chi Phí</td>--}}
                         <td>Time Start</td>
                         <td>Time End</td>
-                        <td>Tình Trạng</td>
+                        {{--<td>Tình Trạng</td>--}}
                         {{--<td>Nhân viên</td>--}}
                         <td>Trạng Thái</td>
                         <td>Option</td>
@@ -84,28 +84,28 @@
                     }
                 },
                 {data: 'name', name: 'name'},
-                {data: 'address', name: 'address'},
+                {data: 'branch_name', name: 'branch_name'},
                 {data: 'taget', name: 'taget'},
-                {data: 'cost', name: 'cost'},
+                // {data: 'cost', name: 'cost'},
                 {data: 'time_start', name: 'time_start'},
                 {data: 'time_end', name: 'time_end'},
-                {
-                    data: 'status-type', name: 'status-type', render: function (data, type, row) {
-                        var css = '';
-                        var name = '';
-                        if (data == 1) {
-                            name = "Run";
-                            css = "btn-warning";
-                        } else if (data == 2) {
-                            css = "btn-primary";
-                            name = "Pending";
-                        } else {
-                            css = "btn-danger";
-                            name = "Top";
-                        }
-                        return '<button type="button" class="btn ' + css + '">' + name + '</button>';
-                    }
-                },
+                // {
+                //     data: 'status-type', name: 'status-type', render: function (data, type, row) {
+                //         var css = '';
+                //         var name = '';
+                //         if (data == 1) {
+                //             name = "Run";
+                //             css = "btn-warning";
+                //         } else if (data == 2) {
+                //             css = "btn-primary";
+                //             name = "Pending";
+                //         } else {
+                //             css = "btn-danger";
+                //             name = "Top";
+                //         }
+                //         return '<button type="button" class="btn ' + css + '">' + name + '</button>';
+                //     }
+                // },
                     {{--{--}}
                     {{--data: 'id', name: 'id', render: function (data, type, row) {--}}
                     {{--return '<a href="{{url('admin/campaign/user') .'/'}}' + row.id + '" class="btn btn-info">Chọn nhân viên</a>';--}}
