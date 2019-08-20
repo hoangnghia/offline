@@ -52,23 +52,33 @@
                             @endforeach
                         </select>
                     </div>
-                    {{--@if(isset($local))--}}
-                    {{--<div class="form-group">--}}
-                    {{--@foreach($local as $localItem)--}}
-                    {{--<div class="form-group">--}}
-                    {{--<label for="name">{{$localItem->name}}</label>--}}
-                    {{--<select class="form-control local_user"--}}
-                    {{--multiple="multiple"--}}
-                    {{--name="local_user[]">--}}
-                    {{--@foreach($user as $userItem)--}}
-                    {{--<option class="local-{{$userItem->id }}"--}}
-                    {{--value="{{ $userItem->id }}">{{ $userItem->name }}</option>--}}
-                    {{--@endforeach--}}
-                    {{--</select>--}}
-                    {{--</div>--}}
-                    {{--@endforeach--}}
-                    {{--</div>--}}
-                    {{--@endif--}}
+                    <div class="form-group">
+                        <select class="form-control"
+                                id="local-reason" multiple="multiple"
+                                name="local-reason[]">
+                            {{--@foreach($branchList as $branchItem)--}}
+                            {{--@foreach($local as $localItem)--}}
+                                {{--<option class="local local-{{$localItem->branch_id }}"--}}
+                                        {{--value="{{ $localItem->id }}">{{ $localItem->name }}</option>--}}
+                            {{--@endforeach--}}
+                            {{--@endforeach--}}
+
+
+                            @foreach($branchList as $branchItem)
+                                <option class=""
+                                @foreach($local as $localItem)
+                                 @if($localItem->local_id == $branchItem->local_id) selected @endif
+                                @endforeach
+                                >{{ $branchItem->local_name }}</option>
+                                @endforeach
+                            {{--@foreach($branchList as $branchItem)--}}
+                            {{--@foreach($local as $localItem)--}}
+                                {{--<option class="local-{{$localItem->branch_id }}" @if($localItem->id == $item->id) selected="selected" @endif--}}
+                                        {{--value="{{ $localItem->id }}">{{ $localItem->name }}</option>--}}
+                            {{--@endforeach--}}
+                            {{--@endforeach--}}
+                        </select>
+                    </div>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
@@ -113,6 +123,9 @@
             minYear: 1901,
 
         });
-
+        $('#local-reason').multiselect({
+            includeSelectAllOption: true,
+            nonSelectedText: '-- Danh sách local --',
+        });
     </script>
 @endsection

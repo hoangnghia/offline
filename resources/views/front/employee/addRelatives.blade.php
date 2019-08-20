@@ -12,7 +12,7 @@
             <input type="text" id="login" class="fadeIn second" name="customer" value="{{$customer->id}}"
                    style="display: none">
             <input type="text" id="phone" class="fadeIn second" name="phone" placeholder="Số điện thoại" required>
-            <input type="date" id="Birthday" class="form-control" name="date" placeholder="Năm sinh">
+            <input type="text" data-mask="00/00/0000" data-mask-selectonfocus="true" name="date" placeholder="Ngày/Tháng/Năm sinh" />
             <select name="service" id="service" class="fadeIn second">
                 <option selected disabled>Chọn dịch vụ</option>
                 @foreach($service as $item)

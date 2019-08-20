@@ -28,19 +28,18 @@
     <meta name="theme-color" content="#ffffff">
     <link href="{{ asset('css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap-multiselect.css') }}" rel="stylesheet">
-    {{--<link href="{{ asset('css/bootstrap-datepicker.css') }}" rel="stylesheet">--}}
+    <link href="{{ asset('vendor/magnific/magnific-popup.css') }}" rel="stylesheet">
+    {{--<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.11.0.css" type="text/css" media="all">--}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('js/bootstrap-multiselect.js') }}"></script>
-    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>--}}
-    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>--}}
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    {{--<script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>--}}
-
-
+    {{--<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>--}}
+    <script type="text/javascript" src="http://code.jquery.com/qunit/qunit-1.11.0.js"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/jquery.mask.js') }}"></script>
 </head>
 <body class="hold-transition skin-purple sidebar-mini">
 <noscript>
@@ -71,7 +70,7 @@
 <script src="{{ asset('js/admin.min.js') }}"></script>
 <script src="{{ asset('//cdn.ckeditor.com/4.8.0/standard/ckeditor.js') }}"></script>
 <script src="{{ asset('js/scripts.js?v=0.2') }}"></script>
+<script src="{{ asset('vendor/magnific/jquery.magnific-popup.js') }}"></script>
 @yield('js')
-
 </body>
 </html>

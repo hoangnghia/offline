@@ -85,6 +85,7 @@ class HomeController extends Controller
     public function postAddCustomer(Request $request)
     {
 
+
         if (isset($request->phone)) {
             $phonecheck = strlen($request->phone);
             if ($phonecheck != 10) {
@@ -96,12 +97,12 @@ class HomeController extends Controller
                 request()->session()->flash('error', 'Số điện thoại tồn tại !!!');
                 return redirect(url('employee/add') . '/' . $request->local_id);
             }
+//            dd($request);
             if (isset($request->date)) {
+//                dd($request->date);
                 $dateNow = Carbon::now();
-                $dateAge = $request->date;
+                $yearAge = substr($request->date, -4);
                 $yearNow = date_format($dateNow, 'Y');
-                $created_at = new \DateTime($dateAge);
-                $yearAge = date_format($created_at, 'Y');
                 $age = $yearNow - $yearAge;
                 $localUsser = LocalUser::where('id', $request->local_id)->first();
                 $campaign = Campaign::where('id', $localUsser->campaign_id)->first();
@@ -148,10 +149,8 @@ class HomeController extends Controller
             }
             if (isset($request->date)) {
                 $dateNow = Carbon::now();
-                $dateAge = $request->date;
                 $yearNow = date_format($dateNow, 'Y');
-                $created_at = new \DateTime($dateAge);
-                $yearAge = date_format($created_at, 'Y');
+                $yearAge = substr($request->date, -4);
                 $age = $yearNow - $yearAge;
                 $User = Customer::where('id', $request->customer)->first();
                 $localUsser = LocalUser::where('id', $User->local_user_id)->first();

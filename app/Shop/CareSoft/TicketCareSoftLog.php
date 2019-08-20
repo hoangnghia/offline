@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shop\Customer;
+namespace App\Shop\CareSoft;
 
 use App\Shop\Addresses\Address;
 use App\Shop\Orders\Order;
@@ -10,27 +10,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Cashier\Billable;
 use Nicolaslopezj\Searchable\SearchableTrait;
 
-class Customer extends Authenticatable
+class TicketCareSoftLog extends Authenticatable
 {
 
 
     use Notifiable;
-    protected $table = 'customer';
+    protected $table = 'ticket_care_soft_log';
     protected $fillable = [
-        'name',
-        'phone',
-        'birthday',
-        'email',
-        'service',
-        'note',
-        'parent_id',
-        'sms_log_id',
-        'status',
-        'local_user_id',
+        'ticket_subject',
+        'ticket_no',
         'ticket_id',
-        'care_soft_log_id',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'status',
     ];
 
     /**

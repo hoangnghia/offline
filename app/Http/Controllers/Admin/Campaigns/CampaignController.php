@@ -136,24 +136,34 @@ class CampaignController extends Controller
     {
         if (isset($id)) {
             $campaign = Campaign::where('id', $id)->first();
+
             $branch = Branch::all();
+            $branchList = DB::table('branchs as b')
+                ->select('b.*', 'l.name as local_name', 'l.id as local_id')
+                ->join('local as l', 'l.branch_id', '=', 'b.id')
+                ->where('b.id', $campaign->address)
+                ->orderBy('l.created_at', 'desc')
+                ->get();
             $local = DB::table('local_campaign as l')
                 ->select('l.*', 'w.branch_id', 'w.name', 'w.address')
                 ->join('local as w', 'w.id', '=', 'l.local_id')
                 ->where('l.campaign_id', $id)
                 ->orderBy('l.created_at', 'desc')
                 ->get();
-            $user = DB::table('employees as e')
-                ->select('e.*', 'r.role_id', 'r.user_id')
-                ->join('role_user as r', 'r.user_id', '=', 'e.id')
-                ->where('r.role_id', 3)
-                ->orderBy('e.created_at', 'desc')
-                ->get();
+//            dd($local);
+
+//            $user = DB::table('employees as e')
+//                ->select('e.*', 'r.role_id', 'r.user_id')
+//                ->join('role_user as r', 'r.user_id', '=', 'e.id')
+//                ->where('r.role_id', 3)
+//                ->orderBy('e.created_at', 'desc')
+//                ->get();
             return view('admin.campaign.edit', [
                 'campaign' => $campaign,
                 'branch' => $branch,
                 'local' => $local,
-                'user' => $user
+                'branchList' =>$branchList
+//                'user' => $user
             ]);
         }
         request()->session()->flash('message', 'ID không tồn tại hoặc Null !!!');

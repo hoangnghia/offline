@@ -5,6 +5,7 @@
     <title>Quản lý khách hàng - Đăng nhập</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <link rel="stylesheet" href="{{ asset('assets/css/style1.css') }}">
+    <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.11.0.css" type="text/css" media="all">
 </head>
 <body id="customer">
 <div class="wrapper">
@@ -35,8 +36,10 @@
     @yield('content')
 </div>
 </div>
-<script type="text/javascript" src="{{ asset('assets/js/qlkh.js') }}">
-</script>
+<script type="text/javascript" src="{{ asset('assets/js/qlkh.js') }}"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/qunit/qunit-1.11.0.js"></script>
+<script type="text/javascript" src="{{ asset('assets/js/jquery.mask.js') }}"></script>
 @yield('scripts')
 </body>
 </html>

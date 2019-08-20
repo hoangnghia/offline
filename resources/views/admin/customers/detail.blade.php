@@ -60,9 +60,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Năm sinh</label>
-                                                <input type="date" class="form-control border-input"
-                                                       name="date-customer"
-                                                       value="{{$detail->birthday}}">
+                                                <input type="text"  data-mask="00/00/0000" data-mask-selectonfocus="true" value="{{$detail->birthday}}" name="date-customer" placeholder="Ngày/Tháng/Năm sinh" />
                                             </div>
                                         </div>
                                     </div>
@@ -120,7 +118,7 @@
                                                 @if(isset($parent->name)){
                                                 {{$parent->service_name}}
                                                 }
-                                                    @endif
+                                                @endif
                                             </div>
                                         </div>
                                     </li>
