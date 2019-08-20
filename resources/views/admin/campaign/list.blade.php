@@ -7,7 +7,7 @@
     <!-- Default box -->
         <div class="box">
             <div class="box-body">
-                <h2>Brands</h2>
+                <h2>Chiến dịch</h2>
                 <table id="list-branchs" class="table">
                     <thead>
                     <tr>
@@ -129,7 +129,7 @@
                 },
                 {
                     data: 'id', name: 'id', render: function (data, type, row) {
-                        return '<a href="{{url('admin/campaign/edit') .'/'}}' + row.id + '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> || <a href="{{url('admin/campaign/delete') .'/'}}' + row.id + '"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+                        return '<a href="{{url('admin/campaign/delete') .'/'}}' + row.id + '"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                     }
                 },
             ]
