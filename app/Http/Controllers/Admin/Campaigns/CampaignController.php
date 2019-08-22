@@ -43,7 +43,7 @@ class CampaignController extends Controller
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $campaign = DB::table('campaign as c')
-            ->select('c.*','b.name as branch_name')
+            ->select('c.*', 'b.name as branch_name')
             ->join('branchs as b', 'b.id', '=', 'c.address')
             ->orderBy('c.created_at', 'desc');
         $datatables = DataTables::of($campaign);
@@ -106,6 +106,39 @@ class CampaignController extends Controller
         return redirect()->route('admin.campaigns.index');
     }
 
+    public function postEditCampaign(Request $request)
+    {
+        if (isset($request)) {
+
+            $campaign = Campaign::where('id', $request->campaign_id)->first();
+            $campaign->name = $request->name;
+            $campaign->note = $request->description;
+            $campaign->taget = $request->taget;
+            $campaign->age = $request->age;
+//            $campaign->agency_id = $request->agency;
+            $campaign->time_start = date('Y-m-d H:i:s', strtotime($request->set_start_date));
+            $campaign->time_end = date('Y-m-d H:i:s', strtotime($request->set_end_date));
+            $campaign->created_at = Carbon::now();
+            $campaign->updated_at = Carbon::now();
+            $campaign->save();
+            foreach ($request->local_reason as $item) {
+                $check = LocalCampaign::where('local_id', $item)->where('campaign_id', $request->campaign_id)->first();
+                if (!isset($check)) {
+                    $local_campaing = new  LocalCampaign();
+                    $local_campaing->local_id = $item;
+                    $local_campaing->campaign_id = $request->campaign_id;
+                    $local_campaing->created_at = Carbon::now();
+                    $local_campaing->updated_at = Carbon::now();
+                    $local_campaing->save();
+                }
+            }
+            request()->session()->flash('message', 'Thêm thành công !!!');
+            return redirect('admin/campaign/user/' . $campaign->id);
+        }
+        request()->session()->flash('message', 'Thêm thất bại !!!');
+        return redirect()->route('admin.campaigns.index');
+    }
+
     public function status($id)
     {
         $branch = Campaign::where('id', $id)->first();
@@ -117,7 +150,6 @@ class CampaignController extends Controller
         }
         request()->session()->flash('message', 'Cập nhật thất bại !!!');
         return redirect()->route('admin.campaigns.index');
-
     }
 
     public function delete($id)
@@ -130,7 +162,6 @@ class CampaignController extends Controller
         }
         request()->session()->flash('message', 'Xóa thất bại !!!');
         return redirect()->route('admin.campaigns.index');
-
     }
 
     public function edit($id)
@@ -163,7 +194,7 @@ class CampaignController extends Controller
                 'campaign' => $campaign,
                 'branch' => $branch,
                 'local' => $local,
-                'branchList' =>$branchList
+                'branchList' => $branchList
 //                'user' => $user
             ]);
         }
@@ -182,7 +213,6 @@ class CampaignController extends Controller
                 ->join('agency as a', 'a.id', '=', 'c.agency_id')
                 ->where('c.id', $id)
                 ->first();
-
             $local = DB::table('local_campaign as l')
                 ->select('l.*', 'w.branch_id', 'w.name', 'w.address')
                 ->join('local as w', 'w.id', '=', 'l.local_id')
@@ -196,18 +226,24 @@ class CampaignController extends Controller
                 ->orderBy('e.created_at', 'desc')
                 ->get();
             $service = Service::where('status', true)->get();
+            $localUser = LocalUser::where('campaign_id', $campaign->id)->get();
+            $localServices = LocalServices::where('campaign_id', $campaign->id)->get();
+//        dd($local);
+
             return view('admin.campaign.user', [
                 'local' => $local,
                 'idcampaign' => $id,
                 'campaign' => $campaign,
                 'service' => $service,
+                'localServices' => $localServices,
+                'localUser' => $localUser,
                 'user' => $user
             ]);
         }
         request()->session()->flash('message', 'ID không tồn tại hoặc Null !!!');
         return redirect()->route('admin.campaign.index');
-
     }
+
 
     public function postUserCampaign(Request $request)
     {
@@ -220,6 +256,7 @@ class CampaignController extends Controller
                 $taget_post = 'taget_local_' . $item->id;
                 $tagetUser = $request->$taget_post / count($request->$user);
                 foreach ($request->$user as $itemUser) {
+                    LocalUser::where('local_id', $item->local_id)->where('campaign_id', $request->idcampaign)->where('user_id', $itemUser)->delete();
                     $campaign = new LocalUser();
                     $campaign->user_id = $itemUser;
                     $campaign->local_id = $item->local_id;

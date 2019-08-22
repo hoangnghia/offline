@@ -53,23 +53,40 @@
                                                 name="local{{$localItem->id }}_local_user[]">
                                             @foreach($user as $userItem)
                                                 <option class="local-{{$userItem->id }}"
-                                                        value="{{ $userItem->id }}">{{ $userItem->name }}</option>
+                                                        value="{{ $userItem->id }}"
+                                                        @foreach($localUser as $localUserItem)
+                                                        @if($localUserItem->user_id == $userItem->id && $localUserItem->local_id == $localItem->local_id) selected @endif
+                                                        @endforeach
+                                                >{{ $userItem->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
-                                        <select class="form-control services"
+                                        <select class="form-control services scrollbar"
                                                 multiple="multiple"
                                                 name="services-{{$localItem->id }}[]">
                                             @foreach($service as $serviceItem)
                                                 <option class="service-{{$serviceItem->id }}"
-                                                        value="{{ $serviceItem->id }}">{{ $serviceItem->name }}</option>
+                                                        value="{{ $serviceItem->id }}"
+                                                        @foreach($localServices as $localServicesItem)
+                                                        @if($localServicesItem->service_id == $serviceItem->id && $localServicesItem->local_id == $localItem->local_id ) selected @endif
+                                                        @endforeach
+                                                >{{ $serviceItem->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="name">Taget</label>
-                                        <input type="number" class="form-group" name="taget_local_{{$localItem->id }}">
+                                        <?php
+                                        $taget = \App\Shop\Local\LocalUser::where('campaign_id', $idcampaign)->where('local_id', $localItem->local_id)->get();
+                                        if (count($taget) != 0) {
+                                            $tagetNumber = $taget[0]->taget * count($taget);
+                                        } else {
+                                            $tagetNumber = 0;
+                                        }
+                                        ?>
+                                        <input type="number" class="form-group" name="taget_local_{{$localItem->id }}"
+                                               value="{{$tagetNumber}}">
                                     </div>
                                 </div>
                             @endforeach
@@ -90,6 +107,13 @@
     <style type="text/css">
         .box {
             padding: 10px;
+        }
+
+        .dropdown-menu {
+            max-height: 150px;
+            margin-bottom: 10px;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
         }
 
         /*.box-body .form-group {display: inline-block}*/

@@ -68,6 +68,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::resource('campaigns', 'Campaigns\CampaignController');
             Route::get('campaign/status/{id}', 'Campaigns\CampaignController@status')->name('campaign.status');
             Route::get('campaign/edit/{id}', 'Campaigns\CampaignController@edit')->name('campaign.edit');
+            Route::POST('campaign/editPosst', 'Campaigns\CampaignController@postEditCampaign')->name('campaign.editPosst');
             Route::get('campaign/delete/{id}', 'Campaigns\CampaignController@delete')->name('campaign.delete');
             Route::GET('campaign/create', 'Campaigns\CampaignController@getAddCampaign')->name('campaign.create');
             Route::POST('campaign/store', 'Campaigns\CampaignController@postAddCampaign')->name('campaign.store');

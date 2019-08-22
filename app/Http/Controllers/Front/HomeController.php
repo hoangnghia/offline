@@ -75,7 +75,12 @@ class HomeController extends Controller
         if ($id == 0) {
             $customer = Customer::all();
         } else {
-            $customer = Customer::where('local_user_id', $id)->get();
+//            $customer = Customer::where('local_user_id', $id)->pa();
+            $customer = DB::table('customer as c')
+                ->select('c.*')
+                ->where('c.local_user_id', $id)
+                ->orderBy('c.created_at', 'desc')
+                ->paginate(20);
         }
         return view('front.employee.customer', [
             'customer' => $customer,
@@ -84,8 +89,6 @@ class HomeController extends Controller
 
     public function postAddCustomer(Request $request)
     {
-
-
         if (isset($request->phone)) {
             $phonecheck = strlen($request->phone);
             if ($phonecheck != 10) {

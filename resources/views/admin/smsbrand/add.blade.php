@@ -63,9 +63,9 @@
                                                 <table class="table">
                                                     <thead>
                                                     <tr>
-                                                        <th>Firstname</th>
-                                                        <th>Lastname</th>
-                                                        <th>Email</th>
+                                                        <th>Tên khách hàng</th>
+                                                        <th>Số điện thoại</th>
+                                                        <th>Dịch vụ</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
