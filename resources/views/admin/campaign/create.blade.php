@@ -13,12 +13,12 @@
                     <div class="form-group">
                         <label for="name">Tên chiến dịch <span class="text-danger">*</span></label>
                         <input type="text" name="name" id="name" placeholder="Tên chiến dịch" class="form-control"
-                               value="{{ old('name') }}">
+                               value="{{ old('name') }}" required>
                     </div>
                     <div class="form-group">
                         <label for="name">Đối tác<span class="text-danger">*</span></label>
                         <select class="form-control"
-                                name="agency">
+                                name="agency" >
                             <option class="agency">Danh sách đối tác</option>
                             @foreach($agency as $agencyItem)
                                 <option class="agency"
@@ -42,7 +42,7 @@
                     <div class="form-group" id="local-hide">
                         <select class="form-control"
                                 id="local-reason" multiple="multiple"
-                                name="local-reason[]">
+                                name="local-reason[]" >
                             @foreach($local as $localItem)
                                 <option class="local local-{{$localItem->branch_id }}"
                                         value="{{ $localItem->id }}">{{ $localItem->name }}</option>
@@ -51,11 +51,11 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Thời gian bắt đầu<span class="text-danger">*</span></label>
-                        <input type="text" id="set-start-date" name="set-start-date" value=""/>
+                        <input type="text" id="set-start-date" name="set-start-date" value="" required/>
                     </div>
                     <div class="form-group">
                         <label for="name">Thời gian kết thúc<span class="text-danger">*</span></label>
-                        <input type="text" id="set-end-date" name="set-end-date" value=""/>
+                        <input type="text" id="set-end-date" name="set-end-date" value="" required/>
                     </div>
                     {{--<div class="form-group">--}}
                         {{--<label for="name">Chi phí<span class="text-danger">*</span></label>--}}
@@ -63,11 +63,11 @@
                     {{--</div>--}}
                     <div class="form-group">
                     <label for="name">Độ tuổi<span class="text-danger">*</span></label>
-                    <input type="number" id="age" name="age" value=""/>Tuổi
+                    <input type="number" id="age" name="age" value="" required/>
                     </div>
                     <div class="form-group">
                         <label for="name">Taget<span class="text-danger">*</span></label>
-                        <input type="number" id="taget" name="taget" value=""/>(Phiếu ghi)
+                        <input type="number" id="taget" name="taget" value="" required/>
                     </div>
                     <div class="form-group">
                         <label for="description">Mô tả </label>

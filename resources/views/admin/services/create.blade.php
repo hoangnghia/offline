@@ -19,7 +19,7 @@
                             <input name="id" value="{{$services->id}}" hidden>
                             @endif
                             <input type="text" name="name" id="name" placeholder="Tên dịch vụ" class="form-control"
-                                   value="@if(isset($services->name)) {{$services->name}} @endif">
+                                   value="@if(isset($services->name)) {{$services->name}} @endif" required>
                         </div>
                         <div class="form-group">
                             <label for="description">Ghi chú</label>

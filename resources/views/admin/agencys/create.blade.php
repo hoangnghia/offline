@@ -15,21 +15,21 @@
                         <div class="form-group">
                             <label for="name">Tên đối tác<span class="text-danger">*</span></label>
                             <input type="text" name="name" id="name" placeholder="Tên đối tác" class="form-control"
-                                   value="">
+                                   value="" required>
                         </div>
                         <div class="form-group">
                             <label for="name">Số điện thoại<span class="text-danger">*</span></label>
                             <input type="number" name="phone" id="phone" placeholder="Số điện thoại"
                                    class="form-control"
-                                   value="">
+                                   value="" required>
                         </div>
                         <div class="form-group">
-                            <label for="name">Email<span class="text-danger">*</span></label>
+                            <label for="name">Email</label>
                             <input type="email" name="email" id="email" placeholder="Email" class="form-control"
                                    value="">
                         </div>
                         <div class="form-group">
-                            <label for="name">Địa chỉ<span class="text-danger">*</span></label>
+                            <label for="name">Địa chỉ</label>
                             <input type="text" name="address" id="address" placeholder="Địa chỉ" class="form-control"
                                    value="">
                         </div>

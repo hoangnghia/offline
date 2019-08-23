@@ -364,7 +364,7 @@
                 arrIds.push(checkboxes[i].value)
             }
             if (arrIds.length == 0) {
-                alert('Hửh??', 'Chọn các phiếu UIDs đi bạn ơi', 'danger');
+                alert('Oh ! Không có phiếu ghi nào được chọn, bạn hay chọn it nhất 1 phiếu nhé !');
                 return false;
             }
             var urlDOWLOAD = "{{url('/admin/customer/export')}}?list=" + arrIds.join();
@@ -380,7 +380,7 @@
                 arrIds.push(checkboxes[i].value)
             }
             if (arrIds.length == 0) {
-                alert('Hửh??', 'Chọn các phiếu UIDs đi bạn ơi', 'danger');
+                alert('Oh ! Không có phiếu ghi nào được chọn, bạn hay chọn it nhất 1 phiếu nhé !');
                 return false;
             }
             var urlSMS = "{{url('/admin/customer/sms')}}?list=" + arrIds.join();
@@ -397,7 +397,7 @@
                 arrIds.push(checkboxes[i].value)
             }
             if (arrIds.length == 0) {
-                alert('Hửh??', 'Chọn các phiếu UIDs đi bạn ơi', 'danger');
+                alert('Oh ! Không có phiếu ghi nào được chọn, bạn hay chọn it nhất 1 phiếu nhé !');
                 return false;
             }
             var urlCS = "{{url('/admin/customer/careSoft')}}?list=" + arrIds.join();

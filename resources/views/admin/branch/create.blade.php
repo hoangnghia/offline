@@ -15,7 +15,7 @@
                         <div class="form-group">
                             <label for="name">Tên chi nhánh<span class="text-danger">*</span></label>
                             <input type="text" name="name" id="name" placeholder="Tên chi nhánh" class="form-control"
-                                   value="{{ old('name') }}">
+                                   value="{{ old('name') }}" required>
                         </div>
                         <div class="form-group">
                             <label for="description">Mô tả </label>
@@ -38,11 +38,11 @@
                             <input style="width: 30%;display: inline-block; margin-bottom: 5px" type="text"
                                    name="addmore"
                                    placeholder="Tên local"
-                                   class="form-control"/>
+                                   class="form-control" required/>
                             <input type="text" style="width: 30%;display: inline-block; margin-bottom: 5px"
                                    name="addmore"
                                    placeholder="Địa chỉ"
-                                   class="form-control"/>
+                                   class="form-control" required/>
                             <select style="width: 30%;display: inline-block; margin-bottom: 5px" name="type" id="type" class="form-control select"><option value="0">Siêu thị</option><option value="1">Chợ</option></select>
                         </div>
                         <button style="display: block" type="button" name="add" id="add" class="btn btn-success">Thêm
@@ -86,6 +86,12 @@
             })
             var name = $("#name").val();
             var description = $("#description").val();
+
+            if (name == '')
+            {
+                alert("Bạn chưa nhập tên chi nhánh !!!");
+                return false;
+            }
             // var type = $("#type").val();
             $.ajax({
                 type: 'POST',

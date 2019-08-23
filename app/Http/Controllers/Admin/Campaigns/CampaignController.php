@@ -79,6 +79,18 @@ class CampaignController extends Controller
     public function postAddCampaign(Request $request)
     {
         if (isset($request)) {
+            if (!isset($request['agency'])) {
+                request()->session()->flash('error', 'Oh ! Có vẻ bạn chưa chọn đối tác !!!');
+                return redirect()->route('admin.campaign.create');
+            }
+            if (!isset($request['customer-reason'])) {
+                request()->session()->flash('error', 'Oh ! Có vẻ bạn chưa chọn địa chỉ, Hãy chọn địa chỉ bạn nhé !!!');
+                return redirect()->route('admin.campaign.create');
+            }
+            if (!isset($request['local-reason'])) {
+                request()->session()->flash('error', 'Oh ! Có vẻ bạn chưa chọn siêu thị hoặc chợ !!!');
+                return redirect()->route('admin.campaign.create');
+            }
             $campaign = new Campaign();
             $campaign->name = $request['name'];
             $campaign->note = $request['description'];
@@ -102,7 +114,7 @@ class CampaignController extends Controller
             request()->session()->flash('message', 'Thêm thành công !!!');
             return redirect('admin/campaign/user/' . $campaign->id);
         }
-        request()->session()->flash('message', 'Thêm thất bại !!!');
+        request()->session()->flash('error', 'Thêm thất bại !!!');
         return redirect()->route('admin.campaigns.index');
     }
 
