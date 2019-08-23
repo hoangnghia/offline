@@ -13,7 +13,9 @@
             ?>
                 <div class="insurance-list fadeIn second">
 
-                    <h4 class="title  stop ">{{$item->name}}</h4>
+                    <h4 class="title
+@if($item->time_start >= $timeNow && $item->time_end <= $timeNow ) top @endif
+">{{$item->name}}</h4>
                     <p class="text"><img src="{{ asset('assets/img/content.png') }}"/>Nội dung: {!! $item->note !!} </p>
                     <p class="time"><img src="{{ asset('assets/img/stopwatch.png') }}"/>Bắt đầu: {{$item->time_start}}</p>
                     <p class="time"><img src="{{ asset('assets/img/stopwatch.png') }}"/>Kết thúc: {{$item->time_end}}</p>
@@ -23,8 +25,10 @@
                         /<b>{{$item->user_taget}}</b>
                     </p>
                     <div class="button">
-                        <a href=" {{url('employee/add') .'/'.$item->local_user_id}}">Thêm khách hàng</a>
-                        <a href="{{ url('employee/customer').'/'.$item->local_user_id }}">DS khách hàng</a>
+                        <a href=" {{url('employee/add') .'/'.$item->local_user_id}}"
+                           @if($item->time_start >= $timeNow && $item->time_end <= $timeNow ) disabled="disabled" @endif
+                        >Thêm khách hàng</a>
+                        <a href="{{ url('employee/customer').'/'.$item->local_user_id }}" >DS khách hàng</a>
                     </div>
 
                 </div>
@@ -55,5 +59,9 @@
         @endforeach
     </div>
     </div>
-
+    <style type="text/css">
+        a[disabled="disabled"] {
+            pointer-events: none;
+        }
+    </style>
 @endsection
