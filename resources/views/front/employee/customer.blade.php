@@ -13,7 +13,7 @@
         @foreach ($customer as $item)
             <div class="insurance-list fadeIn second">
                 <h4 class="title">{{$item->name}}</h4>
-                <p class="time"><img src="http://offline.ngocdung.net/assets/img/smartphone.png"/>{{str_repeat("x", (strlen($item->phone) - 4)).substr($item->phone,4,4)}}</p>
+                <p class="time"><img src="http://offline.ngocdung.net/assets/img/smartphone.png"/>{{str_repeat("x", (strlen($item->phone) - 4)).substr($item->phone,6,4)}}</p>
                 <p class="birth"><img src="http://offline.ngocdung.net/assets/img/calendar.png"/>{{$item->birthday}}</p>
                 <p class="text"><img src="http://offline.ngocdung.net/assets/img/content.png"/>{{$item->note}}</p>
             </div>
