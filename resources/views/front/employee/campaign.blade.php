@@ -21,7 +21,9 @@
                     <p class="time"><img src="{{ asset('assets/img/stopwatch.png') }}"/>Kết thúc: {{$item->time_end}}</p>
                     <p class="address"><img src="{{ asset('assets/img/address.png') }}"/>Tên chợ/ Siêu thị: {{$item->local_name}}</p>
                     <p class="address"><img src="{{ asset('assets/img/address.png') }}"/>Địa chỉ: {{$item->address}}</p>
-                    <p class="target"><img src="{{ asset('assets/img/objective.png') }}"/>{{$finish}}
+                    <p class="address mb"><img src="{{ asset('assets/img/objective.png') }}"/>Taget: {{$finish}}
+                        /<b>{{$item->user_taget}}</b></p>
+                    <p class="target pc"><img src="{{ asset('assets/img/objective.png') }}"/>{{$finish}}
                         /<b>{{$item->user_taget}}</b>
                     </p>
                     <div class="button">

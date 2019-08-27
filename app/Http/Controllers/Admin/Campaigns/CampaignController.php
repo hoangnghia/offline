@@ -264,33 +264,38 @@ class CampaignController extends Controller
         foreach ($local as $item) {
             $user = 'local' . $item->id . '_local_user';
             if (isset($request->$user)) {
-//                dd($local);
                 $taget_post = 'taget_local_' . $item->id;
                 $tagetUser = $request->$taget_post / count($request->$user);
                 foreach ($request->$user as $itemUser) {
-                    LocalUser::where('local_id', $item->local_id)->where('campaign_id', $request->idcampaign)->where('user_id', $itemUser)->delete();
-                    $campaign = new LocalUser();
-                    $campaign->user_id = $itemUser;
-                    $campaign->local_id = $item->local_id;
-                    $campaign->local_campaign_id = $item->id;
-                    $campaign->taget = round($tagetUser);
-                    $campaign->campaign_id = $request->idcampaign;
-                    $campaign->created_at = Carbon::now();
-                    $campaign->updated_at = Carbon::now();
-                    $campaign->save();
+                    $check = LocalUser::where('user_id', $itemUser)->where('local_id', $item->local_id)->where('campaign_id', $request->idcampaign)->first();
+//                    LocalUser::where('local_id', $item->local_id)->where('campaign_id', $request->idcampaign)->where('user_id', $itemUser)->delete();
+                    if (!isset($check)) {
+                        $campaign = new LocalUser();
+                        $campaign->user_id = $itemUser;
+                        $campaign->local_id = $item->local_id;
+                        $campaign->local_campaign_id = $item->id;
+                        $campaign->taget = round($tagetUser);
+                        $campaign->campaign_id = $request->idcampaign;
+                        $campaign->created_at = Carbon::now();
+                        $campaign->updated_at = Carbon::now();
+                        $campaign->save();
+                    }
                 }
                 $taget = LocalCampaign::where('local_id', $item->local_id)->first();
                 $taget->taget = $request->$taget_post;
                 $taget->save();
                 $service = 'services-' . $item->id;
                 foreach ($request->$service as $itemService) {
-                    $serviceLocal = new LocalServices();
-                    $serviceLocal->service_id = $itemService;
-                    $serviceLocal->local_id = $item->local_id;
-                    $serviceLocal->campaign_id = $request->idcampaign;
-                    $serviceLocal->created_at = Carbon::now();
-                    $serviceLocal->updated_at = Carbon::now();
-                    $serviceLocal->save();
+                    $check = LocalServices::where('service_id', $itemService)->where('local_id', $item->local_id)->where('campaign_id', $request->idcampaign)->first();
+                    if (!isset($check)) {
+                        $serviceLocal = new LocalServices();
+                        $serviceLocal->service_id = $itemService;
+                        $serviceLocal->local_id = $item->local_id;
+                        $serviceLocal->campaign_id = $request->idcampaign;
+                        $serviceLocal->created_at = Carbon::now();
+                        $serviceLocal->updated_at = Carbon::now();
+                        $serviceLocal->save();
+                    }
                 }
             } else {
                 request()->session()->flash('error', 'Bạn chưa chọn nhân viên !!!');

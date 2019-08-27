@@ -78,7 +78,7 @@
                 <!-- /.box-body -->
                 <div class="box-footer">
                     <div class="btn-group">
-                        <a href="{{ route('admin.categories.index') }}" class="btn btn-default">Quay lại danh sách</a>
+                        <a href="{{ route('admin.campaigns.index') }}" class="btn btn-default">Quay lại danh sách</a>
                         <button type="submit" class="btn btn-primary">Tạo mới</button>
                     </div>
                 </div>

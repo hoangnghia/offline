@@ -81,6 +81,7 @@ class HomeController extends Controller
                 ->where('c.local_user_id', $id)
                 ->orderBy('c.created_at', 'desc')
                 ->paginate(20);
+//            dd($customer);
         }
         return view('front.employee.customer', [
             'customer' => $customer,

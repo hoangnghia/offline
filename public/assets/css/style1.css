@@ -506,3 +506,8 @@ input[type=date]{
         width: auto;
     }
 }
+.mb {display: none!important;}
+@media only screen and (max-width: 470px){
+    .pc {display: none!important;}
+    .mb {display: block!important;    text-align: left;}
+}
