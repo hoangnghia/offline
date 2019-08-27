@@ -99,13 +99,23 @@
                         </div>
                     </div>
                 </div>
+
+                <div style="float: right">
+                    <label class="option block mn"
+                           style="display: block;    width: 115px; color: red;    font-size: 15px;"><input
+                                type="checkbox" id="checkAll"
+                                style="float: left;width: 18px;margin-right: 5px; margin-top: 2px;height: 18px;"/><span
+                                class="checkbox mn"></span> Chọn Tất Cả</label>
+                </div>
                 <table id="list-customer" class="table">
                     <thead>
                     <tr>
-                        <th></th>
-                        {{--<th class="no-sort"><label class="option block mn"> <input type="checkbox" class="check-all"--}}
-                        {{--name="checkbox[]"> <span--}}
-                        {{--class="checkbox mn" ></span> </label></th>--}}
+                        {{--<th>--}}
+                        {{--<button style="border: none; background: transparent; font-size: 14px;" id="MyTableCheckAllButton">--}}
+                        {{--<i class="far fa-square"></i>--}}
+                        {{--</button>--}}
+                        {{--</th>--}}
+                        <th class=""></th>
                         <th>Tên KH</th>
                         <th>Phone</th>
                         <th>Năm sinh</th>
@@ -126,55 +136,13 @@
             </div>
             <!-- /.box-body -->
         </div>
+        <style type="text/css">
+            /*.no-sort::after { display: none!important; }*/
+
+            /*.no-sort { pointer-events: none!important; cursor: default!important; }*/
+        </style>
         <!-- /.box -->
     </section>
-    <!-- Admin Form Popup -->
-    {{--<div id="modal-form-assign-agent" class="popup-basic admin-form mfp-with-anim mfp-hide">--}}
-    {{--<div class="panel">--}}
-    {{--<div class="panel-heading">--}}
-    {{--<span class="panel-title"><i class="fa fa-rocket"></i>Chọn chuyên viên chăm sóc</span>--}}
-    {{--</div>--}}
-    {{--<!-- end .panel-heading section -->--}}
-    {{--<form method="post" id="comment">--}}
-    {{--<div class="panel-body p25">--}}
-    {{--<div class="section row">--}}
-    {{--<div class="col-md-12 ">--}}
-    {{--<div class="section mb10" id="date-sent-field">--}}
-    {{--<label class="field select">--}}
-    {{--<select id="user_id"--}}
-    {{--class="form-control">--}}
-    {{--<option value="">-- Chọn một chuyên viên --</option>--}}
-    {{--<option value="29128598">OFF 01 - Sen</option>--}}
-    {{--<option value="27921668">OFF 02 - Tuấn</option>--}}
-    {{--<option value="19193307">OFF 03 - Dung</option>--}}
-    {{--<option value="22109397">OFF 04 - My</option>--}}
-    {{--<option value="35559324">OFF 05 - Bảo</option>--}}
-    {{--<option value="27745625">OFF 06 - Văn</option>--}}
-    {{--<option value="58968877">OFF 07 - Như</option>--}}
-    {{--@foreach($users as $user)--}}
-    {{--<option value="{{$user->id}}">{{$user->full_name}}--}}
-    {{--</option>--}}
-    {{--@endforeach--}}
-    {{--</select>--}}
-    {{--<i class="arrow"></i>--}}
-    {{--</label>--}}
-    {{--<input type="hidden" id="uid-classify-id-assign">--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--<!-- end section -->--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--<!-- end .form-body section -->--}}
-    {{--{!! csrf_field() !!}--}}
-    {{--<div class="panel-footer text-center">--}}
-    {{--<button id='assign-agent' class="button btn-primary">Cập nhật</button>--}}
-    {{--</div>--}}
-    {{--<!-- end .form-footer section -->--}}
-    {{--</form>--}}
-    {{--</div>--}}
-    {{--<!-- end: .panel -->--}}
-    {{--</div>--}}
-    <!-- end: .admin-form -->
     <style type="text/css">
         td {
             text-align: center
@@ -211,6 +179,9 @@
         }
     </style>
     <script type="text/javascript">
+        $("#checkAll").change(function () {
+            $("input:checkbox").prop('checked', $(this).prop("checked"));
+        });
         cb = moment().subtract(18, 'days'), moment();
         $('#created_at').daterangepicker({
             "startDate": moment(),
@@ -244,13 +215,15 @@
         var oTableCustomer = $('#list-customer').DataTable({
             processing: true,
             serverSide: true,
-            columnDefs: [
-                {
-                    "targets": 0,
-                    "orderable": false,
-                },
-            ],
-            "pageLength": 50,
+            'columnDefs': [{
+                'targets': 0,
+                'searchable': false,
+                'orderable': false,
+                'className': 'dt-body-center',
+
+            }],
+            order: [[0, "asc"]],
+            "pageLength": 100,
             ajax: {
                 url: '{!! url('/admin/customer/getListData') !!}',
                 data: function (d) {
@@ -306,11 +279,14 @@
                         if (data != null) {
                             css = "sent";
                             name = "Đã gửi";
+                            return '<a href="https://web11.caresoft.vn/tmvngocdung#/index?type=ticket&amp;id=' + row.ticket_id + '" class="' + css + '" target="_blank">' + name + '</a>';
                         } else {
                             css = "not-sent";
                             name = "Chưa gửi";
+                            return '<p class="' + css + '">' + name + '</p>';
                         }
-                        return '<p class="' + css + '">' + name + '</p>';
+                        // return '<p class="' + css + '">' + name + '</p>';
+                        // return '<a href="//web11.caresoft.vn/tmvngocdung#/index?type=ticket&amp;id=' + row.ticket_id + '" class="' + css + '">' + name + '</a>';
                     }
                 },
                 {
@@ -336,6 +312,8 @@
                 },
             ]
         });
+
+
         $('#campaign-id').multiselect({
             includeSelectAllOption: true,
             nonSelectedText: '-- Chọn chiến dịch --',
