@@ -27,6 +27,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
         Route::group(['middleware' => ['role:admin|superadmin|clerk, guard:employee']], function () {
 
             Route::get('/', 'DashboardController@index')->name('dashboard');
+            Route::get('getListDatCampaign', 'DashboardController@getListDatCampaign')->name('admin.getListDatCampaign');
+            Route::get('getListDataUser', 'DashboardController@getListDataUser')->name('admin.getListDataUser');
+
+
             Route::namespace('Products')->group(function () {
                 Route::resource('products', 'ProductController');
                 Route::get('sync-product-from-zalo', 'ProductController@synchronized')->name('product.sync.zalo');

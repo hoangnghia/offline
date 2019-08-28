@@ -7,6 +7,7 @@ use App\Shop\Campaigns\Campaign;
 use App\Shop\Customer\Customer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class DashboardController
 {
@@ -32,6 +33,7 @@ class DashboardController
         $totalCS = Customer::where('care_soft_log_id', '!=', null)->count();
         $todayCS = Customer::where('created_at', Carbon::today())->where('care_soft_log_id', '!=', null)->get()->count();
 
+
         return view('admin.dashboard', ['totalCampaign' => $totalCampaign,
             'todayCampaign' => $todayCampaign,
             'totalCustomer' => $totalCustomer,
@@ -41,5 +43,57 @@ class DashboardController
             'totalCS' => $totalCS,
             'todayCS' => $todayCS,
         ]);
+    }
+
+    public function getListDatCampaign()
+    {
+//       $a= DB::table('campaign as c')
+//            ->join('local_user as ul', 'c.id', '=', 'ul.campaign_id')
+//            ->leftJoin('customer as cu', 'ul.id', '=', 'cu.local_user_id')
+//            ->select( DB::raw("count(cu.id) as count"),'c.name','c.taget')
+//           ->where('')
+//            ->groupBy('c.id','c.name','c.taget')
+//            ->get();
+
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $campaign = DB::table('campaign as c')
+            ->select('c.*')
+            ->where('c.status', true)
+        ->get();
+//        dd($campaign);
+        $datatables = DataTables::of($campaign);
+        $datatables->addColumn('count', function ($model) {
+            $user = DB::table('local_user as lu')
+                ->select('lu.*')
+                ->join('customer as c', 'c.local_user_id', '=', 'lu.id')
+                ->where('lu.campaign_id', $model->id)
+                ->count();
+            return $user;
+        });
+        return $datatables->make(true);
+    }
+    public function getListDataUser()
+    {
+
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $employees = DB::table('employees as e')
+            ->select('e.*','l.campaign_id','l.id as local_id','l.taget','ca.name as campaign_name')
+            ->join('role_user as r', 'r.user_id', '=', 'e.id')
+            ->join('local_user as l', 'l.user_id', '=', 'e.id')
+            ->leftJoin('campaign as ca', 'ca.id', '=', 'l.campaign_id')
+            ->where('r.role_id', 3)
+            ->where('e.status', true)
+            ->get();
+
+        $datatables = DataTables::of($employees);
+        $datatables->addColumn('count', function ($model) {
+            $customer = DB::table('customer as c')
+                ->select('c.*')
+                ->where('c.local_user_id', $model->local_id)
+                ->count();
+            return $customer;
+        });
+
+        return $datatables->make(true);
     }
 }
