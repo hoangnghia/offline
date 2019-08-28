@@ -115,12 +115,17 @@ class BranchController extends Controller
     public function delete($id)
     {
         if (isset($id)) {
-            $branch = Branch::where('id', $id)->delete();
-            $local = Local::where('branch_id', $id)->delete();
-            request()->session()->flash('message', 'Xóa thành công !!!');
+            $check = Campaign::where('address', $id)->first();
+            if (!isset($check)) {
+                $branch = Branch::where('id', $id)->delete();
+                $local = Local::where('branch_id', $id)->delete();
+                request()->session()->flash('message', 'Xóa thành công !!!');
+                return redirect()->route('admin.branch.index');
+            }
+            request()->session()->flash('error', 'Có liên kết, không thể xóa !!!');
             return redirect()->route('admin.branch.index');
         }
-        request()->session()->flash('message', 'Xóa thất bại !!!');
+        request()->session()->flash('error', 'Xóa thất bại !!!');
         return redirect()->route('admin.branch.index');
     }
 
@@ -142,6 +147,7 @@ class BranchController extends Controller
         request()->session()->flash('message', 'ID không tồn tại hoặc Null !!!');
         return redirect()->route('admin.branch.index');
     }
+
     public function updateEditBranch(Request $request)
     {
         if ($request['name'] != null) {
@@ -149,13 +155,13 @@ class BranchController extends Controller
             if (isset($request['local'])) {
                 $local = serialize($request['local']);
             }
-            $branch = Branch::where('id',$request['id'])->first();
+            $branch = Branch::where('id', $request['id'])->first();
             $branch->name = $request['name'];
             $branch->description = $request['description'];
             $branch->local = $local;
             $branch->updated_at = Carbon::now();
             $branch->save();
-            Local::where('branch_id',$request['id'])->delete();
+            Local::where('branch_id', $request['id'])->delete();
             foreach ($request['local'] as $item) {
                 $local = new Local();
                 $local->branch_id = $branch->id;

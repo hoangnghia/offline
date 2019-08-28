@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Agencys;
 use App\Http\Controllers\Controller;
 use App\Shop\Agency\Agency;
 use App\Shop\Agency\EmployeesAgency;
+use App\Shop\Campaigns\Campaign;
 use App\Shop\Customer\Customer;
 use App\Shop\Employees\Employee;
 use Carbon\Carbon;
@@ -126,12 +127,17 @@ class AgencyController extends Controller
     {
 
         if (isset($id)) {
-            $agency = Agency::where('id', $id)->delete();
-            $employeesAgency = EmployeesAgency::where('agency_id', $id)->delete();
-            request()->session()->flash('message', 'Xóa thành công !!!');
+            $check = Campaign::where('agency_id', $id)->first();
+            if (!isset($check)) {
+                $agency = Agency::where('id', $id)->delete();
+                $employeesAgency = EmployeesAgency::where('agency_id', $id)->delete();
+                request()->session()->flash('message', 'Xóa thành công !!!');
+                return redirect()->route('admin.agencys.index');
+            }
+            request()->session()->flash('error', 'Có liên kết, không thể xóa !!!');
             return redirect()->route('admin.agencys.index');
         }
-        request()->session()->flash('message', 'Xóa thất bại !!!');
+        request()->session()->flash('error', 'Xóa thất bại !!!');
         return redirect()->route('admin.agencys.index');
     }
 

@@ -102,6 +102,7 @@
                         <th>Content SMS</th>
                         <th>Người gửi</th>
                         <th>Trạng thái</th>
+                        <th>Hẹn giờ</th>
                         <th>Ngày gửi</th>
                         <th>Thông báo lôi</th>
                     </tr>
@@ -191,6 +192,7 @@
                         return '<p class="' + css + '">' + name + '</p>';
                     }
                 },
+                {data: 'time_sent', name: 'time_sent'},
                 {data: 'created_at', name: 'created_at'},
                 {data: 'message', name: 'message'},
             ]

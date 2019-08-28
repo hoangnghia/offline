@@ -167,12 +167,23 @@ class CampaignController extends Controller
     public function delete($id)
     {
         if (isset($id)) {
-            Campaign::where('id', $id)->delete();
-            LocalCampaign::where('campaign_id', $id)->delete();
-            request()->session()->flash('message', 'Xóa thành công !!!');
+//            $check = LocalUser::where('campaign_id',$id)->first();
+            $check = DB::table('local_user as l')
+                ->select('c.*')
+                ->join('customer as c', 'c.local_user_id', '=', 'l.id')
+                ->where('campaign_id', $id)
+                ->first();
+//            dd($check);
+            if (!isset($check)) {
+                Campaign::where('id', $id)->delete();
+                LocalCampaign::where('campaign_id', $id)->delete();
+                request()->session()->flash('message', 'Xóa thành công !!!');
+                return redirect()->route('admin.campaigns.index');
+            }
+            request()->session()->flash('error', 'Chiến dịch có khách hàng, không được xóa !!!');
             return redirect()->route('admin.campaigns.index');
         }
-        request()->session()->flash('message', 'Xóa thất bại !!!');
+        request()->session()->flash('error', 'Xóa thất bại !!!');
         return redirect()->route('admin.campaigns.index');
     }
 

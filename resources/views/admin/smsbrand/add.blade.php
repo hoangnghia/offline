@@ -39,6 +39,17 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="control-group">
+                                                <label class="control-label">Hẹn giờ gửi</label>
+                                                <div class="controls input-append date form_datetime"
+                                                     data-date-format="dd MM yyyy - HH:ii p"
+                                                     data-link-field="dtp_input1">
+                                                    <input size="30" type="text" value="" name="date_sent" readonly>
+                                                    <span class="add-on"><i class="icon-remove"></i></span>
+                                                    <span class="add-on"><i class="icon-th"></i></span>
+                                                </div>
+                                                <input type="hidden" id="dtp_input1" value=""/><br/>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-md-12">
 
@@ -139,4 +150,25 @@
             color: #1b75b7;
         }
     </style>
+@endsection
+@section('css')
+    <link href="{{ asset('datetimepicker/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
+
+@endsection
+@section('js')
+    <script src="{{ asset('datetimepicker/js/bootstrap-datetimepicker.js') }}"></script>
+    <script src="{{ asset('datetimepicker/js/locales/bootstrap-datetimepicker.fr.js') }}"></script>
+    <script type="text/javascript">
+        // $('.form_datetime').datetimepicker({
+        //     //language:  'fr',
+        //     weekStart: 1,
+        //     todayBtn: 1,
+        //     autoclose: 1,
+        //     todayHighlight: 1,
+        //     startView: 2,
+        //     forceParse: 0,
+        //     showMeridian: 1
+        // });
+        $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+    </script>
 @endsection

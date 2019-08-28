@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Services;
 
 use App\Http\Controllers\Controller;
+use App\Shop\Customer\Customer;
 use App\Shop\Service\Service;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -89,8 +90,13 @@ class ServiceController extends Controller
     {
 
         if (isset($id)) {
-            $services = Service::where('id', $id)->delete();
-            request()->session()->flash('message', 'Xóa thành công !!!');
+            $check = Customer::where('service',$id)->first();
+          if (!isset($check)){
+              $services = Service::where('id', $id)->delete();
+              request()->session()->flash('message', 'Xóa thành công !!!');
+              return redirect()->route('admin.services.index');
+          }
+            request()->session()->flash('error', 'Có liên kết, không thể xóa !!!');
             return redirect()->route('admin.services.index');
         }
         request()->session()->flash('error', 'Xóa thất bại !!!');

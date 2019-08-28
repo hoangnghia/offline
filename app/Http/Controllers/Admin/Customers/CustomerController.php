@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Shop\Employees\Employee;
 use App\Shop\Sms\SmsLog;
 use Carbon\Carbon;
+use Faker\Provider\ka_GE\DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -250,6 +251,12 @@ class CustomerController extends Controller
 
     public function smsSent(Request $request)
     {
+
+        if (isset($request->date_sent)){
+            $date = date('Y/m/d H:i:s', strtotime($request->date_sent));
+        }
+
+
         $user_id = Auth::guard('employee')->user();
 //        dd($user_id->id);
         $list = $request->customer_id;
@@ -272,10 +279,14 @@ class CustomerController extends Controller
                 $yummy = [$dichvu, $name];
                 $templateContent = str_replace($healthy, $yummy, $request->content_sms);
                 $SendContent = urlencode($templateContent);
-                $apiUrl = "http://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4_get?Phone=$phone&ApiKey=C946C4979CC87A9BFAAFDBBB6945A1&SecretKey=FD28DDE9060254C6B72B5E37066DFD&Content=$SendContent&SmsType=$type&Brandname=TMVNgocDung";
+                if (isset($date)){
+                    $apiUrl = "http://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4_get?Phone=$phone&ApiKey=C946C4979CC87A9BFAAFDBBB6945A1&SecretKey=FD28DDE9060254C6B72B5E37066DFD&Content=$SendContent&SmsType=$type&SendDate=".urlencode($date)."&Brandname=TMVNgocDung";
+
+                }else{
+                    $apiUrl = "http://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4_get?Phone=$phone&ApiKey=C946C4979CC87A9BFAAFDBBB6945A1&SecretKey=FD28DDE9060254C6B72B5E37066DFD&Content=$SendContent&SmsType=$type&Brandname=TMVNgocDung";
+                }
                 $customerSent = $this->http($apiUrl);
                 $response = json_decode($customerSent['data'], true);
-
                 $smsLog = new SmsLog();
                 $smsLog->code_result = isset($response['CodeResult']) ? $response['CodeResult'] : null;
                 $smsLog->smsid = isset($response['SMSID']) ? $response['SMSID'] : null;
@@ -286,6 +297,7 @@ class CustomerController extends Controller
                 $smsLog->customer_log_id = $item->id;
                 $smsLog->message = isset($response['ErrorMessage']) ? $response['ErrorMessage'] : null;
                 $smsLog->user_id = $user_id->id;
+                $smsLog->time_sent = $date;
                 $smsLog->save();
                 if ($smsLog instanceof SmsLog) {
                     $updata = Customer::where('id', $item->id)->first();
