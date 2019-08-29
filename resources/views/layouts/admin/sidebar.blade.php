@@ -33,11 +33,11 @@
                 </li>
             @endif
             @if($user->hasRole('admin|superadmin'))
-                <li class="treeview">
-                    <a href="{{ route('admin.customer.index') }}">
-                        <i class="fa fa-list-alt" aria-hidden="true"></i> <span>Danh sách khách hàng</span>
-                    </a>
-                </li>
+                {{--<li class="treeview">--}}
+                    {{--<a href="{{ route('admin.customer.index') }}">--}}
+                        {{--<i class="fa fa-list-alt" aria-hidden="true"></i> <span>Danh sách khách hàng</span>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-calendar-minus-o" aria-hidden="true"></i> <span>Chiến dịch</span>
