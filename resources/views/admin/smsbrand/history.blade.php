@@ -192,7 +192,16 @@
                         return '<p class="' + css + '">' + name + '</p>';
                     }
                 },
-                {data: 'time_sent', name: 'time_sent'},
+                {
+                    data: 'time_sent', name: 'time_sent', render: function (data, type, row) {
+                        if (data == null) {
+                            return '<span>No timer</span>';
+                        } else {
+                            return '<span>'+data+'</span>';
+                        }
+                    }
+                },
+                // {data: 'time_sent', name: 'time_sent'},
                 {data: 'created_at', name: 'created_at'},
                 {data: 'message', name: 'message'},
             ]
