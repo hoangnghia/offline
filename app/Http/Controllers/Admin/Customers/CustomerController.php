@@ -297,7 +297,9 @@ class CustomerController extends Controller
                 $smsLog->customer_log_id = $item->id;
                 $smsLog->message = isset($response['ErrorMessage']) ? $response['ErrorMessage'] : null;
                 $smsLog->user_id = $user_id->id;
-                $smsLog->time_sent = $date;
+                if (isset($date)){
+                    $smsLog->time_sent = $date;
+                }
                 $smsLog->save();
                 if ($smsLog instanceof SmsLog) {
                     $updata = Customer::where('id', $item->id)->first();
