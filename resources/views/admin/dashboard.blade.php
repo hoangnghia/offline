@@ -187,7 +187,6 @@
                 },
                 {data: 'time_start', name: 'time_start'},
                 {data: 'time_end', name: 'time_end'},
-
             ]
         });
 
@@ -215,7 +214,6 @@
                         return ' <span">' + row.count + '/' + data + '</span> '
                     }
                 },
-
                 {data: 'campaign_name', name: 'campaign_name'},
             ]
         });

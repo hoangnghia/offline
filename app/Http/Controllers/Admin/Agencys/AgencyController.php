@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
-
 class AgencyController extends Controller
 {
     /**
@@ -45,7 +44,6 @@ class AgencyController extends Controller
             foreach ($user as $item) {
                 $listUsser .= $item->name . ', ';
             }
-//            dd($listUsser);
             return $listUsser;
         });
         return $datatables->make(true);

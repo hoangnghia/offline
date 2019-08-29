@@ -25,10 +25,9 @@ Route::namespace('Admin')->group(function () {
 Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.'], function () {
     Route::namespace('Admin')->group(function () {
         Route::group(['middleware' => ['role:admin|superadmin|clerk, guard:employee']], function () {
-
-            Route::get('/', 'DashboardController@index')->name('dashboard');
-            Route::get('getListDatCampaign', 'DashboardController@getListDatCampaign')->name('admin.getListDatCampaign');
-            Route::get('getListDataUser', 'DashboardController@getListDataUser')->name('admin.getListDataUser');
+//            Route::get('/', 'DashboardController@index')->name('dashboard');
+//            Route::get('getListDatCampaign', 'DashboardController@getListDatCampaign')->name('admin.getListDatCampaign');
+//            Route::get('getListDataUser', 'DashboardController@getListDataUser')->name('admin.getListDataUser');
 
 
             Route::namespace('Products')->group(function () {
@@ -113,7 +112,28 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::get('services/edit/{id}', 'Services\ServiceController@edit')->name('services.edit');
             Route::post('services/destroy', 'Services\ServiceController@destroy')->name('services.destroy');
 
-            // Danh sách khách hàng đăng ký
+//            // Danh sách khách hàng đăng ký
+//            Route::GET('customer/index', 'Customers\CustomerController@index')->name('customer.index');
+//            Route::GET('customer/getListData', 'Customers\CustomerController@getListData')->name('customer.getListData');
+//            Route::get('customer/detail/{id}', 'Customers\CustomerController@detail')->name('customer.detail');
+//            Route::POST('customer/detailUpload', 'Customers\CustomerController@detailUpload')->name('customer.detailUpload');
+//            Route::get('customer/status/{id}', 'Customers\CustomerController@status')->name('customer.status');
+//            Route::get('customer/delete/{id}', 'Customers\CustomerController@delete')->name('customer.delete');
+////            Route::POST('caresoft/put', 'Customers\CustomerController@postCareSoft')->name('caresoft.put');
+//            Route::get('customer/export', 'Customers\CustomerController@export')->name('customer.export');
+//            Route::get('customer/sms', 'Customers\CustomerController@smsCreate')->name('customer.sms');
+//            Route::POST('customer/sent', 'Customers\CustomerController@smsSent')->name('customer.sent');
+//            Route::get('customer/history', 'Customers\CustomerController@history')->name('customer.history');
+//            Route::get('customer/getHistory', 'Customers\CustomerController@getHistory')->name('customer.getHistory');
+//            Route::get('customer/careSoft', 'Customers\CustomerController@careSoft')->name('customer.careSoft');
+////            Route::get('customer/sms', 'Customers\CustomerController@smsCreate')->name('customer.sms');
+//            Route::POST('customer/careSoftSent', 'Customers\CustomerController@careSoftSent')->name('customer.careSoftSent');
+        });
+        Route::group(['middleware' => ['role:admin|superadmin|offline, guard:employee']], function () {
+            Route::get('/', 'DashboardController@index')->name('dashboard');
+            Route::get('getListDatCampaign', 'DashboardController@getListDatCampaign')->name('admin.getListDatCampaign');
+            Route::get('getListDataUser', 'DashboardController@getListDataUser')->name('admin.getListDataUser');
+// Danh sách khách hàng đăng ký
             Route::GET('customer/index', 'Customers\CustomerController@index')->name('customer.index');
             Route::GET('customer/getListData', 'Customers\CustomerController@getListData')->name('customer.getListData');
             Route::get('customer/detail/{id}', 'Customers\CustomerController@detail')->name('customer.detail');

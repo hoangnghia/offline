@@ -25,6 +25,13 @@
                 </a>
             </li>
             <li class="header">Dashboard</li>
+            @if($user->hasRole('admin|superadmin|offline'))
+                <li class="treeview">
+                    <a href="{{ route('admin.customer.index') }}">
+                        <i class="fa fa-list-alt" aria-hidden="true"></i> <span>Danh sách khách hàng</span>
+                    </a>
+                </li>
+            @endif
             @if($user->hasRole('admin|superadmin'))
                 <li class="treeview">
                     <a href="{{ route('admin.customer.index') }}">
