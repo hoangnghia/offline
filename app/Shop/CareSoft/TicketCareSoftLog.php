@@ -20,6 +20,7 @@ class TicketCareSoftLog extends Authenticatable
         'ticket_subject',
         'ticket_no',
         'ticket_id',
+        'user_id',
         'created_at',
         'updated_at',
         'status',

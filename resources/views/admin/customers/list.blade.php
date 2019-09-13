@@ -25,7 +25,7 @@
                             <div class="tab-pane active">
                                 <form method="get" id="search-form-customer">
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="section mb10" id="date-sent-field">
                                                 <label style="width: 100%" for="customer-name"
                                                        class="field prepend-icon">
@@ -50,6 +50,20 @@
                                                            placeholder="Số điện thoại">
                                                 </label>
                                             </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select class="form-control change-filter-room-id" id="status-sms">
+                                                <option value="">KH gửi SMS</option>
+                                                <option value="1">Gửi SMS</option>
+                                                <option value="2">Chưa gửi SMS</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select class="form-control change-filter-room-id" id="status-cs">
+                                                <option value="">Case Soft</option>
+                                                <option value="1">Đã chuyển</option>
+                                                <option value="2">Chưa chuyển</option>
+                                            </select>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="section mb10" id="page_id">
@@ -79,7 +93,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="section mb10" id="date-sent-field">
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
@@ -99,7 +113,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div style="float: right">
                     <label class="option block mn"
                            style="display: block;    width: 115px; color: red;    font-size: 15px;"><input
@@ -177,6 +190,13 @@
             color: blue;
             font-weight: bold
         }
+        #page_id .btn-group{display: grid}
+        select.form-control{
+            background-color: #dcaf26!important;
+            border-color: #dcaf26;
+            transition: all .2s ease-in;
+            color: #FFF !important;
+        }
     </style>
     <script type="text/javascript">
         $("#checkAll").change(function () {
@@ -232,6 +252,8 @@
                     d.campaign = $('#search-form-customer #campaign-id').val();
                     d.user = $('#search-form-customer #user-id').val();
                     d.created_at = $('#search-form-customer #created_at').val();
+                    d.status_sms = $('#search-form-customer #status-sms').val();
+                    d.status_cs = $('#search-form-customer #status-cs').val();
                 }
             },
             "columns": [

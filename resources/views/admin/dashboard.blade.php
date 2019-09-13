@@ -120,6 +120,7 @@
                     <thead>
                     <tr>
                         <td>Tên nhân viên</td>
+                        <td>Tên chợ</td>
                         <td>Taget</td>
                         <td>Tên chiến dịch</td>
                     </tr>
@@ -209,6 +210,7 @@
             },
             columns: [
                 {data: 'name', name: 'name'},
+                {data: 'local_name', name: 'local_name'},
                 {
                     data: 'taget', name: 'taget', render: function (data, type, row) {
                         return ' <span">' + row.count + '/' + data + '</span> '

@@ -55,10 +55,9 @@ class CustomerController extends Controller
             ->join('local_user as lu', 'lu.id', '=', 'c.local_user_id')
             ->join('services as s', 's.id', '=', 'c.service')
             ->join('campaign as ca', 'ca.id', '=', 'lu.campaign_id')
-            ->join('employees as e', 'e.id', '=', 'lu.user_id');
-
+            ->join('employees as e', 'e.id', '=', 'lu.user_id')
 //            ->left('employees as e', 'e.id', '=', 'lu.user_id');
-//            ->orderBy('c.created_at', 'desc')
+            ->orderBy('c.created_at', 'desc');
 //            ->get();
 //            dd($customer);
         $datatables = DataTables::of($customer);
@@ -80,6 +79,20 @@ class CustomerController extends Controller
             else
                 $customer->where('e.id', $datatables->request->get('user'));
         }
+        if (!is_null($datatables->request->get('status_sms'))) {
+            if ($datatables->request->get('status_sms') == 1) {
+                $customer->whereNotNull('c.sms_log_id');
+            } elseif ($datatables->request->get('status_sms') == 2) {
+                $customer->whereNull('c.sms_log_id');
+            }
+        }
+        if (!is_null($datatables->request->get('status_cs'))) {
+            if ($datatables->request->get('status_cs') == 1) {
+                $customer->whereNotNull('c.care_soft_log_id');
+            } elseif ($datatables->request->get('status_cs') == 2) {
+                $customer->whereNull('c.care_soft_log_id');
+            }
+        }
         if (!is_null($datatables->request->get('created_at'))) {
             $dateTimeArr = explode('-', $datatables->request->get('created_at'));
             $fromDate = trim($dateTimeArr[0]);
@@ -88,9 +101,10 @@ class CustomerController extends Controller
             $toDate = (new \DateTime($toDate))->format('Y-m-d');
             $customer->whereDate('c.created_at', '>=', $fromDate);
             $customer->whereDate('c.created_at', '<=', $toDate);
-        } else {
-            $customer->whereDate('c.created_at', '=', $toDate);
         }
+//        else {
+//            $customer->whereDate('c.created_at', '=', $toDate);
+//        }
         $datatables->addColumn('name_parent', function ($model) {
             if (isset($model->parent_id)) {
                 $customerParent = DB::table('customer as c')
@@ -252,7 +266,7 @@ class CustomerController extends Controller
     public function smsSent(Request $request)
     {
 
-        if (isset($request->date_sent)){
+        if (isset($request->date_sent)) {
             $date = date('Y/m/d H:i:s', strtotime($request->date_sent));
         }
 
@@ -279,10 +293,9 @@ class CustomerController extends Controller
                 $yummy = [$dichvu, $name];
                 $templateContent = str_replace($healthy, $yummy, $request->content_sms);
                 $SendContent = urlencode($templateContent);
-                if (isset($date)){
-                    $apiUrl = "http://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4_get?Phone=$phone&ApiKey=C946C4979CC87A9BFAAFDBBB6945A1&SecretKey=FD28DDE9060254C6B72B5E37066DFD&Content=$SendContent&SmsType=$type&SendDate=".urlencode($date)."&Brandname=TMVNgocDung";
-
-                }else{
+                if (isset($date)) {
+                    $apiUrl = "http://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4_get?Phone=$phone&ApiKey=C946C4979CC87A9BFAAFDBBB6945A1&SecretKey=FD28DDE9060254C6B72B5E37066DFD&Content=$SendContent&SmsType=$type&SendDate=" . urlencode($date) . "&Brandname=TMVNgocDung";
+                } else {
                     $apiUrl = "http://rest.esms.vn/MainService.svc/json/SendMultipleMessage_V4_get?Phone=$phone&ApiKey=C946C4979CC87A9BFAAFDBBB6945A1&SecretKey=FD28DDE9060254C6B72B5E37066DFD&Content=$SendContent&SmsType=$type&Brandname=TMVNgocDung";
                 }
                 $customerSent = $this->http($apiUrl);
@@ -297,7 +310,7 @@ class CustomerController extends Controller
                 $smsLog->customer_log_id = $item->id;
                 $smsLog->message = isset($response['ErrorMessage']) ? $response['ErrorMessage'] : null;
                 $smsLog->user_id = $user_id->id;
-                if (isset($date)){
+                if (isset($date)) {
                     $smsLog->time_sent = $date;
                 }
                 $smsLog->save();
@@ -381,6 +394,7 @@ class CustomerController extends Controller
     public function careSoftSent(Request $request)
     {
 //dd($request);
+        $user_id = Auth::guard('employee')->user();
         $loaiPhieu = $request->loai_phieu;
         $nguonPhieu = 41902;
         $chiTietNguonPhieu = $request->chi_tiet_nguon_phieu;
@@ -421,6 +435,7 @@ class CustomerController extends Controller
             $ticketLog->ticket_subject = $result['ticket']['ticket_subject'];
             $ticketLog->ticket_no = $result['ticket']['ticket_no'];
             $ticketLog->ticket_id = $result['ticket']['ticket_id'];
+            $ticketLog->user_id = $user_id->id;
             if ($result['code'] == 'ok') {
                 $ticketLog->status = true;
                 $i++;

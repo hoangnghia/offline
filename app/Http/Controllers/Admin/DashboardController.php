@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Shop\Campaigns\Campaign;
 use App\Shop\Customer\Customer;
+use App\Shop\Local\Local;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
@@ -77,7 +78,7 @@ class DashboardController
 
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $employees = DB::table('employees as e')
-            ->select('e.*','l.campaign_id','l.id as local_id','l.taget','ca.name as campaign_name')
+            ->select('e.*','l.campaign_id','l.id as local_id','l.local_id as local_idd','l.taget','ca.name as campaign_name')
             ->join('role_user as r', 'r.user_id', '=', 'e.id')
             ->join('local_user as l', 'l.user_id', '=', 'e.id')
             ->leftJoin('campaign as ca', 'ca.id', '=', 'l.campaign_id')
@@ -92,6 +93,10 @@ class DashboardController
                 ->where('c.local_user_id', $model->local_id)
                 ->count();
             return $customer;
+        });
+        $datatables->addColumn('local_name', function ($model) {
+            $customer = Local::where('id',$model->local_idd)->first();
+            return $customer->name;
         });
 
         return $datatables->make(true);
