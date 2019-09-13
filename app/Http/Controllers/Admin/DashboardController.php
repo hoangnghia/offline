@@ -84,6 +84,7 @@ class DashboardController
             ->leftJoin('campaign as ca', 'ca.id', '=', 'l.campaign_id')
             ->where('r.role_id', 3)
             ->where('e.status', true)
+            ->orderBy('e.created_at', 'desc')
             ->get();
 
         $datatables = DataTables::of($employees);
@@ -96,9 +97,13 @@ class DashboardController
         });
         $datatables->addColumn('local_name', function ($model) {
             $customer = Local::where('id',$model->local_idd)->first();
-            return $customer->name;
+            if (is_null($customer)){
+                $customer= "Not name";
+                return $customer;
+            }else{
+                return $customer->name;
+            }
         });
-
         return $datatables->make(true);
     }
 }
