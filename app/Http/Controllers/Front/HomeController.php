@@ -101,8 +101,17 @@ class HomeController extends Controller
                 request()->session()->flash('error', 'Số điện thoại tồn tại !!!');
                 return redirect(url('employee/add') . '/' . $request->local_id);
             }
-//            dd($request);
+
             if (isset($request->date)) {
+                $arrDate = explode("/", $request->date);
+                if ($arrDate[0] > 31) {
+                    request()->session()->flash('error', 'Nhập sai ngày sinh rồi bạn ơi -> ' . $request->date);
+                    return redirect(url('employee/add') . '/' . $request->local_id);
+                }
+                if ($arrDate[1] > 12) {
+                    request()->session()->flash('error', 'Nhập sai tháng sinh rồi bạn ơi -> ' . $request->date);
+                    return redirect(url('employee/add') . '/' . $request->local_id);
+                }
 //                dd($request->date);
                 $dateNow = Carbon::now();
                 $yearAge = substr($request->date, -4);
@@ -152,6 +161,16 @@ class HomeController extends Controller
                 return redirect(url('employee/addRelatives') . '/' . $request->customer);
             }
             if (isset($request->date)) {
+                $arrDate = explode("/", $request->date);
+                if ($arrDate[0] > 31) {
+                    request()->session()->flash('error', 'Nhập sai ngày sinh rồi bạn ơi -> ' . $request->date);
+                    return redirect(url('employee/add') . '/' . $request->local_id);
+                }
+                if ($arrDate[1] > 12) {
+                    request()->session()->flash('error', 'Nhập sai tháng sinh rồi bạn ơi -> ' . $request->date);
+                    return redirect(url('employee/add') . '/' . $request->local_id);
+                }
+                
                 $dateNow = Carbon::now();
                 $yearNow = date_format($dateNow, 'Y');
                 $yearAge = substr($request->date, -4);
