@@ -13,8 +13,8 @@
                    style="display: none">
             <input type="text" id="phone" class="fadeIn second" name="phone" placeholder="Số điện thoại" required>
             <input type="text" data-mask="00/00/0000" data-mask-selectonfocus="true" name="date" placeholder="Ngày/Tháng/Năm sinh" />
-            <select name="service" id="service" class="fadeIn second">
-                <option selected disabled>Chọn dịch vụ</option>
+            <select name="service" id="service" class="fadeIn second" required>
+                <option selected disabled value="">Chọn dịch vụ</option>
                 @foreach($service as $item)
                     <option value="{{$item->service_id}}">{{$item->name_service}}</option>
                 @endforeach
