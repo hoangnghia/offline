@@ -26,14 +26,13 @@ class DashboardController
         $todayCampaign = Campaign::where('time_start', '>=', $today)->where('time_end', '<=', $today)->where('status', true)->get()->count();
         // khach hang
         $totalCustomer = Customer::all()->count();
-        $todayCustomer = Customer::where('created_at', Carbon::today())->get()->count();
+        $todayCustomer = Customer::where('created_at', '>=', $today)->get()->count();
         // Tin nhan
         $totalSms = Customer::where('sms_log_id', '!=', null)->get()->count();
-        $todaySms = Customer::where('updated_at', Carbon::today())->where('sms_log_id', '!=', null)->get()->count();
+        $todaySms = Customer::where('updated_at', '>=', $today)->where('sms_log_id', '!=', null)->get()->count();
         //CareSoft
         $totalCS = Customer::where('care_soft_log_id', '!=', null)->count();
-        $todayCS = Customer::where('updated_at', Carbon::today())->where('care_soft_log_id', '!=', null)->get()->count();
-
+        $todayCS = Customer::where('updated_at', '>=', $today)->where('care_soft_log_id', '!=', null)->get()->count();
 
         return view('admin.dashboard', ['totalCampaign' => $totalCampaign,
             'todayCampaign' => $todayCampaign,
@@ -60,7 +59,7 @@ class DashboardController
         $campaign = DB::table('campaign as c')
             ->select('c.*')
             ->where('c.status', true)
-        ->get();
+            ->get();
 //        dd($campaign);
         $datatables = DataTables::of($campaign);
         $datatables->addColumn('count', function ($model) {
@@ -73,12 +72,13 @@ class DashboardController
         });
         return $datatables->make(true);
     }
+
     public function getListDataUser()
     {
 
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $employees = DB::table('employees as e')
-            ->select('e.*','l.campaign_id','l.id as local_id','l.local_id as local_idd','l.taget','ca.name as campaign_name')
+            ->select('e.*', 'l.campaign_id', 'l.id as local_id', 'l.local_id as local_idd', 'l.taget', 'ca.name as campaign_name')
             ->join('role_user as r', 'r.user_id', '=', 'e.id')
             ->join('local_user as l', 'l.user_id', '=', 'e.id')
             ->leftJoin('campaign as ca', 'ca.id', '=', 'l.campaign_id')
@@ -95,11 +95,11 @@ class DashboardController
             return $customer;
         });
         $datatables->addColumn('local_name', function ($model) {
-            $customer = Local::where('id',$model->local_idd)->first();
-            if (is_null($customer)){
-                $customer= "Not name";
+            $customer = Local::where('id', $model->local_idd)->first();
+            if (is_null($customer)) {
+                $customer = "Not name";
                 return $customer;
-            }else{
+            } else {
                 return $customer->name;
             }
         });
