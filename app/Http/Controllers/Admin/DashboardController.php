@@ -29,10 +29,10 @@ class DashboardController
         $todayCustomer = Customer::where('created_at', Carbon::today())->get()->count();
         // Tin nhan
         $totalSms = Customer::where('sms_log_id', '!=', null)->get()->count();
-        $todaySms = Customer::where('created_at', Carbon::today())->where('sms_log_id', '!=', null)->get()->count();
+        $todaySms = Customer::where('updated_at', Carbon::today())->where('sms_log_id', '!=', null)->get()->count();
         //CareSoft
         $totalCS = Customer::where('care_soft_log_id', '!=', null)->count();
-        $todayCS = Customer::where('created_at', Carbon::today())->where('care_soft_log_id', '!=', null)->get()->count();
+        $todayCS = Customer::where('updated_at', Carbon::today())->where('care_soft_log_id', '!=', null)->get()->count();
 
 
         return view('admin.dashboard', ['totalCampaign' => $totalCampaign,
@@ -86,7 +86,6 @@ class DashboardController
             ->where('e.status', true)
             ->orderBy('e.created_at', 'desc')
             ->get();
-
         $datatables = DataTables::of($employees);
         $datatables->addColumn('count', function ($model) {
             $customer = DB::table('customer as c')

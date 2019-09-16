@@ -317,6 +317,7 @@ class CustomerController extends Controller
                 if ($smsLog instanceof SmsLog) {
                     $updata = Customer::where('id', $item->id)->first();
                     $updata->sms_log_id = $smsLog->id;
+                    $updata->updated_at = Carbon::now();
                     $updata->save();
                 }
             }
@@ -449,6 +450,7 @@ class CustomerController extends Controller
                 $updata = Customer::where('id', $item->id)->first();
                 $updata->ticket_id = $result['ticket']['ticket_id'];
                 $updata->care_soft_log_id = $ticketLog->id;
+                $updata->updated_at = Carbon::now();
                 $updata->save();
             }
         }
