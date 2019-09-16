@@ -281,7 +281,7 @@
                 },
                 {
                     data: 'name', name: 'name', render: function (data, type, row) {
-                        if (row.check_care_soft == 0 || row.check_care_soft == 1) {
+                        if (row.check_care_soft == 0 || row.check_care_soft == 1 || row.check_care_soft == null) {
                             return '<a href="{{url('admin/customer/detail') .'/'}}' + row.id + '">' + data + '</a>';
                         } else {
                             return '<a href="{{url('admin/customer/detail') .'/'}}' + row.id + '">' + data + '</a><br><a class="care_soft" href="https://web11.caresoft.vn/tmvngocdung#/index?type=contact&id=' + row.check_care_soft + '" target="_blank">CareSoft</a>';
