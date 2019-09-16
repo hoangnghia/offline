@@ -30,7 +30,8 @@ class Customer extends Authenticatable
         'ticket_id',
         'care_soft_log_id',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'check_care_soft'
     ];
 
     /**

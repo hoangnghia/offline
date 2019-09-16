@@ -190,12 +190,23 @@
             color: blue;
             font-weight: bold
         }
-        #page_id .btn-group{display: grid}
-        select.form-control{
-            background-color: #dcaf26!important;
+
+        #page_id .btn-group {
+            display: grid
+        }
+
+        select.form-control {
+            background-color: #dcaf26 !important;
             border-color: #dcaf26;
             transition: all .2s ease-in;
             color: #FFF !important;
+        }
+
+        .care_soft {
+            background: #00a65a;
+            color: #fff;
+            padding: 2px 10px 2px 10px;
+            border-radius: 15px;
         }
     </style>
     <script type="text/javascript">
@@ -270,7 +281,11 @@
                 },
                 {
                     data: 'name', name: 'name', render: function (data, type, row) {
-                        return '<a href="{{url('admin/customer/detail') .'/'}}' + row.id + '">' + data + '</a>';
+                        if (row.check_care_soft == 0 || row.check_care_soft == 1) {
+                            return '<a href="{{url('admin/customer/detail') .'/'}}' + row.id + '">' + data + '</a>';
+                        } else {
+                            return '<a href="{{url('admin/customer/detail') .'/'}}' + row.id + '">' + data + '</a><br><a class="care_soft" href="https://web11.caresoft.vn/tmvngocdung#/index?type=contact&id=' + row.check_care_soft + '" target="_blank">CareSoft</a>';
+                        }
                     }
                 },
                 {data: 'phone', name: 'phone'},
