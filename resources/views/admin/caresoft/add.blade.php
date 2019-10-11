@@ -117,6 +117,8 @@
                                                     <option value="27745625">OFF 06 - VĂN</option>
                                                     <option value="58968877">OFF 07 - Như</option>
                                                     <option value="41534947">OFF 08 - Thảo</option>
+                                                    <option value="75811663">OFF 09 - Hòa</option>
+                                                    <option value="76243845">OFF 10 - Phượng</option>
                                                 </select>
                                             </div>
                                         </div>
