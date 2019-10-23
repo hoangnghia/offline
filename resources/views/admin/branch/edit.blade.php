@@ -38,6 +38,8 @@
                             <label for="name" style="width: 100%;">Tên local</label>
                             @foreach($local as $localItem)
                                 <div class="local">
+                                    <input type="text" name="id"
+                                           value="{{$localItem->id}}" class="form-control" style="display: none"/>
                                     <input style="width: 30%;display: inline-block;  margin-bottom: 5px;margin-right: 4px;"
                                            type="text" name="addmore" placeholder="Tên local"
                                            value="{{$localItem->name}}" class="form-control"/>
@@ -50,7 +52,7 @@
                                         <option value="0" @if($localItem->type == 0) selected @endif>Siêu thị</option>
                                         <option value="1" @if($localItem->type == 1) selected @endif>Chợ</option>
                                     </select>
-                                    <button type="button" class="btn btn-danger remove-div">Xóa</button>
+                                    {{--<button type="button" class="btn btn-danger remove-div">Xóa</button>--}}
                                 </div>
                             @endforeach
                         </div>
@@ -89,6 +91,7 @@
             var localsData = [];
             $(".local").each(function () {
                 var localData = {};
+                localData.id = $(this).find("[name=id]").val()
                 localData.addmore = $(this).find("[name=addmore]").val()
                 localData["addmore-address"] = $(this).find("[name=addmore-address]").val()
                 localData["type"] = $(this).find("[name=type]").val()

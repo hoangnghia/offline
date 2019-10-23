@@ -161,16 +161,26 @@ class BranchController extends Controller
             $branch->local = $local;
             $branch->updated_at = Carbon::now();
             $branch->save();
-            Local::where('branch_id', $request['id'])->delete();
+//            Local::where('branch_id', $request['id'])->delete();
             foreach ($request['local'] as $item) {
-                $local = new Local();
-                $local->branch_id = $branch->id;
-                $local->name = $item['addmore'];
-                $local->address = $item['addmore-address'];
-                $local->type = $item['type'];
-                $local->created_at = Carbon::now();
-                $local->updated_at = Carbon::now();
-                $local->save();
+                if (isset($item['id'])) {
+                    $local = Local::where('id', $item['id'])->first();
+                    $local->branch_id = $branch->id;
+                    $local->name = $item['addmore'];
+                    $local->address = $item['addmore-address'];
+                    $local->type = $item['type'];
+                    $local->updated_at = Carbon::now();
+                    $local->save();
+                } else {
+                    $local = new Local();
+                    $local->branch_id = $branch->id;
+                    $local->name = $item['addmore'];
+                    $local->address = $item['addmore-address'];
+                    $local->type = $item['type'];
+                    $local->created_at = Carbon::now();
+                    $local->updated_at = Carbon::now();
+                    $local->save();
+                }
             }
             return json_encode([
                 'result' => true,

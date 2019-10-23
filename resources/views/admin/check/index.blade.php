@@ -7,15 +7,17 @@
     <!-- Default box -->
         <div class="box">
             <div class="box-body">
-                <h2>Danh sách dịch vụ</h2>
+                <h2>Chiến dịch</h2>
                 <table id="list-branchs" class="table">
                     <thead>
                     <tr>
                         <td>STT</td>
-                        <td>Tên dịch vụ</td>
-                        <td>Ghi chú</td>
-                        <td>Trạng thái</td>
-                        <td>Ngày tạo</td>
+                        <td>Tên Campaign</td>
+                        <td>Chi Nhánh</td>
+                        <td>Taget</td>
+                        <td>Time Start</td>
+                        <td>Time End</td>
+                        <td>Trạng Thái</td>
                         <td>Option</td>
                     </tr>
                     </thead>
@@ -68,7 +70,7 @@
             },
 
             ajax: {
-                url: '{!! url('/admin/services/getListData') !!}',
+                url: '{!! url('/admin/campaign/getListData') !!}',
                 data: function (d) {
                 }
             },
@@ -79,7 +81,33 @@
                     }
                 },
                 {data: 'name', name: 'name'},
-                {data: 'descriptions', name: 'descriptions'},
+                {data: 'branch_name', name: 'branch_name'},
+                {data: 'taget', name: 'taget'},
+                // {data: 'cost', name: 'cost'},
+                {data: 'time_start', name: 'time_start'},
+                {data: 'time_end', name: 'time_end'},
+                // {
+                //     data: 'status-type', name: 'status-type', render: function (data, type, row) {
+                //         var css = '';
+                //         var name = '';
+                //         if (data == 1) {
+                //             name = "Run";
+                //             css = "btn-warning";
+                //         } else if (data == 2) {
+                //             css = "btn-primary";
+                //             name = "Pending";
+                //         } else {
+                //             css = "btn-danger";
+                //             name = "Top";
+                //         }
+                //         return '<button type="button" class="btn ' + css + '">' + name + '</button>';
+                //     }
+                // },
+                    {{--{--}}
+                    {{--data: 'id', name: 'id', render: function (data, type, row) {--}}
+                    {{--return '<a href="{{url('admin/campaign/user') .'/'}}' + row.id + '" class="btn btn-info">Chọn nhân viên</a>';--}}
+                    {{--}--}}
+                    {{--},--}}
                 {
                     data: 'status', name: 'status', render: function (data, type, row) {
                         var css = '';
@@ -93,13 +121,13 @@
                             css = "btn-danger";
                             name = "Inactive";
                         }
-                        return '<a href="{{url('admin/services/status') .'/'}}' + row.id + '" class="btn ' + css + '">' + name + '</a>';
+                        return '<a href="{{url('admin/campaign/status') .'/'}}' + row.id + '" class="btn ' + css + '">' + name + '</a>';
                     }
                 },
-                {data: 'created_at', name: 'created_at'},
                 {
                     data: 'id', name: 'id', render: function (data, type, row) {
-                        return '<a href="{{url('admin/services/edit') .'/'}}' + row.id + '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> || <a href="{{url('admin/services/delete') .'/'}}' + row.id + '"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+                        {{--return '<a href="{{url('admin/campaign/delete') .'/'}}' + row.id + '"><i class="fa fa-trash" aria-hidden="true"></i></a>';--}}
+                        return '<a href="{{url('admin/campaign/edit') .'/'}}' + row.id +'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> || <a href="{{url('admin/campaign/delete') .'/'}}' + row.id + '"><i class="fa fa-trash" aria-hidden="true"></i></a>';
                     }
                 },
             ]

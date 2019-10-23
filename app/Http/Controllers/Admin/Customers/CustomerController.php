@@ -121,11 +121,45 @@ class CustomerController extends Controller
         });
         return $datatables->make(true);
     }
+    public function getCheckCareSoft(){
 
+        $today = Carbon::now()->toDateString();
+        $customer = Customer::whereNull('check_care_soft')->get();
+//        $customer = Customer::whereNull('care_soft_log_id')->where('check_care_soft', 0)->get();
+//dd($customer);
+        foreach ($customer as $item) {
+
+            $phone = $item['phone'];
+
+//            $phone = $this->convertPhone($phone);
+            $urlGet = "https://api.caresoft.vn/tmvngocdung/api/v1/contacts?phone=" . $phone;
+            $resultGet = $this->httpCareSoft($urlGet);
+            $careSoft = json_decode($resultGet['data'], true);
+            if (is_null($careSoft['contacts']) || empty($careSoft['contacts'])) {
+                $phone = $item['phone'];
+                if (substr($phone, 0, 2) == '84') {
+                    $phone = substr($phone, 2);
+                }
+                if (substr($phone, 0, 1) != 0) {
+                    $phone = '0' . $phone;
+                }
+                $urlGet = "https://api.caresoft.vn/tmvngocdung/api/v1/contacts?phone=" . $phone;
+                $resultGet = $this->httpCareSoft($urlGet);
+                $careSoft = json_decode($resultGet['data'], true);
+            }
+
+            $customerUpdata = Customer::where('id', $item['id'])->first();
+            if (is_null($careSoft['contacts']) || empty($careSoft['contacts'])) {
+                $customerUpdata->check_care_soft = 1;
+            } else {
+                $customerUpdata->check_care_soft = $careSoft['contacts'][0]['id'];
+            }
+            $customerUpdata->save();
+        }
+        return response()->json(['result' => true]);
+    }
     public function detail($id)
     {
-
-
         $detail = DB::table('customer as c')
             ->select('c.*', 's.name as service_name', 'ca.name as campaign_name', 'e.name as employees_name', 'ca.time_start', 'ca.time_end', 'ca.taget', 'b.name as branch_name', 'a.name as agency_name', 'l.name as local_name')
             ->join('local_user as lu', 'lu.id', '=', 'c.local_user_id')
@@ -515,6 +549,34 @@ class CustomerController extends Controller
         $response['data'] = curl_exec($ci);
 
         curl_close($ci);
+        return $response;
+    }
+
+    public function httpCareSoft($url)
+    {
+        $timeout = 3000;
+        $connectTimeout = 3000;
+        $sslVerifyPeer = false;
+
+        $response = array();
+        $ci = curl_init();
+
+        /* Curl settings */
+        curl_setopt($ci, CURLOPT_CONNECTTIMEOUT, $connectTimeout);
+        curl_setopt($ci, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ci, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ci, CURLOPT_HTTPHEADER, array(
+            "Content-Type: application/json",
+            "Authorization: Bearer 8IQwZ6_shBeMuh0"));
+        curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, $sslVerifyPeer);
+        curl_setopt($ci, CURLOPT_URL, $url);
+
+        $response['http_code'] = curl_getinfo($ci, CURLINFO_HTTP_CODE);
+        $response['api_call'] = $url;
+        $response['data'] = curl_exec($ci);
+
+        curl_close($ci);
+
         return $response;
     }
 }

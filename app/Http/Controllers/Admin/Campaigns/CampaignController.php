@@ -270,7 +270,6 @@ class CampaignController extends Controller
 
     public function postUserCampaign(Request $request)
     {
-//        dd($request);
         $local = LocalCampaign::where('campaign_id', $request->idcampaign)->get();
         foreach ($local as $item) {
             $user = 'local' . $item->id . '_local_user';

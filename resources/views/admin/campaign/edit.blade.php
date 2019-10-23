@@ -21,6 +21,10 @@
                         <input type="text" id="taget" name="taget" value="{{$campaign->taget}}"/>
                     </div>
                     <div class="form-group">
+                        <label for="name">Độ tuổi<span class="text-danger">*</span></label>
+                        <input type="number" id="age" name="age" value="{{$campaign->age}}" required/>
+                    </div>
+                    <div class="form-group">
                         <label for="name">Địa chỉ<span class="text-danger" disabled>*</span></label>
                         <select data-value="status"
                                 name="customer-reason"
@@ -114,14 +118,12 @@
             singleDatePicker: true,
             showDropdowns: true,
             minYear: 1901,
-
         });
         $('input[name="set_end_date"]').daterangepicker({
             dateFormat: 'yyyy-mm-dd',
             singleDatePicker: true,
             showDropdowns: true,
             minYear: 1901,
-
         });
         $('#local-reason').multiselect({
             includeSelectAllOption: true,

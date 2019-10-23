@@ -11,8 +11,10 @@
                 <div id="filter-lead-verified" class="panel mb25 mt5">
                     <div class="panel-heading">
                         <span class="panel-title">Điều kiện lọc</span>
+                        <a href="javascript:void(0)" class="btn btn-danger customer-check-care-soft" role="button"
+                           style="float: right;margin-left: 10px">Check Trùng CareSoft</a>
                         <a href="{!! url('/admin/customer/history') !!}" class="btn btn-warning" role="button"
-                           style="float: right;margin-left: 10px">Lịch sử SMS</a>
+                           style="float: right;margin-left: 10px">Lịch Sử SMS</a>
                         <a href="javascript:void(0)" class="btn btn-info right customer-export" role="button"
                            style="float: right">Export</a>
                         <a href="javascript:void(0)" class="btn btn-success right customer-cs" role="button"
@@ -418,6 +420,22 @@
             var urlCS = "{{url('/admin/customer/careSoft')}}?list=" + arrIds.join();
             window.open(urlCS);
             return false;
+        });
+        $(".customer-check-care-soft").on("click", function () {
+            $.ajax("<?php echo e(url('admin/customer/getCheckCareSoft')); ?>", {
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.result == true) {
+                        alert('Cập nhật thành công');
+                    } else {
+                        alert('Oh No ! Thất bại rồi bạn ơi, liên hệ team code nhé');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Có lỗi xảy ra');
+                }
+            });
         });
     </script>
     <!-- /.content -->
