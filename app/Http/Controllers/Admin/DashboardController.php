@@ -58,7 +58,7 @@ class DashboardController
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $campaign = DB::table('campaign as c')
             ->select('c.*')
-            ->where('c.status', true)
+//            ->where('c.status', true)
             ->get();
 //        dd($campaign);
         $datatables = DataTables::of($campaign);
@@ -67,6 +67,24 @@ class DashboardController
                 ->select('lu.*')
                 ->join('customer as c', 'c.local_user_id', '=', 'lu.id')
                 ->where('lu.campaign_id', $model->id)
+                ->count();
+            return $user;
+        });
+        $datatables->addColumn('caresoft', function ($model) {
+            $user = DB::table('local_user as lu')
+                ->select('lu.*')
+                ->join('customer as c', 'c.local_user_id', '=', 'lu.id')
+                ->where('lu.campaign_id', $model->id)
+                ->whereNotNull('c.ticket_id')
+                ->count();
+            return $user;
+        });
+        $datatables->addColumn('sms', function ($model) {
+            $user = DB::table('local_user as lu')
+                ->select('lu.*')
+                ->join('customer as c', 'c.local_user_id', '=', 'lu.id')
+                ->where('lu.campaign_id', $model->id)
+                ->whereNotNull('c.sms_log_id')
                 ->count();
             return $user;
         });

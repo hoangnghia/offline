@@ -106,6 +106,8 @@
                     <tr>
                         <td>Tên chiến dịch</td>
                         <td>Taget</td>
+                        <td>Care Soft</td>
+                        <td>SMS</td>
                         <td>Ngày bắt đầu</td>
                         <td>Kết thúc</td>
                     </tr>
@@ -186,6 +188,20 @@
                     }
 
                 },
+                {
+                    data: 'taget', name: 'taget', render: function (data, type, row) {
+                        return ' <span">' + row.caresoft + '/' + data + '</span> '
+                    }
+
+                },
+                {
+                    data: 'taget', name: 'taget', render: function (data, type, row) {
+                        return ' <span">' + row.sms + '/' + data + '</span> '
+                    }
+
+                },
+                // {data: 'caresoft', name: 'caresoft'},
+                // {data: 'sms', name: 'sms'},
                 {data: 'time_start', name: 'time_start'},
                 {data: 'time_end', name: 'time_end'},
             ]
