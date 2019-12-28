@@ -548,7 +548,66 @@ class CustomerController extends Controller
             } else {
                 $branchID = 0;
             }
-            $service_text = $item->note;
+            $chinhanh = '';
+            if (!isset($branchID) && $branchID != null) {
+                switch ($branchID) {
+                    case '43':
+                        $chinhanh = 'Biên Hòa';
+                        break;
+                    case '40':
+                        $chinhanh = 'Vũng Tàu';
+                        break;
+                    case '38':
+                        $chinhanh = 'Cần Thơ';
+                        break;
+                    case '41':
+                        $chinhanh = 'Nha Trang';
+                        break;
+                    case '42':
+                        $chinhanh = 'Đà Nẵng';
+                        break;
+                    case '36':
+                        $chinhanh = 'Hà Nội';
+                        break;
+                    case '37':
+                        $chinhanh = 'Hải Phòng';
+                        break;
+                    case '35':
+                        $chinhanh = 'Buôn Ma Thuột';
+                        break;
+                    case '':
+                        $chinhanh = 'Bình Dương';
+                        break;
+                    case '44':
+                        $chinhanh = 'Phan Thiết';
+                        break;
+                    case '45':
+                        $chinhanh = 'Quảng Ninh';
+                        break;
+                    case '46':
+                        $chinhanh = 'Vinh';
+                        break;
+                    case '1':
+                        $chinhanh = 'Hồ Chí Minh 3/2';
+                        break;
+                    case '51':
+                        $chinhanh = 'Trần Hưng Đạo';
+                        break;
+                    case '52':
+                        $chinhanh = 'Đinh Tiên Hoàng';
+                        break;
+                    case '54':
+                        $chinhanh = 'Nguyễn Thị Minh Khai';
+                        break;
+                    case '55':
+                        $chinhanh = 'Nguyễn Thị Thập';
+                        break;
+                    case '53':
+                        $chinhanh = 'Hà Nội Trần Duy Hưng';
+                        break;
+                }
+            }
+            $service_text = "Dịch vụ :" . $item->service_name . " - Chi nhánh :" . $chinhanh . "- Nội Dung: " . $item->note;
             $jobcode = "API";
             $platform = "offline";
             $tokenList = "CRM2019" . $FullName . $phone . $FK_CampaignID . $time;
