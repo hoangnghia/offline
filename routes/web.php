@@ -150,6 +150,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
 //            Route::get('customer/sms', 'Customers\CustomerController@smsCreate')->name('customer.sms');
             Route::POST('customer/careSoftSent', 'Customers\CustomerController@careSoftSent')->name('customer.careSoftSent');
             Route::get('customer/getCheckCareSoft', 'Customers\CustomerController@getCheckCareSoft')->name('customer.getCheckCareSoft');
+
+            Route::get('customer/crm', 'Customers\CustomerController@crm')->name('customer.crm');
+            Route::POST('customer/crmSent', 'Customers\CustomerController@crmSent')->name('customer.crmtSent');
+
         });
     });
 });

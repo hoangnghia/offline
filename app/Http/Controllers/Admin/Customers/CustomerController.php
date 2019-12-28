@@ -7,6 +7,7 @@ use App\Shop\Branchs\Branch;
 use App\Shop\Campaigns\Campaign;
 use App\Shop\CareSoft\TicketCareSoftLog;
 use App\Shop\Customer\Customer;
+use App\Shop\Customer\CustomerCRM;
 use App\Shop\Customers\Transformations\CustomerTransformable;
 use App\Http\Controllers\Controller;
 use App\Shop\Employees\Employee;
@@ -121,7 +122,9 @@ class CustomerController extends Controller
         });
         return $datatables->make(true);
     }
-    public function getCheckCareSoft(){
+
+    public function getCheckCareSoft()
+    {
 
         $today = Carbon::now()->toDateString();
         $customer = Customer::whereNull('check_care_soft')->get();
@@ -158,6 +161,7 @@ class CustomerController extends Controller
         }
         return response()->json(['result' => true]);
     }
+
     public function detail($id)
     {
         $detail = DB::table('customer as c')
@@ -426,6 +430,23 @@ class CustomerController extends Controller
         return view('admin.caresoft.add', (['data' => $data, 'branch' => $branch]));
     }
 
+    public function crm(Request $request)
+    {
+        $list = explode(",", $request['list']);
+        $branch = Branch::all();
+
+        $data = DB::table('customer as c')
+            ->select('c.name', 'c.phone', 'c.id', 's.name as service_name')
+            ->join('services as s', 's.id', '=', 'c.service')
+            ->where(function ($query) use ($list) {
+                if (!is_null($list)) {
+                    $query->whereIn('c.id', $list);
+                }
+            })
+            ->get();
+        return view('admin.caresoft.crm', (['data' => $data, 'branch' => $branch]));
+    }
+
     public function careSoftSent(Request $request)
     {
 //dd($request);
@@ -486,6 +507,89 @@ class CustomerController extends Controller
                 $updata->care_soft_log_id = $ticketLog->id;
                 $updata->updated_at = Carbon::now();
                 $updata->save();
+            }
+        }
+        request()->session()->flash('message', 'Thêm thành công ' . $i . ' phiếu ghi !!!');
+        return redirect('admin/customer/index/');
+    }
+
+    public function crmSent(Request $request)
+    {
+        $list = $request->customer_id;
+        $data = DB::table('customer as c')
+            ->select('c.name', 'c.phone', 'c.id', 's.name as service_name', 'c.note')
+            ->join('services as s', 's.id', '=', 'c.service')
+            ->where(function ($query) use ($list) {
+                if (!is_null($list)) {
+                    $query->whereIn('c.id', $list);
+                }
+            })
+            ->get();
+        $i = 0;
+        foreach ($data as $item) {
+
+            $FullName = $item->name;
+            if (isset($item->phone)) {
+                $phone = $item->phone;
+            } else {
+                request()->session()->flash('message', 'Thêm thành công ' . $i . ' phiếu ghi !!!');
+                return redirect('admin/customer/index/');
+            }
+            $FK_CampaignID = 0;
+            $time = strtotime(Carbon::now());
+            $address = "";
+            if (isset($request->vung_mien)) {
+                $areaID = $request->vung_mien;
+            } else {
+                $areaID = 0;
+            }
+            if (isset($request->chi_nhanh)) {
+                $branchID = $request->chi_nhanh;
+            } else {
+                $branchID = 0;
+            }
+            $service_text = $item->note;
+            $jobcode = "API";
+            $platform = "offline";
+            $tokenList = "CRM2019" . $FullName . $phone . $FK_CampaignID . $time;
+            $token = hash('sha256', $tokenList);
+            $urlSend = "https://apicrm.ngocdunggroup.com/api/v1/SC/Social/AddLead";
+            $str_data = '{ "FK_CampaignID": "' . $FK_CampaignID . '", "Phone": "' . $phone . '", "FullName": "' . $FullName . '", "Address": "' . $address . '", "timestamp": "' . $time . '", "token": "' . $token . '", "platform": "api","AreaID":"' . $areaID . '","BranchID":"' . $branchID . '","Service_text":"' . $service_text . '","JobCode":"' . $jobcode . '","platform":"' . $platform . '"}';
+            $result = $this->sendPostDataCRM($urlSend, $str_data);
+            $result = json_decode($result, true);
+            if ($result['status'] == 200) {
+                $result_api = json_decode($result['Result'], true);
+                $list = new CustomerCRM();
+                $list->ho_ten = $FullName;
+                $list->phone = $phone;
+                $list->dich_vu = $service_text;
+                $list->vung_mien = $areaID;
+                $list->chi_nhanh = $branchID;
+                $list->ticket_id = $result_api['TicketId'];
+                $list->lead_id = $result_api['LeadId'];
+                $list->is_exist_ticket = $result_api['isExistTicket'];
+                $list->is_exist_lead = $result_api['isExistLead'];
+                $list->is_map_to_customer = $result_api['isMapToCustomer'];
+                if ($result_api['isExistTicket'] == true) {
+                    $list->status = 15;
+                }
+                $list->type = 2;
+                $list->campain_id = $FK_CampaignID;
+                $list->type_source = 1;
+                $list->object = $str_data;
+                $list->created_at = Carbon::now();
+                $list->updated_at = Carbon::now();
+                $list->save();
+
+                $updata = Customer::where('id', $item->id)->first();
+                $updata->ticket_crm_id = $result_api['TicketId'];
+                $updata->lead_id = $result_api['LeadId'];
+                $updata->is_exist_ticket = $result_api['isExistTicket'];
+                $updata->is_exist_lead = $result_api['isExistLead'];
+                $updata->updated_at = Carbon::now();
+                $updata->save();
+                request()->session()->flash('message', 'Thêm thành công ' . $i . ' phiếu ghi !!!');
+                return redirect('admin/customer/index/');
             }
         }
         request()->session()->flash('message', 'Thêm thành công ' . $i . ' phiếu ghi !!!');
@@ -578,5 +682,28 @@ class CustomerController extends Controller
         curl_close($ci);
 
         return $response;
+    }
+
+    protected function sendPostDataCRM($url, $post)
+    {
+        $timeout = 30;
+        $connectTimeout = 30;
+        $sslVerifyPeer = false;
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $connectTimeout);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            "Content-Type: application/json",));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $sslVerifyPeer);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
     }
 }

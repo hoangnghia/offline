@@ -10,32 +10,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Cashier\Billable;
 use Nicolaslopezj\Searchable\SearchableTrait;
 
-class Customer extends Authenticatable
+class CustomerCRM extends Authenticatable
 {
 
 
     use Notifiable;
-    protected $table = 'customer';
+    protected $table = 'oad_customer_validate';
     protected $fillable = [
-        'name',
-        'phone',
-        'birthday',
-        'email',
-        'service',
-        'note',
-        'parent_id',
-        'sms_log_id',
-        'status',
-        'local_user_id',
-        'ticket_id',
-        'care_soft_log_id',
-        'created_at',
-        'updated_at',
-        'check_care_soft',
-        'ticket_crm_id',
-        'lead_id',
-        'is_exist_ticket',
-        'is_exist_lead'
+        'ho_ten', 'phone', 'dich_vu', 'nguon_phieu','vung_mien','chi_nhanh','user_id','user_care','ticket_id','chi_tiet_nguon','type','campain_id','status','created_at','updated_at','status_validate','title','type_source','lead_id','is_exist_ticket','is_exist_lead','is_map_to_customer','object'
     ];
 
     /**
