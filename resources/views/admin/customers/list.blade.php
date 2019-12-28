@@ -19,6 +19,8 @@
                            style="float: right">Export</a>
                         <a href="javascript:void(0)" class="btn btn-success right customer-cs" role="button"
                            style="float: right;margin-right: 10px">Gửi CareSoft</a>
+                        <a href="javascript:void(0)" class="btn btn-success right customer-crm" role="button"
+                           style="float: right;margin-right: 10px">Gửi CRM</a>
                         <a href="javascript:void(0)" class="btn btn-success right customer-sms" role="button"
                            style="float: right;margin-right: 10px">Gửi SMS</a>
                     </div>
@@ -418,6 +420,22 @@
                 return false;
             }
             var urlCS = "{{url('/admin/customer/careSoft')}}?list=" + arrIds.join();
+            window.open(urlCS);
+            return false;
+        });
+        $(".customer-crm").on("click", function () {
+            var arrIds = []
+            var checkboxes = document.querySelectorAll('#list-customer input[type=checkbox]:checked')
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].value == 'on')
+                    continue;
+                arrIds.push(checkboxes[i].value)
+            }
+            if (arrIds.length == 0) {
+                alert('Oh ! Không có phiếu ghi nào được chọn, bạn hay chọn it nhất 1 phiếu nhé !');
+                return false;
+            }
+            var urlCS = "{{url('/admin/customer/crm')}}?list=" + arrIds.join();
             window.open(urlCS);
             return false;
         });
