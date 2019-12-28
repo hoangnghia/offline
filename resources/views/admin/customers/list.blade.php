@@ -143,6 +143,7 @@
                         <th>Ngày tạo</th>
                         <th>SMS</th>
                         <th>CareSoft</th>
+                        <th>CRM</th>
                         <th>Tình Trạng</th>
                         <th>Option</th>
                     </tr>
@@ -328,6 +329,20 @@
                         }
                         // return '<p class="' + css + '">' + name + '</p>';
                         // return '<a href="//web11.caresoft.vn/tmvngocdung#/index?type=ticket&amp;id=' + row.ticket_id + '" class="' + css + '">' + name + '</a>';
+                    }
+                },
+                {
+                    data: 'ticket_crm_id', name: 'ticket_crm_id', render: function (data, type, row) {
+                        var css = '';
+                        var name = '';
+                        if (data != null) {
+                            css = "sent";
+                            name = "Đã gửi";
+                        } else {
+                            css = "not-sent";
+                            name = "Chưa gửi";
+                        }
+                        return '<p class="' + css + '">' + name + '</p>';
                     }
                 },
                 {
