@@ -588,6 +588,7 @@ class CustomerController extends Controller
                 $updata->is_exist_lead = $result_api['isExistLead'];
                 $updata->updated_at = Carbon::now();
                 $updata->save();
+                $i++;
             }
         }
         request()->session()->flash('message', 'Thêm thành công ' . $i . ' phiếu ghi !!!');
