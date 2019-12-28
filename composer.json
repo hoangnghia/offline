@@ -24,6 +24,7 @@
         "laravel/laravel": "~5.6",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "~5.6",
+        "maatwebsite/excel": "^3.1",
         "nicolaslopezj/searchable": "^1.10",
         "paypal/rest-api-sdk-php": "*",
         "santigarcor/laratrust": "5.0.*",
