@@ -575,7 +575,7 @@ class CustomerController extends Controller
                     case '35':
                         $chinhanh = 'Buôn Ma Thuột';
                         break;
-                    case '':
+                    case '39':
                         $chinhanh = 'Bình Dương';
                         break;
                     case '44':
