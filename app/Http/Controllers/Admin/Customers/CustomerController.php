@@ -549,7 +549,7 @@ class CustomerController extends Controller
                 $branchID = 0;
             }
             $chinhanh = '';
-            if (!isset($branchID) && $branchID != null) {
+            if (isset($branchID)) {
                 switch ($branchID) {
                     case '43':
                         $chinhanh = 'Biên Hòa';
