@@ -744,8 +744,8 @@ class CustomerController extends Controller
 
     protected function sendPostDataCRM($url, $post)
     {
-        $timeout = 30;
-        $connectTimeout = 30;
+        $timeout = 300;
+        $connectTimeout = 300;
         $sslVerifyPeer = false;
 
         $ch = curl_init();
