@@ -249,6 +249,7 @@
             }
         }, cbex);
         var oTableCustomer = $('#list-customer').DataTable({
+            "lengthMenu": [[100, 500, 1000, 2000], [100, 500, 1000, 2000]],
             processing: true,
             serverSide: true,
             'columnDefs': [{
