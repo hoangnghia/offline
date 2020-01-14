@@ -31,6 +31,18 @@
                         <i class="fa fa-list-alt" aria-hidden="true"></i> <span>Danh sách khách hàng</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="{{ route('admin.dashboard.offline') }}">
+                        <i class="fa fa-list-alt" aria-hidden="true"></i> <span>Danh sách khách hàng CSKH</span>
+                    </a>
+                </li>
+            @endif
+            @if($user->hasRole('ccs'))
+                <li class="treeview">
+                    <a href="{{ route('admin.dashboard.cskh') }}">
+                        <i class="fa fa-list-alt" aria-hidden="true"></i> <span>Danh sách khách hàng CSKH</span>
+                    </a>
+                </li>
             @endif
             @if($user->hasRole('admin|superadmin'))
                 {{--<li class="treeview">--}}

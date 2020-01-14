@@ -129,7 +129,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
 ////            Route::get('customer/sms', 'Customers\CustomerController@smsCreate')->name('customer.sms');
 //            Route::POST('customer/careSoftSent', 'Customers\CustomerController@careSoftSent')->name('customer.careSoftSent');
         });
-        Route::group(['middleware' => ['role:admin|superadmin|offline, guard:employee']], function () {
+        Route::group(['middleware' => ['role:admin|superadmin|offline|ccs, guard:employee']], function () {
             Route::get('/', 'DashboardController@index')->name('dashboard');
             Route::get('getListDatCampaign', 'DashboardController@getListDatCampaign')->name('admin.getListDatCampaign');
             Route::get('getListDataUser', 'DashboardController@getListDataUser')->name('admin.getListDataUser');
@@ -150,10 +150,20 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
 //            Route::get('customer/sms', 'Customers\CustomerController@smsCreate')->name('customer.sms');
             Route::POST('customer/careSoftSent', 'Customers\CustomerController@careSoftSent')->name('customer.careSoftSent');
             Route::get('customer/getCheckCareSoft', 'Customers\CustomerController@getCheckCareSoft')->name('customer.getCheckCareSoft');
-
             Route::get('customer/crm', 'Customers\CustomerController@crm')->name('customer.crm');
             Route::POST('customer/crmSent', 'Customers\CustomerController@crmSent')->name('customer.crmtSent');
-
+        });
+        // Team CCS
+        Route::group(['middleware' => ['role:admin|ccs, guard:employee']], function () {
+            Route::get('/offline', 'DashboardController@indexOffline')->name('dashboard.offline');
+            Route::get('/cskh', 'DashboardController@indexCCS')->name('dashboard.cskh');
+            Route::get('/lead/cskh', 'DashboardController@indexCCS')->name('dashboard');
+            Route::GET('customer/getListDataIntroduce', 'DashboardController@getListDataIntroduce')->name('customer.getListDataIntroduce');
+            Route::GET('customer/getListDataIntroduceOffline', 'DashboardController@getListDataIntroduceOffline')->name('customer.getListDataIntroduceOffline');
+            Route::POST('customer/postListIntroduce', 'DashboardController@postListIntroduce')->name('customer.postListIntroduce');
+            Route::get('cskh/crm', 'DashboardController@crm')->name('cskh.crm');
+            Route::POST('cskh/crmSent', 'DashboardController@crmSent')->name('cskh.crmtSent');
+            Route::get('cskh/delete/{id}', 'DashboardController@delete')->name('customer.delete');
         });
     });
 });
