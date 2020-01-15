@@ -662,7 +662,6 @@ class DashboardController
             $token = hash('sha256', $tokenList);
             $urlSend = "https://apicrm.ngocdunggroup.com/api/v1/SC/Social/AddLead";
             $str_data = '{ "FK_CampaignID": "' . $FK_CampaignID . '", "Phone": "' . $phone . '", "FullName": "' . $FullName . '", "Address": "' . $address . '", "timestamp": "' . $time . '", "token": "' . $token . '","AreaID":"' . $areaID . '","BranchID":"' . $branchID . '","Service_text":"' . $service_text . '","JobCode":"' . $jobcode . '","platform":"' . $platform . '"}';
-            dd($str_data);
             $result = $this->sendPostDataCRM($urlSend, $str_data);
             $result = json_decode($result, true);
             if ($result['status'] == 200) {
