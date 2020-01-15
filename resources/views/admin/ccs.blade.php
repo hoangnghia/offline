@@ -17,6 +17,22 @@
                               id="import-form">
                             {{ csrf_field() }}
                             <div class="form-group row">
+                                <label class="control-label col-sm-2" for="pwd">Tên khách hàng:<b
+                                            style="color: red">(*)</b></label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="name" placeholder="Họ tên" name="name"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="control-label col-sm-2" for="pwd">SĐT khách hàng:<b
+                                            style="color: red">(*)</b></label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control change-phone" id="phone" placeholder="Số điện thoại "
+                                           name="phone" value="" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label class="control-label col-sm-2" for="pwd">Chi nhánh:<b style="color: red">(*)</b></label>
                                 <div class="col-sm-10">
                                     <input list="brow" class="form-control" name="branch" required>
@@ -59,22 +75,6 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="control-label col-sm-2" for="pwd">Tên khách hàng:<b
-                                            style="color: red">(*)</b></label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="name" placeholder="Họ tên" name="name"
-                                           required>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="control-label col-sm-2" for="pwd">SĐT khách hàng:<b
-                                            style="color: red">(*)</b></label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="phone" placeholder="Số điện thoại "
-                                           name="phone" required>
-                                </div>
-                            </div>
-                            <div class="form-group row">
                                 <label class="control-label col-sm-2" for="pwd">Năm sinh:</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="birthday" placeholder="Năm sinh "
@@ -84,7 +84,7 @@
                             <div class="form-group row">
                                 <label class="control-label col-sm-2" for="pwd">Nội dung:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="note" placeholder="Nộ dung "
+                                    <input type="text" class="form-control" id="note" placeholder="Nội dung "
                                            name="note">
                                 </div>
                             </div>
@@ -131,7 +131,7 @@
                                             <div class="section mb10" id="date-sent-field">
                                                 <label style="width: 100%" for="customer-phone"
                                                        class="field prepend-icon">
-                                                    <input style="width: 100%"
+                                                    <input  style="width: 100%"
                                                            value=""
                                                            type="number"
                                                            name="phone" id="customer-phone"
@@ -274,6 +274,26 @@
         $('.change-filter-room-id').change(function (e) {
             oTableCustomer.draw(true);
         });
+        $('.change-phone').change(function (e) {
+            var phonenumber = $('#phone').val();
+            $.ajax({
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': ' {{csrf_token()}}'
+                },
+                dataType: 'json',
+                url: '{{url('/admin/cskh/crmCheck')}}',
+                data: {
+                    'phone' : phonenumber
+                },
+            }).done(function (response) {
+                if (response.result) {
+                    alert(response.msg);
+                } else {
+                    alert('WTF!!! Có lỗi trong quá trình, liên hệ IT ngay nhé.');
+                }
+            });
+        });
         cbex = moment().subtract(18, 'days'), moment();
         var oTableCustomer = $('#list-customer').DataTable({
             "lengthMenu": [[100, 500, 1000, 2000], [100, 500, 1000, 2000]],
@@ -352,6 +372,8 @@
                 },
             ]
         });
+
+
     </script>
     <!-- /.content -->
 @endsection

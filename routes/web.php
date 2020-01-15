@@ -164,6 +164,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::get('cskh/crm', 'DashboardController@crm')->name('cskh.crm');
             Route::POST('cskh/crmSent', 'DashboardController@crmSent')->name('cskh.crmtSent');
             Route::get('cskh/delete/{id}', 'DashboardController@delete')->name('customer.delete');
+            Route::post('cskh/crmCheck', 'DashboardController@crmCheck')->name('cskh.crmCheck');
         });
     });
 });

@@ -727,4 +727,34 @@ class DashboardController
         return redirect('admin/cskh');
     }
 
+    public function crmCheck(Request $request)
+    {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        if (isset($request->phone)) {
+            $phone = $this->convertPhone($request->phone);
+            $url = 'http://api.ngocdunggroup.com/api/v1/Customers/checkphone?apiKey=M6d6RjYyhrBnUzg6HXnw3VJ&phone=' . $phone . '';
+            $checkMoon = $this->httpFB(strip_tags($url));
+            $moon = json_decode($checkMoon['data'], true);
+//            dd($moon['Data'][0]['CustomerName']);
+//            $msg = "Khách hàng : " . $moon['Data'][0]['CustomerName'] . "Note : " . $moon['Data'][0]['Notes'];
+            if (isset($moon['Data'][0]['CustomerName'])){
+                $msg = "Khách hàng : " . $moon['Data'][0]['CustomerName'] . ". Đã tồn tại trên Moon";
+            }else{
+                $msg = "Chưa có trên Moon";
+            }
+            return json_encode([
+                'result' => true,
+                'message' => 'Cập nhật thành công',
+                'msg' => $msg,
+            ]);
+        }
+        $msg = "Khách hàng không tồn tại trên Moon";
+        return json_encode([
+            'result' => true,
+            'message' => 'Cập nhật thành công',
+            'msg' => $msg,
+        ]);
+
+
+    }
 }
