@@ -17,7 +17,7 @@
                               id="import-form">
                             {{ csrf_field() }}
                             <div class="form-group row">
-                                <label class="control-label col-sm-2" for="pwd">Tên khách hàng:<b
+                                <label class="control-label col-sm-2" for="pwd">Tên Lead:<b
                                             style="color: red">(*)</b></label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="name" placeholder="Họ tên" name="name"
@@ -25,7 +25,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="control-label col-sm-2" for="pwd">SĐT khách hàng:<b
+                                <label class="control-label col-sm-2" for="pwd">SĐT Lead:<b
                                             style="color: red">(*)</b></label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control change-phone" id="phone" placeholder="Số điện thoại "
@@ -180,8 +180,8 @@
                         <th>Chi nhánh</th>
                         <th>Tên người giới thiệu</th>
                         <th>SĐT Người giới thiệu</th>
-                        <th>Tên KH Mới</th>
-                        <th>SĐT KH Mới</th>
+                        <th>Tên Lead</th>
+                        <th>SĐT Lead</th>
                         <th>Năm sinh</th>
                         <th>Nội Dung</th>
                         <th>NV CSKH</th>
