@@ -629,7 +629,7 @@ class DashboardController
     {
         $list = $request->customer_id;
         $data = DB::table('customer_introduce as c')
-            ->select('c.name', 'c.phone', 'c.id', 'c.note', 'c.branch')
+            ->select('c.name', 'c.phone', 'c.id', 'c.note', 'c.branch', 'c.phone_introduce', 'c.name_introduce', 'c.birthday')
             ->where(function ($query) use ($list) {
                 if (!is_null($list)) {
                     $query->whereIn('c.id', $list);
@@ -638,7 +638,6 @@ class DashboardController
             ->get();
         $i = 0;
         foreach ($data as $item) {
-
             $FullName = $item->name;
             if (isset($item->phone)) {
                 $phone = $item->phone;
@@ -650,20 +649,20 @@ class DashboardController
             $time = strtotime(Carbon::now());
             $address = "";
             $areaID = 0;
-            if (isset($request->chi_nhanh)) {
-                $branchID = $request->chi_nhanh;
+            if (isset($item->branch)) {
+                $branchID = $item->branch;
             } else {
                 $branchID = 0;
             }
             $chinhanh = $item->branch;
-            $service_text = "Dịch vụ :" . $item->note . " - Chi nhánh :" . $chinhanh . "- Nội Dung: " . $item->note;
+            $service_text = "Người giới thiệu :" . $item->name_introduce . " - SĐT người giới thiệu :" . $item->phone_introduce . " - Chi nhánh :" . $chinhanh . "- Nội Dung: " . $item->note . " - Tuổi : " . $item->birthday;
             $jobcode = "LEAD_CCS_OFFLINE";
             $platform = "offline";
             $tokenList = "CRM2019" . $FullName . $phone . $FK_CampaignID . $time;
             $token = hash('sha256', $tokenList);
             $urlSend = "https://apicrm.ngocdunggroup.com/api/v1/SC/Social/AddLead";
             $str_data = '{ "FK_CampaignID": "' . $FK_CampaignID . '", "Phone": "' . $phone . '", "FullName": "' . $FullName . '", "Address": "' . $address . '", "timestamp": "' . $time . '", "token": "' . $token . '","AreaID":"' . $areaID . '","BranchID":"' . $branchID . '","Service_text":"' . $service_text . '","JobCode":"' . $jobcode . '","platform":"' . $platform . '"}';
-//            dd($str_data);
+            dd($str_data);
             $result = $this->sendPostDataCRM($urlSend, $str_data);
             $result = json_decode($result, true);
             if ($result['status'] == 200) {
@@ -674,6 +673,7 @@ class DashboardController
                 $updata->lead_id = $result_api['LeadId'];
                 $updata->is_exist_ticket = $result_api['isExistTicket'];
                 $updata->is_exist_lead = $result_api['isExistLead'];
+                $updata->Job_code = $str_data;
                 $updata->updated_at = Carbon::now();
                 if ($result_api['isExistTicket'] == true) {
                     $updata->status = 15;
@@ -737,9 +737,9 @@ class DashboardController
             $moon = json_decode($checkMoon['data'], true);
 //            dd($moon['Data'][0]['CustomerName']);
 //            $msg = "Khách hàng : " . $moon['Data'][0]['CustomerName'] . "Note : " . $moon['Data'][0]['Notes'];
-            if (isset($moon['Data'][0]['CustomerName'])){
+            if (isset($moon['Data'][0]['CustomerName'])) {
                 $msg = "Khách hàng : " . $moon['Data'][0]['CustomerName'] . ". Đã tồn tại trên Moon";
-            }else{
+            } else {
                 $msg = "Chưa có trên Moon";
             }
             return json_encode([
