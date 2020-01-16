@@ -183,10 +183,26 @@ class DashboardController
         if (!is_null($datatables->request->get('user_cskh_filter')) && $datatables->request->get('user_cskh_filter') != "") {
             $customer->where('c.care_ccs', $datatables->request->get('user_cskh_filter'));
         }
+//        $datatables->addColumn('cskh_name', function ($model) {
+//            if (!is_null($model->care_ccs)) {
+//                $user = Employee::where('id', $model->care_ccs)->first();
+//                return $user->name;
+//            }
+//            return '(Not set)';
+//        });
         $datatables->addColumn('cskh_name', function ($model) {
             if (!is_null($model->care_ccs)) {
-                $user = Employee::where('id', $model->care_ccs)->first();
-                return $user->name;
+//                $user = Employee::where('id', $model->care_ccs)->first();
+//                return $user->name;
+                $name = "Chưa chọn";
+                foreach (CustomerIntroduce::USER_TEXT as $key => $value) {
+                    if ($model->care_ccs == $key) {
+                        $name = $value;
+                    } elseif ($model->care_ccs == 207) {
+                        $name = "Team CCS";
+                    }
+                }
+                return $name;
             }
             return '(Not set)';
         });
