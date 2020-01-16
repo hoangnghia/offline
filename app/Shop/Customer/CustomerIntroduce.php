@@ -9,10 +9,49 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class CustomerIntroduce extends Authenticatable
 {
-
-
     use Notifiable;
     protected $table = 'customer_introduce';
+
+
+    const NGO_THI_THUY_TRANG = 1;
+    const DUONG_THI_HONG_DIEP = 2;
+    const HOANG_LE_QUYEN = 3;
+    const LE_THI_TUYET_NGA = 4;
+    const HUYNH_THI_NGOC_DIEM = 5;
+    const LE_VAN_THAO = 6;
+    const PHI_TRONG_KHANH = 7;
+    const TO_THI_CAM_HUONG = 8;
+    const NGUYEN_THI_NHU_HUYNH = 9;
+    const LE_THI_THUY = 10;
+    const DO_THI_HUONG = 11;
+    const MLO_HLIEU = 12;
+    const TRUONG_MY_HIEP = 13;
+    const LY_THI_HOA = 14;
+    const NGUYENX_THI_HONG_LY = 15;
+    const PHAM_THUY_DUONG = 16;
+    const NGUYEN_LE_THANH_TRUC = 17;
+
+
+    const USER_TEXT = [
+        self::NGO_THI_THUY_TRANG => 'Ngô Thị Thùy Trang',
+        self::DUONG_THI_HONG_DIEP => 'Dương Thị Hồng Điệp',
+        self::HOANG_LE_QUYEN => 'Hoàng Lệ Quyên',
+        self::LE_THI_TUYET_NGA => 'Lê Thị Tuyết Ngân',
+        self::HUYNH_THI_NGOC_DIEM => 'Huynh Thị Ngọc Diễm',
+        self::LE_VAN_THAO => 'Lê Vân Thảo',
+        self::PHI_TRONG_KHANH => 'Phí  Trọng Khánh',
+        self::TO_THI_CAM_HUONG => 'Tô Thị Cẩm Hương',
+        self::NGUYEN_THI_NHU_HUYNH => 'Nguyễn Thị Như Huỳnh',
+        self::LE_THI_THUY => 'Lê Thị Thủy',
+        self::DO_THI_HUONG => 'Đỗ Thị Hương',
+        self::MLO_HLIEU => 'MLÔ HLiêu',
+        self::TRUONG_MY_HIEP => 'Trương Mỹ Hiệp',
+        self::LY_THI_HOA => 'Lý Thị Hoa',
+        self::NGUYENX_THI_HONG_LY => 'Nguyễn Thị Hồng Ly',
+        self::PHAM_THUY_DUONG => 'Phạm Thùy Dương',
+        self::NGUYEN_LE_THANH_TRUC => 'Nguyễn Lê Thanh Trúc',
+    ];
+
     protected $fillable = [
         'name',
         'phone',

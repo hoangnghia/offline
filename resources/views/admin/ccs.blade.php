@@ -28,7 +28,8 @@
                                 <label class="control-label col-sm-2" for="pwd">SĐT Lead:<b
                                             style="color: red">(*)</b></label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control change-phone" id="phone" placeholder="Số điện thoại "
+                                    <input type="text" class="form-control change-phone" id="phone"
+                                           placeholder="Số điện thoại "
                                            name="phone" value="" required>
                                 </div>
                             </div>
@@ -63,7 +64,7 @@
                                             style="color: red">(*)</b></label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="name-introduce" placeholder="Họ tên "
-                                           name="name_introduce" required>
+                                           name="name_introduce" required value="{{ session()->get('name') }}">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -71,22 +72,60 @@
                                             style="color: red">(*)</b></label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="phone-introduce"
-                                           placeholder="Số điện thoại " name="phone_introduce" required>
+                                           placeholder="Số điện thoại " name="phone_introduce" required value="{{ session()->get('phone') }}">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="control-label col-sm-2" for="pwd">Năm sinh:</label>
+                                {{--<div class="col-sm-10">--}}
+                                {{--<input type="text" class="form-control" id="birthday" placeholder="Năm sinh "--}}
+                                {{--name="birthday">--}}
+                                {{--</div>--}}
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="birthday" placeholder="Năm sinh "
-                                           name="birthday">
+                                    <input list="brow_birthday" class="form-control" name="birthday">
+                                    <datalist id="brow_birthday">
+                                        <option value="Khác"></option>
+                                        <option value="> 28">
+                                        <option value="< 28">
+                                    </datalist>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="control-label col-sm-2" for="pwd">Nội dung:</label>
+                                {{--<div class="col-sm-10">--}}
+                                {{--<input type="text" class="form-control" id="note" placeholder="Nội dung "--}}
+                                {{--name="note">--}}
+                                {{--</div>--}}
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="note" placeholder="Nội dung "
-                                           name="note">
+                                    <input list="brow_dv" class="form-control" name="note">
+                                    <datalist id="brow_dv">
+                                        <option value="Laser Mặt"></option>
+                                        <option value="Làm Ốm">
+                                        <option value="Laser TQM">
+                                        <option value="Laser Môi Thâm">
+                                        <option value="Chưa Chọn Dịch Vụ">
+                                    </datalist>
                                 </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="control-label col-sm-2" for="pwd">Nhân viên:<b
+                                            style="color: red">(*)</b></label>
+                                <div class="col-sm-10">
+                                    <select name="user_cskh" class="form-control" id="user_cskh"
+                                            style="background-color: transparent !important;  border-color: #d2d6de; color: black !important;"
+                                            required>
+                                        <option>Chọn nhân viên</option>
+                                        @foreach(\App\Shop\Customer\CustomerIntroduce::USER_TEXT as $key => $value)
+                                            <option value="{{ $key }}">{{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                {{--<input list="brow_user" class="form-control" name="branch" required>--}}
+                                {{--<datalist id="brow_user">--}}
+                                {{--@foreach(\App\Shop\Customer\CustomerIntroduce::USER_TEXT as $key => $value)--}}
+                                {{--<option value="{{ $key }}">{{ $value }}</option>--}}
+                                {{--@endforeach--}}
+                                {{--</datalist>--}}
                             </div>
                             <div style="text-align: center">
                                 <button class="btn btn-success" type="submit">Thêm mới</button>
@@ -123,7 +162,7 @@
                                                            type="text"
                                                            name="name" id="customer-name"
                                                            class="form-control change-filter-room-id gui-input"
-                                                           placeholder="Họ tên khách hàng">
+                                                           placeholder="Họ tên Lead">
                                                 </label>
                                             </div>
                                         </div>
@@ -131,12 +170,12 @@
                                             <div class="section mb10" id="date-sent-field">
                                                 <label style="width: 100%" for="customer-phone"
                                                        class="field prepend-icon">
-                                                    <input  style="width: 100%"
+                                                    <input style="width: 100%"
                                                            value=""
                                                            type="number"
                                                            name="phone" id="customer-phone"
                                                            class="form-control change-filter-room-id gui-input"
-                                                           placeholder="Số điện thoại KH">
+                                                           placeholder="SĐT Lead">
                                                 </label>
                                             </div>
                                         </div>
@@ -153,12 +192,25 @@
                                                 </label>
                                             </div>
                                         </div>
+                                        <div class="col-md-2">
+                                            <div class="section mb10" id="date-sent-field">
+                                                <label style="width: 100%" for="introduce-phone"
+                                                       class="field prepend-icon">
+                                                        <select class="form-control change-filter-room-id" id="filter_user_cskh">
+                                                        <option value="">Chọn nhân viên</option>
+                                                        @foreach(\App\Shop\Customer\CustomerIntroduce::USER_TEXT as $key => $value)
+                                                            <option value="{{ $key }}">{{ $value }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </label>
+                                            </div>
+                                        </div>
                                         {{--<div class="col-md-2">--}}
-                                            {{--<select class="form-control change-filter-room-id" id="status-sms">--}}
-                                                {{--<option value="">KH gửi SMS</option>--}}
-                                                {{--<option value="1">Gửi SMS</option>--}}
-                                                {{--<option value="2">Chưa gửi SMS</option>--}}
-                                            {{--</select>--}}
+                                        {{--<select class="form-control change-filter-room-id" id="status-sms">--}}
+                                        {{--<option value="">KH gửi SMS</option>--}}
+                                        {{--<option value="1">Gửi SMS</option>--}}
+                                        {{--<option value="2">Chưa gửi SMS</option>--}}
+                                        {{--</select>--}}
                                         {{--</div>--}}
                                         <div class="col-md-2">
                                             <select class="form-control change-filter-room-id" id="status-cs">
@@ -284,7 +336,7 @@
                 dataType: 'json',
                 url: '{{url('/admin/cskh/crmCheck')}}',
                 data: {
-                    'phone' : phonenumber
+                    'phone': phonenumber
                 },
             }).done(function (response) {
                 if (response.result) {
@@ -314,11 +366,12 @@
                     d.name = $('#search-form-customer #customer-name').val();
                     d.phone = $('#search-form-customer #customer-phone').val();
                     d.phone_introduce = $('#search-form-customer #introduce-phone').val();
-                    // d.campaign = $('#search-form-customer #campaign-id').val();
+                    d.user_cskh_filter = $('#search-form-customer #filter_user_cskh').val();
                     // d.user = $('#search-form-customer #user-id').val();
                     d.created_at = $('#search-form-customer #created_at').val();
                     // d.status_sms = $('#search-form-customer #status-sms').val();
                     d.status_moon = $('#search-form-customer #status-cs').val();
+
                 }
             },
             "columns": [

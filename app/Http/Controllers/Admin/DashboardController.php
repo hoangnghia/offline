@@ -180,6 +180,9 @@ class DashboardController
             $customer->whereDate('c.created_at', '>=', $fromDate);
             $customer->whereDate('c.created_at', '<=', $toDate);
         }
+        if (!is_null($datatables->request->get('user_cskh_filter')) && $datatables->request->get('user_cskh_filter') != "") {
+            $customer->where('c.care_ccs', $datatables->request->get('user_cskh_filter'));
+        }
         $datatables->addColumn('cskh_name', function ($model) {
             if (!is_null($model->care_ccs)) {
                 $user = Employee::where('id', $model->care_ccs)->first();
@@ -309,8 +312,17 @@ class DashboardController
         }
         $datatables->addColumn('cskh_name', function ($model) {
             if (!is_null($model->care_ccs)) {
-                $user = Employee::where('id', $model->care_ccs)->first();
-                return $user->name;
+//                $user = Employee::where('id', $model->care_ccs)->first();
+//                return $user->name;
+                $name = "Chưa chọn";
+                foreach (CustomerIntroduce::USER_TEXT as $key => $value) {
+                    if ($model->care_ccs == $key) {
+                        $name = $value;
+                    } elseif ($model->care_ccs == 207) {
+                        $name = "Team CCS";
+                    }
+                }
+                return $name;
             }
             return '(Not set)';
         });
@@ -457,7 +469,7 @@ class DashboardController
             if (substr($phone, 0, 1) != 0) {
                 $phone = '0' . $phone;
             }
-            $user_id = Auth::guard('employee')->user();
+//            $user_id = Auth::guard('employee')->user();
             $phone = $this->convertPhone($phone);
             $url = 'http://api.ngocdunggroup.com/api/v1/Customers/checkphone?apiKey=M6d6RjYyhrBnUzg6HXnw3VJ&phone=' . $phone . '';
             $checkMoon = $this->httpFB(strip_tags($url));
@@ -470,7 +482,7 @@ class DashboardController
             $add->branch = $chinhanh;
             $add->name_introduce = $request->name_introduce;
             $add->phone_introduce = $request->phone_introduce;
-            $add->care_ccs = $user_id->id;
+            $add->care_ccs = $request->user_cskh;
             if (isset($moon['Total']) && $moon['Total'] != 0) {
                 $add->status_moon = 2;
             } else {
@@ -483,6 +495,8 @@ class DashboardController
             $add->status = 999;
             $add->save();
             request()->session()->flash('message', 'Thêm thành công phiếu ghi !!!');
+            request()->session()->flash('name', $request->name_introduce);
+            request()->session()->flash('phone', $request->phone_introduce);
             return redirect('admin/cskh');
         }
         request()->session()->flash('error', 'Thêm phiếu ghi thất bại !!!');
@@ -736,8 +750,13 @@ class DashboardController
             $moon = json_decode($checkMoon['data'], true);
 //            dd($moon['Data'][0]['CustomerName']);
 //            $msg = "Khách hàng : " . $moon['Data'][0]['CustomerName'] . "Note : " . $moon['Data'][0]['Notes'];
+
+            $check = CustomerIntroduce::where('phone', $phone)->first();
+
             if (isset($moon['Data'][0]['CustomerName'])) {
                 $msg = "Khách hàng : " . $moon['Data'][0]['CustomerName'] . ". Đã tồn tại trên Moon";
+            } elseif (count($check) > 0) {
+                $msg = "Khách hàng : " . $check->name . ". Đã được thêm trước đó";
             } else {
                 $msg = "Chưa có trên Moon";
             }
