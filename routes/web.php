@@ -154,7 +154,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::POST('customer/crmSent', 'Customers\CustomerController@crmSent')->name('customer.crmtSent');
         });
         // Team CCS
-        Route::group(['middleware' => ['role:admin|ccs, guard:employee']], function () {
+        Route::group(['middleware' => ['role:admin|ccs|offline, guard:employee']], function () {
             Route::get('/offline', 'DashboardController@indexOffline')->name('dashboard.offline');
             Route::get('/cskh', 'DashboardController@indexCCS')->name('dashboard.cskh');
             Route::get('/lead/cskh', 'DashboardController@indexCCS')->name('dashboard');
