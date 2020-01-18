@@ -31,6 +31,13 @@ class CustomerIntroduce extends Authenticatable
     const PHAM_THUY_DUONG = 16;
     const NGUYEN_LE_THANH_TRUC = 17;
 
+    const NGUYEN_THI_THU_HANG = 18;
+    const CHUNG_THUY_THUY_VI = 19;
+//    const LE_THI_THUY = 20;
+    const NGUYEN_THANH_TUYEN = 21;
+    const NGUYEN_THI_KIM_NGOC = 22;
+    const lE_TRAN_PHUONG_UYEN = 23;
+
 
     const USER_TEXT = [
         self::NGO_THI_THUY_TRANG => 'Ngô Thị Thùy Trang',
@@ -50,6 +57,14 @@ class CustomerIntroduce extends Authenticatable
         self::NGUYENX_THI_HONG_LY => 'Nguyễn Thị Hồng Ly',
         self::PHAM_THUY_DUONG => 'Phạm Thùy Dương',
         self::NGUYEN_LE_THANH_TRUC => 'Nguyễn Lê Thanh Trúc',
+
+        self::NGUYEN_THI_THU_HANG => 'Nguyễn Thị Thu Hằng',
+        self::CHUNG_THUY_THUY_VI => 'Chung Thùy Thúy Vi',
+//        self::LE_THI_THUY => 'Lê Thị Thủy',
+        self::NGUYEN_THANH_TUYEN => 'Nguyễn Thanh Tuyền',
+        self::NGUYEN_THI_KIM_NGOC => 'Nguyễn Thị Kim Ngọc',
+        self::lE_TRAN_PHUONG_UYEN => 'Lê Trần Phương Uyên',
+
     ];
 
     protected $fillable = [
