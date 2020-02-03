@@ -759,6 +759,8 @@ class DashboardController
     public function crmCheck(Request $request)
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $checktitle = false;
+        $link = '';
         if (isset($request->phone)) {
             $phone = $this->convertPhone($request->phone);
             $url = 'http://api.ngocdunggroup.com/api/v1/Customers/checkphone?apiKey=M6d6RjYyhrBnUzg6HXnw3VJ&phone=' . $phone . '';
@@ -767,10 +769,12 @@ class DashboardController
 //            dd($moon['Data'][0]['CustomerName']);
 //            $msg = "Khách hàng : " . $moon['Data'][0]['CustomerName'] . "Note : " . $moon['Data'][0]['Notes'];
 
-            $check = CustomerIntroduce::where('phone', $phone)->first();
+            $check = CustomerIntroduce::where('phone', $phone)->get();
 
             if (isset($moon['Data'][0]['CustomerName'])) {
                 $msg = "Khách hàng : " . $moon['Data'][0]['CustomerName'] . ". Đã tồn tại trên Moon";
+                $checktitle = true;
+                $link = $moon['Data'][0]['Url'];
             } elseif (count($check) > 0) {
                 $msg = "Khách hàng : " . $check->name . ". Đã được thêm trước đó";
             } else {
@@ -778,6 +782,8 @@ class DashboardController
             }
             return json_encode([
                 'result' => true,
+                'check' => $checktitle,
+                'link' => $link,
                 'message' => 'Cập nhật thành công',
                 'msg' => $msg,
             ]);
@@ -785,6 +791,8 @@ class DashboardController
         $msg = "Khách hàng không tồn tại trên Moon";
         return json_encode([
             'result' => true,
+            'checktitle' => $checktitle,
+            'link' => $link,
             'message' => 'Cập nhật thành công',
             'msg' => $msg,
         ]);

@@ -72,7 +72,8 @@
                                             style="color: red">(*)</b></label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="phone-introduce"
-                                           placeholder="Số điện thoại " name="phone_introduce" required value="{{ session()->get('phone') }}">
+                                           placeholder="Số điện thoại " name="phone_introduce" required
+                                           value="{{ session()->get('phone') }}">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -196,7 +197,8 @@
                                             <div class="section mb10" id="date-sent-field">
                                                 <label style="width: 100%" for="introduce-phone"
                                                        class="field prepend-icon">
-                                                        <select class="form-control change-filter-room-id" id="filter_user_cskh">
+                                                    <select class="form-control change-filter-room-id"
+                                                            id="filter_user_cskh">
                                                         <option value="">Chọn nhân viên</option>
                                                         @foreach(\App\Shop\Customer\CustomerIntroduce::USER_TEXT as $key => $value)
                                                             <option value="{{ $key }}">{{ $value }}</option>
@@ -340,7 +342,12 @@
                 },
             }).done(function (response) {
                 if (response.result) {
-                    alert(response.msg);
+                    if (response.check == true) {
+                        window.open(response.link, '_blank');
+                        alert(response.msg);
+                    } else {
+                        alert(response.msg);
+                    }
                 } else {
                     alert('WTF!!! Có lỗi trong quá trình, liên hệ IT ngay nhé.');
                 }
