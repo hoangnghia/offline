@@ -419,6 +419,7 @@ class DashboardController
     public function postListIntroduce(Request $request)
     {
         if (isset($request->phone) && isset($request->name)) {
+
             $chinhanh = '';
             if (isset($request->branch)) {
                 switch ($request->branch) {
@@ -485,7 +486,16 @@ class DashboardController
             if (substr($phone, 0, 1) != 0) {
                 $phone = '0' . $phone;
             }
-//            $user_id = Auth::guard('employee')->user();
+            $timecheck = date('Y-m-d', strtotime("-90 days"));
+            $check_data = DB::table('customer_introduce')
+                ->whereDate('created_at', '>=', $timecheck)
+                ->where('phone', '=', $phone)
+                ->get();
+            if (count($check_data) != 0) {
+                request()->session()->flash('error', 'Khách hàng nay đã tồn tại trong danh sách !!!');
+                return redirect('admin/cskh');
+            }
+
             $phone = $this->convertPhone($phone);
             $url = 'http://api.ngocdunggroup.com/api/v1/Customers/checkphone?apiKey=M6d6RjYyhrBnUzg6HXnw3VJ&phone=' . $phone . '';
             $checkMoon = $this->httpFB(strip_tags($url));
@@ -504,11 +514,14 @@ class DashboardController
             } else {
                 $add->status_moon = 1;
             }
-
             $add->note = $request->note;
             $add->created_at = Carbon::now();
             $add->updated_at = Carbon::now();
-            $add->status = 999;
+            if ($request->status_check == 1) {
+                $add->status = 888;
+            } else {
+                $add->status = 999;
+            }
             $add->save();
             request()->session()->flash('message', 'Thêm thành công phiếu ghi !!!');
             request()->session()->flash('name', $request->name_introduce);

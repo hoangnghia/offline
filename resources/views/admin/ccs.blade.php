@@ -33,8 +33,6 @@
                                            name="phone" value="" required>
                                 </div>
                             </div>
-
-
                             <div class="form-group row">
                                 <label class="control-label col-sm-2" for="pwd">Chi nhánh:<b style="color: red">(*)</b></label>
                                 <div class="col-sm-10">
@@ -130,6 +128,13 @@
                                 {{--@endforeach--}}
                                 {{--</datalist>--}}
                             </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" id="status-check"
+                                       name="status_check">
+                                <label class="form-check-label" for="status-check">
+                                    Chuyển trực tiếp
+                                </label>
+                            </div>
                             <div style="text-align: center">
                                 <button class="btn btn-success" type="submit">Thêm mới</button>
                             </div>
@@ -169,6 +174,7 @@
                                                 </label>
                                             </div>
                                         </div>
+
                                         <div class="col-md-2">
                                             <div class="section mb10" id="date-sent-field">
                                                 <label style="width: 100%" for="customer-phone"
