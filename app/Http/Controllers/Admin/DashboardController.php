@@ -486,6 +486,15 @@ class DashboardController
             if (substr($phone, 0, 1) != 0) {
                 $phone = '0' . $phone;
             }
+
+            $phoneIN = $request->name_introduce;
+            if (substr($phoneIN, 0, 2) == '84') {
+                $phoneIN = substr($phoneIN, 2);
+            }
+            if (substr($phoneIN, 0, 1) != 0) {
+                $phoneIN = '0' . $phoneIN;
+            }
+
             $timecheck = date('Y-m-d', strtotime("-90 days"));
             $check_data = DB::table('customer_introduce')
                 ->whereDate('created_at', '>=', $timecheck)
@@ -496,18 +505,18 @@ class DashboardController
                 return redirect('admin/cskh');
             }
 
-            $phone = $this->convertPhone($phone);
-            $url = 'http://api.ngocdunggroup.com/api/v1/Customers/checkphone?apiKey=M6d6RjYyhrBnUzg6HXnw3VJ&phone=' . $phone . '';
+            $phoneCV = $this->convertPhone($phone);
+            $url = 'http://api.ngocdunggroup.com/api/v1/Customers/checkphone?apiKey=M6d6RjYyhrBnUzg6HXnw3VJ&phone=' . $phoneCV . '';
             $checkMoon = $this->httpFB(strip_tags($url));
             $moon = json_decode($checkMoon['data'], true);
 
             $add = new CustomerIntroduce();
             $add->name = $request->name;
-            $add->phone = $request->phone;
+            $add->phone = $phone;
             $add->birthday = $request->birthday;
             $add->branch = $chinhanh;
             $add->name_introduce = $request->name_introduce;
-            $add->phone_introduce = $request->phone_introduce;
+            $add->phone_introduce = $phoneIN;
             $add->care_ccs = $request->user_cskh;
             if (isset($moon['Total']) && $moon['Total'] != 0) {
                 $add->status_moon = 2;
