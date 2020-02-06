@@ -33,6 +33,8 @@
                                            name="phone" value="" required>
                                 </div>
                             </div>
+
+
                             <div class="form-group row">
                                 <label class="control-label col-sm-2" for="pwd">Chi nhánh:<b style="color: red">(*)</b></label>
                                 <div class="col-sm-10">
