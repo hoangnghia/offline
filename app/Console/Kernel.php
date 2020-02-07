@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\LaraStructure::class,
         Commands\CheckCustomerInCareSoft::class,
+        Commands\CheckCustomerCRM::class,
     ];
 
     /**
@@ -25,7 +26,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-//        $schedule->command('checkData:customerOffline')->dailyAt('11:00');
+        $schedule->command('checkData:customerOffline')->dailyAt('11:00');
+        $schedule->command('checkData:customerOfflineCRM')->hourly();
     }
 
     /**
