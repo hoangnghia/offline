@@ -86,7 +86,9 @@ class CustomerIntroduce extends Authenticatable
         'lead_id',
         'is_exist_ticket',
         'is_exist_lead',
-        'Job_code'
+        'Job_code',
+        'team_of',
+        'status_care'
     ];
 
     /**

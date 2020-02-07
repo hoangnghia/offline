@@ -251,6 +251,7 @@
                         <th>Ngày tạo</th>
                         <th>Trạng thái Moon</th>
                         <th>Tình Trạng</th>
+                        <th>Trạng Thái Tư Vấn</th>
                         <th>Option</th>
                     </tr>
                     </thead>
@@ -433,6 +434,7 @@
                         return '<b style="color:' + css + '">' + text + '</b>'
                     }
                 },
+                {data: 'status_care_title', name: 'status_care_title'},
                 {
                     data: 'id', name: 'id', render: function (data, type, row) {
                         return '<a href="{{url('admin/cskh/delete') .'/'}}' + row.id + '" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>';
