@@ -7,6 +7,7 @@ use App\Shop\Branchs\Branch;
 use App\Shop\Campaigns\Campaign;
 use App\Shop\Customer\Customer;
 use App\Shop\Customer\CustomerIntroduce;
+use App\Shop\Customer\CustomerStatus;
 use App\Shop\Employees\Employee;
 use App\Shop\Local\Local;
 use App\User;
@@ -210,6 +211,13 @@ class DashboardController
             if (!is_null($model->care_offline)) {
                 $user = Employee::where('id', $model->care_offline)->first();
                 return $user->name;
+            }
+            return '(Not set)';
+        });
+        $datatables->addColumn('status_care_title', function ($model) {
+            if (!is_null($model->status_care)) {
+                $status = CustomerStatus::where('id', $model->status_care)->first();
+                return $status->title;
             }
             return '(Not set)';
         });
@@ -487,7 +495,7 @@ class DashboardController
                 $phone = '0' . $phone;
             }
 
-            $phoneIN = $request->name_introduce;
+            $phoneIN = $request->phone_introduce;
             if (substr($phoneIN, 0, 2) == '84') {
                 $phoneIN = substr($phoneIN, 2);
             }
@@ -509,7 +517,6 @@ class DashboardController
             $url = 'http://api.ngocdunggroup.com/api/v1/Customers/checkphone?apiKey=M6d6RjYyhrBnUzg6HXnw3VJ&phone=' . $phoneCV . '';
             $checkMoon = $this->httpFB(strip_tags($url));
             $moon = json_decode($checkMoon['data'], true);
-
             $add = new CustomerIntroduce();
             $add->name = $request->name;
             $add->phone = $phone;
@@ -718,12 +725,12 @@ class DashboardController
             $result = json_decode($result, true);
             if ($result['status'] == 200) {
                 $result_api = json_decode($result['Result'], true);
-
                 $updata = CustomerIntroduce::where('id', $item->id)->first();
                 $updata->ticket_crm_id = $result_api['TicketId'];
                 $updata->lead_id = $result_api['LeadId'];
                 $updata->is_exist_ticket = $result_api['isExistTicket'];
                 $updata->is_exist_lead = $result_api['isExistLead'];
+                $updata->team_of = $result_api['TeamOf'];
                 $updata->Job_code = $str_data;
                 $updata->updated_at = Carbon::now();
                 if ($result_api['isExistTicket'] == true) {
