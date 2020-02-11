@@ -173,6 +173,7 @@ class DashboardController
             else
                 $customer->where('c.status_moon', $datatables->request->get('status_moon'));
         }
+
         if (!is_null($datatables->request->get('created_at'))) {
             $dateTimeArr = explode('-', $datatables->request->get('created_at'));
             $fromDate = trim($dateTimeArr[0]);
@@ -185,17 +186,9 @@ class DashboardController
         if (!is_null($datatables->request->get('user_cskh_filter')) && $datatables->request->get('user_cskh_filter') != "") {
             $customer->where('c.care_ccs', $datatables->request->get('user_cskh_filter'));
         }
-//        $datatables->addColumn('cskh_name', function ($model) {
-//            if (!is_null($model->care_ccs)) {
-//                $user = Employee::where('id', $model->care_ccs)->first();
-//                return $user->name;
-//            }
-//            return '(Not set)';
-//        });
+
         $datatables->addColumn('cskh_name', function ($model) {
             if (!is_null($model->care_ccs)) {
-//                $user = Employee::where('id', $model->care_ccs)->first();
-//                return $user->name;
                 $name = "Chưa chọn";
                 foreach (CustomerIntroduce::USER_TEXT as $key => $value) {
                     if ($model->care_ccs == $key) {
@@ -842,7 +835,7 @@ class DashboardController
         $time = date('Y-m-d', strtotime("-15 days"));
         $list = DB::table('customer_introduce as c')
             ->select('c.ticket_crm_id')
-//            ->whereDate('c.created_at', '>=', $time)
+            ->whereDate('c.created_at', '>=', $time)
             ->whereNotNull('c.ticket_crm_id')
             ->get();
         $ticket = '';
