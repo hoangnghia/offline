@@ -235,6 +235,11 @@
                         </div>
                     </div>
                 </div>
+                <form enctype="multipart/form-data" method="post"
+                      action="{{ route('admin.cskh.crmCheckStatusCustomer') }}" style="float: right">
+                    {{ csrf_field() }}
+                    <button class="btn btn-success" type="submit">Check trạng thái</button>
+                </form>
                 <table id="list-customer" class="table">
                     <thead>
                     <tr>

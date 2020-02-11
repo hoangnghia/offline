@@ -10,6 +10,7 @@ use App\Shop\Customer\CustomerIntroduce;
 use App\Shop\Customer\CustomerStatus;
 use App\Shop\Employees\Employee;
 use App\Shop\Local\Local;
+use App\Shop\Log\CronJobLog;
 use App\User;
 use Carbon\Carbon;
 //use http\Env\Request;
@@ -219,7 +220,7 @@ class DashboardController
                 $status = CustomerStatus::where('id', $model->status_care)->first();
                 return $status->title;
             }
-            return '(Not set)';
+            return 'Đang xử lý';
         });
         $datatables->addColumn('branch_name', function ($model) {
             if (!is_null($model->branch)) {
@@ -535,6 +536,7 @@ class DashboardController
             $add->updated_at = Carbon::now();
             if ($request->status_check == 1) {
                 $add->status = 888;
+                $add->status_care = 25;
             } else {
                 $add->status = 999;
             }
@@ -688,7 +690,7 @@ class DashboardController
     {
         $list = $request->customer_id;
         $data = DB::table('customer_introduce as c')
-            ->select('c.name', 'c.phone', 'c.id', 'c.note', 'c.branch', 'c.phone_introduce', 'c.name_introduce', 'c.birthday')
+            ->select('c.name', 'c.phone', 'c.id', 'c.note', 'c.branch', 'c.phone_introduce', 'c.name_introduce', 'c.birthday', 'c.status')
             ->where(function ($query) use ($list) {
                 if (!is_null($list)) {
                     $query->whereIn('c.id', $list);
@@ -699,48 +701,48 @@ class DashboardController
         foreach ($data as $item) {
             $FullName = $item->name;
             if (isset($item->phone)) {
-                $phone = $item->phone;
-            } else {
-                request()->session()->flash('message', 'Thêm thành công ' . $i . ' phiếu ghi !!!');
-                return redirect('admin/customer/index/');
-            }
-            $FK_CampaignID = 0;
-            $time = strtotime(Carbon::now());
-            $address = "";
-            $areaID = 0;
-            if (isset($item->branch)) {
-                $branchID = $item->branch;
-            } else {
-                $branchID = 0;
-            }
-            $chinhanh = $item->branch;
-            $service_text = "Người giới thiệu :" . $item->name_introduce . " - SĐT người giới thiệu :" . $item->phone_introduce . " - Chi nhánh :" . $chinhanh . "- Nội Dung: " . $item->note . " - Tuổi : " . $item->birthday;
-            $jobcode = "LEAD_CCS_OFFLINE";
-            $platform = "offline";
-            $tokenList = "CRM2019" . $FullName . $phone . $FK_CampaignID . $time;
-            $token = hash('sha256', $tokenList);
-            $urlSend = "https://apicrm.ngocdunggroup.com/api/v1/SC/Social/AddLead";
-            $str_data = '{ "FK_CampaignID": "' . $FK_CampaignID . '", "Phone": "' . $phone . '", "FullName": "' . $FullName . '", "Address": "' . $address . '", "timestamp": "' . $time . '", "token": "' . $token . '","AreaID":"' . $areaID . '","BranchID":"' . $branchID . '","Service_text":"' . $service_text . '","JobCode":"' . $jobcode . '","platform":"' . $platform . '"}';
-            $result = $this->sendPostDataCRM($urlSend, $str_data);
-            $result = json_decode($result, true);
-            if ($result['status'] == 200) {
-                $result_api = json_decode($result['Result'], true);
-                $updata = CustomerIntroduce::where('id', $item->id)->first();
-                $updata->ticket_crm_id = $result_api['TicketId'];
-                $updata->lead_id = $result_api['LeadId'];
-                $updata->is_exist_ticket = $result_api['isExistTicket'];
-                $updata->is_exist_lead = $result_api['isExistLead'];
-                $updata->team_of = $result_api['TeamOf'];
-                $updata->Job_code = $str_data;
-                $updata->updated_at = Carbon::now();
-                if ($result_api['isExistTicket'] == true) {
-                    $updata->status = 15;
-                } else {
-                    $updata->status = 888;
+                if ($item->status != 888) {
+                    $phone = $item->phone;
+                    $FK_CampaignID = 0;
+                    $time = strtotime(Carbon::now());
+                    $address = "";
+                    $areaID = 0;
+                    if (isset($item->branch)) {
+                        $branchID = $item->branch;
+                    } else {
+                        $branchID = 0;
+                    }
+                    $chinhanh = $item->branch;
+                    $service_text = "Người giới thiệu :" . $item->name_introduce . " - SĐT người giới thiệu :" . $item->phone_introduce . " - Chi nhánh :" . $chinhanh . "- Nội Dung: " . $item->note . " - Tuổi : " . $item->birthday;
+                    $jobcode = "LEAD_CCS_OFFLINE";
+                    $platform = "offline";
+                    $tokenList = "CRM2019" . $FullName . $phone . $FK_CampaignID . $time;
+                    $token = hash('sha256', $tokenList);
+                    $urlSend = "https://apicrm.ngocdunggroup.com/api/v1/SC/Social/AddLead";
+                    $str_data = '{ "FK_CampaignID": "' . $FK_CampaignID . '", "Phone": "' . $phone . '", "FullName": "' . $FullName . '", "Address": "' . $address . '", "timestamp": "' . $time . '", "token": "' . $token . '","AreaID":"' . $areaID . '","BranchID":"' . $branchID . '","Service_text":"' . $service_text . '","JobCode":"' . $jobcode . '","platform":"' . $platform . '"}';
+                    $result = $this->sendPostDataCRM($urlSend, $str_data);
+                    $result = json_decode($result, true);
+                    if ($result['status'] == 200) {
+                        $result_api = json_decode($result['Result'], true);
+                        $updata = CustomerIntroduce::where('id', $item->id)->first();
+                        $updata->ticket_crm_id = $result_api['TicketId'];
+                        $updata->lead_id = $result_api['LeadId'];
+                        $updata->is_exist_ticket = $result_api['isExistTicket'];
+                        $updata->is_exist_lead = $result_api['isExistLead'];
+                        $updata->team_of = $result_api['TeamOf'];
+                        $updata->Job_code = $str_data;
+                        $updata->updated_at = Carbon::now();
+                        if ($result_api['isExistTicket'] == true) {
+                            $updata->status = 15;
+                        } else {
+                            $updata->status = 888;
+                        }
+                        $updata->save();
+                        $i++;
+                    }
                 }
-                $updata->save();
-                $i++;
             }
+
         }
         request()->session()->flash('message', 'Thêm thành công ' . $i . ' phiếu ghi !!!');
         return redirect('admin/offline/');
@@ -827,5 +829,77 @@ class DashboardController
         ]);
 
 
+    }
+
+    public function crmCheckStatusCustomer(Request $request)
+    {
+        set_time_limit(0);
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $today = Carbon::now()->toDateString();
+        $timecover = strtotime(Carbon::now());
+        $tokenList = "CRM2019" . $timecover;
+        $token = hash('sha256', $tokenList);
+        $time = date('Y-m-d', strtotime("-15 days"));
+        $list = DB::table('customer_introduce as c')
+            ->select('c.ticket_crm_id')
+//            ->whereDate('c.created_at', '>=', $time)
+            ->whereNotNull('c.ticket_crm_id')
+            ->get();
+        $ticket = '';
+        foreach ($list as $item) {
+            $ticket .= $item->ticket_crm_id . ',';
+        }
+        $timeunix = $timecover;
+        $urlSend = "https://apicrm.ngocdunggroup.com/api/v1/SC/Social/CheckStatusLead";
+        $str_data = '{ "TimeUnix": "' . $timeunix . '","token":"' . $token . '","ResultAction": { "objSent":[' . $ticket . '],"TeamOf":""}}';
+        $result = $this->sendCheckDataCRM($urlSend, $str_data);
+        $result = json_decode($result, true);
+        $resultt = json_decode($result['Result'], true);
+
+        foreach ($resultt as $item) {
+            if (isset($item['work_status']) && $item['work_status'] != "") {
+                $status = CustomerStatus::where('title', $item['work_status'])->first();
+                if (isset($status->id) && $status->id != '') {
+                    $updata = CustomerIntroduce::where('ticket_crm_id', $item['TicketId'])->first();
+                    if (isset($updata)) {
+                        $updata->status_care = $status->id;
+                        $updata->updated_at = Carbon::now();
+                        $updata->save();
+                    }
+                }
+            }
+        }
+        $log = new CronJobLog();
+        $log->name = "Check status CRM ";
+        $log->note = "Check trạng thái khách hàng " . $today;
+        $log->created_at = Carbon::now();
+        $log->updated_at = Carbon::now();
+        $log->save();
+        request()->session()->flash('message', 'Check thành công !!!');
+        return redirect('admin/cskh/');
+    }
+
+    protected
+    function sendCheckDataCRM($urlSend, $str_data)
+    {
+        $timeout = 300;
+        $connectTimeout = 300;
+        $sslVerifyPeer = false;
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $connectTimeout);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            "Content-Type: application/json-patch+json",));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $sslVerifyPeer);
+        curl_setopt($ch, CURLOPT_URL, $urlSend);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $str_data);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
     }
 }
