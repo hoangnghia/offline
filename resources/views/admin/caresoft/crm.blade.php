@@ -91,7 +91,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group" style="text-align: center;">
-                                            <input style="border-color: #d7baa5;" type="submit" class="btn btn-success"
+                                            <input style="border-color: #d7baa5;" type="submit" id="btnclick" class="btn btn-success"
                                                    value="Sent CRM">
                                         </div>
                                     </fieldset>
@@ -356,4 +356,11 @@
             top: 1px !important;
         }
     </style>
+    <script type="text/javascript">
+        $("#btnclick").click(
+            function () {
+                $( "#btnclick" ).hide();
+            }
+        );
+    </script>
 @endsection
