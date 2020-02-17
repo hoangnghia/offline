@@ -85,6 +85,20 @@
                                                 </label>
                                             </div>
                                         </div>
+                                        <div class="col-md-2">
+                                            <div class="section mb10" id="date-sent-field">
+                                                <label class="field select">
+                                                    <select id="area_id" class="form-control change-filter-room-id"
+                                                            name="area_id[]" multiple="multiple">
+                                                        <option value="42115,1">Miền Bắc</option>
+                                                        <option value="42118,2">Miền Trung</option>
+                                                        <option value="42121,4">Miền Nam</option>
+                                                        <option value="42124,3">Hồ Chí Minh</option>
+                                                        <option value="0,0">Chưa phân vung miền</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                        </div>
 {{--                                        <div class="col-md-3">--}}
 {{--                                            <div class="section mb10" id="page_id">--}}
 {{--                                                <label style="width: 100%" for="select" class="field prepend-icon">--}}
@@ -120,6 +134,7 @@
                         <th>Tên KH</th>
                         <th>Phone</th>
                         <th>Tình Trạng</th>
+                        <th>Vùng miền</th>
                         <th>Ngày chuyển</th>
                     </tr>
                     </thead>
@@ -239,10 +254,16 @@
             ajax: {
                 url: '{!! url('/admin/customer/get-list-crm') !!}',
                 data: function (d) {
+                    var area = $('#search-form-customer #area_id').val();
+                    if (area != null) {
+                        var area_list = '' + area + '';
+                        var array_area = area_list.split(',');
+                    }
                     d.name = $('#search-form-customer #customer-name').val();
                     d.phone = $('#search-form-customer #customer-phone').val();
                     d.status_id = $('#search-form-customer #status-id').val();
                     d.created_at = $('#search-form-customer #created_at').val();
+                    d.area_id = array_area;
                 }
             },
             "columns": [
@@ -255,6 +276,7 @@
                 {data: 'ho_ten', name: 'ho_ten'},
                 {data: 'phone', name: 'phone'},
                 {data: 'trang_thai', name: 'trang_thai'},
+                {data: 'vungmien', name: 'vungmien'},
                 {data: 'created_at', name: 'created_at'},
 
             ]
@@ -365,6 +387,10 @@
         $('#status-id').multiselect({
             includeSelectAllOption: true,
             nonSelectedText: '-- Trạng thái gọi --',
+        });
+        $('#area_id').multiselect({
+            includeSelectAllOption: true,
+            nonSelectedText: '-- Vùng miền --',
         });
     </script>
     <!-- /.content -->

@@ -705,6 +705,9 @@ class CustomerController extends Controller
             else
                 $job->where('j.status', $datatables->request->get('status_id'));
         }
+        if (!is_null($datatables->request->get('area_id'))) {
+            $job->whereIn('j.vung_mien', $datatables->request->get('area_id'));
+        }
 
         $datatables->addColumn('trang_thai', function ($model) {
             if (isset($model->status)) {
@@ -712,6 +715,51 @@ class CustomerController extends Controller
                 $trangthai = CustomerStatus::where('id', $model->status)->first();
 
                 return $trangthai->title;
+            }
+            return "Chưa xác định";
+        });
+        $datatables->addColumn('vungmien', function ($model) {
+            if (isset($model->vung_mien)) {
+                if ($model->type == 2) {
+                    $vungmien = '';
+                    switch ($model->vung_mien) {
+                        case '0':
+                            $vungmien = 'Chưa phân loại';
+                            break;
+                        case '1':
+                            $vungmien = 'Miền Bắc';
+                            break;
+                        case '2':
+                            $vungmien = 'Miền Trung';
+                            break;
+                        case '3':
+                            $vungmien = 'Hồ Chí Minh';
+                            break;
+                        case '4':
+                            $vungmien = 'Miền Nam';
+                            break;
+
+                    }
+                } else {
+                    switch ($model->vung_mien) {
+                        case '42115':
+                            $vungmien = 'Miền Bắc';
+                            break;
+                        case '42118':
+                            $vungmien = 'Miền Trung';
+                            break;
+                        case '42124':
+                            $vungmien = 'Hồ Chí Minh';
+                            break;
+                        case '42121':
+                            $vungmien = 'Miền Nam';
+                            break;
+                        case '42112':
+                            $vungmien = 'Chưa phân loại';
+                            break;
+                    }
+                }
+                return $vungmien;
             }
             return "Chưa xác định";
         });
