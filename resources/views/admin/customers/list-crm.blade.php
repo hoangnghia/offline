@@ -11,18 +11,6 @@
                 <div id="filter-lead-verified" class="panel mb25 mt5">
                     <div class="panel-heading">
                         <span class="panel-title">Điều kiện lọc</span>
-{{--                        <a href="javascript:void(0)" class="btn btn-danger customer-check-care-soft" role="button"--}}
-{{--                           style="float: right;margin-left: 10px">Check Trùng CareSoft</a>--}}
-{{--                        <a href="{!! url('/admin/customer/history') !!}" class="btn btn-warning" role="button"--}}
-{{--                           style="float: right;margin-left: 10px">Lịch Sử SMS</a>--}}
-                        <a href="javascript:void(0)" class="btn btn-info right customer-export" role="button"
-                           style="float: right">Export</a>
-{{--                        <a href="javascript:void(0)" class="btn btn-success right customer-cs" role="button"--}}
-{{--                           style="float: right;margin-right: 10px">Gửi CareSoft</a>--}}
-                        <a href="javascript:void(0)" class="btn btn-success right customer-crm" role="button"
-                           style="float: right;margin-right: 10px">Gửi CRM</a>
-{{--                        <a href="javascript:void(0)" class="btn btn-success right customer-sms" role="button"--}}
-{{--                           style="float: right;margin-right: 10px">Gửi SMS</a>--}}
                     </div>
                     <div class="panel-body p20 pb10">
                         <div class="tab-content pn br-n">
@@ -76,41 +64,42 @@
 {{--                                                <option value="2">Chưa gửi SMS</option>--}}
 {{--                                            </select>--}}
 {{--                                        </div>--}}
-                                        <div class="col-md-3">
-                                            <select class="form-control change-filter-room-id" id="status-cs">
-                                                <option value="">CRM</option>
-                                                <option value="1">Đã chuyển</option>
-                                                <option value="2">Chưa chuyển</option>
-                                            </select>
-                                        </div>
+{{--                                        <div class="col-md-3">--}}
+{{--                                            <select class="form-control change-filter-room-id" id="status-cs">--}}
+{{--                                                <option value="">CRM</option>--}}
+{{--                                                <option value="1">Đã chuyển</option>--}}
+{{--                                                <option value="2">Chưa chuyển</option>--}}
+{{--                                            </select>--}}
+{{--                                        </div>--}}
                                         <div class="col-md-4">
                                             <div class="section mb10" id="page_id">
                                                 <label style="width: 100%" for="select" class="field prepend-icon">
-                                                    <select id="campaign-id"
+                                                    <select id="status-id"
                                                             class="change-filter-room-id form-control" name="agent-id[]"
                                                             multiple="multiple">
-                                                        @foreach($campaign as $item)
-                                                            <option value="{{$item->id}}">{{ $item->name }}</option>
+                                                        @foreach($status as $item)
+                                                            <option value="{{$item->id}}">{{ $item->title }}</option>
                                                         @endforeach
                                                     </select>
                                                     <i class="arrow"></i>
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="section mb10" id="page_id">
-                                                <label style="width: 100%" for="select" class="field prepend-icon">
-                                                    <select id="user-id"
-                                                            class="change-filter-room-id form-control" name="agent-id[]"
-                                                            multiple="multiple">
-                                                        @foreach($employees as $item)
-                                                            <option value="{{$item->id}}">{{ $item->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <i class="arrow"></i>
-                                                </label>
-                                            </div>
-                                        </div>
+{{--                                        <div class="col-md-3">--}}
+{{--                                            <div class="section mb10" id="page_id">--}}
+{{--                                                <label style="width: 100%" for="select" class="field prepend-icon">--}}
+{{--                                                    <select id="user-id"--}}
+{{--                                                            class="change-filter-room-id form-control" name="agent-id[]"--}}
+{{--                                                            multiple="multiple">--}}
+{{--                                                        @foreach($employees as $item)--}}
+{{--                                                            <option value="{{$item->id}}">{{ $item->name }}</option>--}}
+{{--                                                        @endforeach--}}
+{{--                                                    </select>--}}
+{{--                                                    <i class="arrow"></i>--}}
+{{--                                                </label>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+
                                     </div>
                                 </form>
                             </div>
@@ -127,25 +116,11 @@
                 <table id="list-customer" class="table">
                     <thead>
                     <tr>
-                        {{--<th>--}}
-                        {{--<button style="border: none; background: transparent; font-size: 14px;" id="MyTableCheckAllButton">--}}
-                        {{--<i class="far fa-square"></i>--}}
-                        {{--</button>--}}
-                        {{--</th>--}}
                         <th class=""></th>
                         <th>Tên KH</th>
                         <th>Phone</th>
-                        <th>Năm sinh</th>
-                        <th>Dịch vụ</th>
-                        <th>Chiến dịch</th>
-                        <th>Pg</th>
-                        <th>Người thân</th>
-                        <th>Ngày tạo</th>
-                        <th>SMS</th>
-                        <th>CareSoft</th>
-                        <th>CRM</th>
                         <th>Tình Trạng</th>
-                        <th>Option</th>
+                        <th>Ngày chuyển</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -262,111 +237,26 @@
             order: [[0, "asc"]],
             "pageLength": 100,
             ajax: {
-                url: '{!! url('/admin/customer/getListData') !!}',
+                url: '{!! url('/admin/customer/get-list-crm') !!}',
                 data: function (d) {
                     d.name = $('#search-form-customer #customer-name').val();
                     d.phone = $('#search-form-customer #customer-phone').val();
-                    d.campaign = $('#search-form-customer #campaign-id').val();
-                    d.user = $('#search-form-customer #user-id').val();
+                    d.status_id = $('#search-form-customer #status-id').val();
                     d.created_at = $('#search-form-customer #created_at').val();
-                    // d.status_sms = $('#search-form-customer #status-sms').val();
-                    d.status_cs = $('#search-form-customer #status-cs').val();
                 }
             },
             "columns": [
-                // {
-                //     "data": "id",
-                //     render: function (data, type, row, meta) {
-                //         return meta.row + meta.settings._iDisplayStart + 1;
-                //     }
-                // },
                 {
                     data: 'id', name: 'id', render: function (data) {
                         return '<label class="option block mn"> <input type="checkbox" class="sub_chk" data-id="' + data + '" name="checkbox[]" value="' + data + '"> <span class="checkbox mn"></span> </label>'
                     }
                 },
-                {
-                    data: 'name', name: 'name', render: function (data, type, row) {
-                        if (row.check_care_soft == 0 || row.check_care_soft == 1 || row.check_care_soft == null) {
-                            return '<a href="{{url('admin/customer/detail') .'/'}}' + row.id + '">' + data + '</a>';
-                        } else {
-                            return '<a href="{{url('admin/customer/detail') .'/'}}' + row.id + '">' + data + '</a><br><a class="care_soft" href="https://web11.caresoft.vn/tmvngocdung#/index?type=contact&id=' + row.check_care_soft + '" target="_blank">CareSoft</a>';
-                        }
-                    }
-                },
+
+                {data: 'ho_ten', name: 'ho_ten'},
                 {data: 'phone', name: 'phone'},
-                {data: 'birthday', name: 'birthday'},
-                {data: 'service_name', name: 'service_name'},
-                {data: 'campaign_name', name: 'campaign_name'},
-                {data: 'employees_name', name: 'employees_name'},
-                {data: 'name_parent', name: 'name_parent'},
+                {data: 'trang_thai', name: 'trang_thai'},
                 {data: 'created_at', name: 'created_at'},
-                {
-                    data: 'sms_log_id', name: 'sms_log_id', render: function (data, type, row) {
-                        var css = '';
-                        var name = '';
-                        if (data != null) {
-                            css = "sent";
-                            name = "Đã gửi";
-                        } else {
-                            css = "not-sent";
-                            name = "Chưa gửi";
-                        }
-                        return '<p class="' + css + '">' + name + '</p>';
-                    }
-                },
-                {
-                    data: 'care_soft_log_id', name: 'care_soft_log_id', render: function (data, type, row) {
-                        var css = '';
-                        var name = '';
-                        if (data != null) {
-                            css = "sent";
-                            name = "Đã gửi";
-                            return '<a href="https://web11.caresoft.vn/tmvngocdung#/index?type=ticket&amp;id=' + row.ticket_id + '" class="' + css + '" target="_blank">' + name + '</a>';
-                        } else {
-                            css = "not-sent";
-                            name = "Chưa gửi";
-                            return '<p class="' + css + '">' + name + '</p>';
-                        }
-                        // return '<p class="' + css + '">' + name + '</p>';
-                        // return '<a href="//web11.caresoft.vn/tmvngocdung#/index?type=ticket&amp;id=' + row.ticket_id + '" class="' + css + '">' + name + '</a>';
-                    }
-                },
-                {
-                    data: 'ticket_crm_id', name: 'ticket_crm_id', render: function (data, type, row) {
-                        var css = '';
-                        var name = '';
-                        if (data != null) {
-                            css = "sent";
-                            name = "Đã gửi";
-                        } else {
-                            css = "not-sent";
-                            name = "Chưa gửi";
-                        }
-                        return '<p class="' + css + '">' + name + '</p>';
-                    }
-                },
-                {
-                    data: 'status', name: 'status', render: function (data, type, row) {
-                        var css = '';
-                        var name = '';
-                        if (data == 1) {
-                            var test = 'Active';
-                            css = "btn-success";
-                            name = "Active";
-                        } else if (data == 0) {
-                            var test = 'UnActive';
-                            css = "btn-danger";
-                            name = "Inactive";
-                        }
-                        return '<a href="{{url('admin/customer/status') .'/'}}' + row.id + '" class="btn ' + css + '">' + name + '</a>';
-                    }
-                },
-                {
-                    data: 'id', name: 'id', render: function (data, type, row) {
-                        return '<a href="{{url('admin/customer/delete') .'/'}}' + row.id + '" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>';
-                    }
-                },
+
             ]
         });
 
@@ -470,6 +360,11 @@
                     alert('Có lỗi xảy ra');
                 }
             });
+        });
+
+        $('#status-id').multiselect({
+            includeSelectAllOption: true,
+            nonSelectedText: '-- Trạng thái gọi --',
         });
     </script>
     <!-- /.content -->

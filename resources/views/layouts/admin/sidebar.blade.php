@@ -32,6 +32,11 @@
                     </a>
                 </li>
                 <li class="treeview">
+                    <a href="{{ route('admin.customer.list-crm') }}">
+                        <i class="fa fa-list-alt" aria-hidden="true"></i> <span>Lịch sư gửi CRM</span>
+                    </a>
+                </li>
+                <li class="treeview">
                     <a href="{{ route('admin.dashboard.offline') }}">
                         <i class="fa fa-list-alt" aria-hidden="true"></i> <span>Danh sách khách hàng CSKH</span>
                     </a>

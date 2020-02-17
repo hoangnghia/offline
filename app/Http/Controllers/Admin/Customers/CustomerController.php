@@ -8,6 +8,7 @@ use App\Shop\Campaigns\Campaign;
 use App\Shop\CareSoft\TicketCareSoftLog;
 use App\Shop\Customer\Customer;
 use App\Shop\Customer\CustomerCRM;
+use App\Shop\Customer\CustomerStatus;
 use App\Shop\Customers\Transformations\CustomerTransformable;
 use App\Http\Controllers\Controller;
 use App\Shop\Employees\Employee;
@@ -89,9 +90,9 @@ class CustomerController extends Controller
         }
         if (!is_null($datatables->request->get('status_cs'))) {
             if ($datatables->request->get('status_cs') == 1) {
-                $customer->whereNotNull('c.care_soft_log_id');
+                $customer->whereNotNull('c.ticket_crm_id');
             } elseif ($datatables->request->get('status_cs') == 2) {
-                $customer->whereNull('c.care_soft_log_id');
+                $customer->whereNull('c.ticket_crm_id');
             }
         }
         if (!is_null($datatables->request->get('created_at'))) {
@@ -630,6 +631,11 @@ class CustomerController extends Controller
                 $list->is_map_to_customer = $result_api['isMapToCustomer'];
                 if ($result_api['isExistTicket'] == true) {
                     $list->status = 15;
+                } elseif ($result_api['isExistTicket'] == false && $result_api['TicketId'] == 0) {
+                    $list->status = 29;
+                }
+                if ($result_api['TeamOf'] != null) {
+                    $list->team_of = $result_api['TeamOf'];
                 }
                 $list->type = 2;
                 $list->campain_id = $FK_CampaignID;
@@ -652,6 +658,67 @@ class CustomerController extends Controller
         request()->session()->flash('message', 'Thêm thành công ' . $i . ' phiếu ghi !!!');
         return redirect('admin/customer/index/');
     }
+
+    public function listCRM()
+    {
+        $status = CustomerStatus::all();
+
+        return view('admin.customers.list-crm', [
+            'status' => $status
+        ]);
+    }
+
+    /*
+     * Get list data Campaign
+     * use : Datatable
+     */
+    public function getListDataCRM()
+    {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $toDate = (new \DateTime(now()))->format('Y-m-d');
+        $job = DB::table('oad_customer_validate as j')
+            ->select('j.*')
+            ->orderBy('j.created_at', 'desc');
+        $datatables = DataTables::of($job);
+        if (!is_null($datatables->request->get('user_id'))) {
+            if (is_array($datatables->request->get('user_id')))
+                $job->whereIn('j.user_id', $datatables->request->get('user_id'));
+            else
+                $job->where('j.user_id', $datatables->request->get('user_id'));
+        }
+        if (!is_null($datatables->request->get('phone'))) {
+            $job->where('j.phone', 'LIKE', '%' . $datatables->request->get('phone') . '%');
+        }
+        if (!is_null($datatables->request->get('created_at'))) {
+            $dateTimeArr = explode('-', $datatables->request->get('created_at'));
+            $fromDate = trim($dateTimeArr[0]);
+            $toDate = trim($dateTimeArr[1]);
+            $fromDate = (new \DateTime($fromDate))->format('Y-m-d');
+            $toDate = (new \DateTime($toDate))->format('Y-m-d');
+            $job->whereDate('j.created_at', '>=', $fromDate);
+            $job->whereDate('j.created_at', '<=', $toDate);
+        }
+
+        if (!is_null($datatables->request->get('status_id'))) {
+            if (is_array($datatables->request->get('status_id')))
+                $job->whereIn('j.status', $datatables->request->get('status_id'));
+            else
+                $job->where('j.status', $datatables->request->get('status_id'));
+        }
+
+        $datatables->addColumn('trang_thai', function ($model) {
+            if (isset($model->status)) {
+
+                $trangthai = CustomerStatus::where('id', $model->status)->first();
+
+                return $trangthai->title;
+            }
+            return "Chưa xác định";
+        });
+
+        return $datatables->make(true);
+    }
+
 
     /**
      * @param $url

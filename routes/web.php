@@ -152,6 +152,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::get('customer/getCheckCareSoft', 'Customers\CustomerController@getCheckCareSoft')->name('customer.getCheckCareSoft');
             Route::get('customer/crm', 'Customers\CustomerController@crm')->name('customer.crm');
             Route::POST('customer/crmSent', 'Customers\CustomerController@crmSent')->name('customer.crmtSent');
+
+            Route::get('customer/list-crm', 'Customers\CustomerController@listCRM')->name('customer.list-crm');
+            Route::get('customer/get-list-crm', 'Customers\CustomerController@getListDataCRM')->name('customer.get-list-crm');
+
+
         });
         // Team CCS
         Route::group(['middleware' => ['role:admin|ccs|offline, guard:employee']], function () {
