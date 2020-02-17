@@ -17,7 +17,7 @@ class CustomerCRM extends Authenticatable
     use Notifiable;
     protected $table = 'oad_customer_validate';
     protected $fillable = [
-        'ho_ten', 'phone', 'dich_vu', 'nguon_phieu','vung_mien','chi_nhanh','user_id','user_care','ticket_id','chi_tiet_nguon','type','campain_id','status','created_at','updated_at','status_validate','title','type_source','lead_id','is_exist_ticket','is_exist_lead','is_map_to_customer','object','TeamOf'
+        'ho_ten', 'phone', 'dich_vu', 'nguon_phieu','vung_mien','chi_nhanh','user_id','user_care','ticket_id','chi_tiet_nguon','type','campain_id','status','created_at','updated_at','status_validate','title','type_source','lead_id','is_exist_ticket','is_exist_lead','is_map_to_customer','object','team_of'
     ];
 
     /**
