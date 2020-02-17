@@ -147,7 +147,7 @@
                                  style=" border: 1px solid #b5aeae8c; padding: 14px;border-radius: 5px;">
                                 <form method="get" id="search-form-customer">
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
                                             <div class="section mb10" id="date-sent-field">
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
