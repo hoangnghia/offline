@@ -197,6 +197,13 @@ class DashboardController
             else
                 $customer->where('c.status_care', $datatables->request->get('status_cskh_filter'));
         }
+        if (!is_null($datatables->request->get('status_care'))) {
+            if ($datatables->request->get('status_care') == 1) {
+                $customer->where('c.status', 888);
+            } else {
+                $customer->where('c.status', 999);
+            }
+        }
 
         $datatables->addColumn('cskh_name', function ($model) {
             if (!is_null($model->care_ccs)) {
