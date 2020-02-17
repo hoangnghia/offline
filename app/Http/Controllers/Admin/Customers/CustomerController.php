@@ -527,7 +527,6 @@ class CustomerController extends Controller
             ->get();
         $i = 0;
         foreach ($data as $item) {
-
             $FullName = $item->name;
             if (isset($item->phone)) {
                 $phone = $item->phone;

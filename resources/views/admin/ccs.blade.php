@@ -188,7 +188,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <div class="section mb10" id="date-sent-field">
                                                 <label style="width: 100%" for="introduce-phone"
                                                        class="field prepend-icon">
@@ -201,32 +201,60 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
-                                            <div class="section mb10" id="date-sent-field">
-                                                <label style="width: 100%" for="introduce-phone"
-                                                       class="field prepend-icon">
-                                                    <select class="form-control change-filter-room-id"
-                                                            id="filter_user_cskh">
-                                                        <option value="">Chọn nhân viên</option>
+{{--                                        <div class="col-md-2">--}}
+{{--                                            <div class="section mb10" id="date-sent-field">--}}
+{{--                                                <label style="width: 100%" for="introduce-phone"--}}
+{{--                                                       class="field prepend-icon">--}}
+{{--                                                    <select class="form-control change-filter-room-id"--}}
+{{--                                                            id="filter_user_cskh">--}}
+{{--                                                        <option value="">Chọn nhân viên</option>--}}
+{{--                                                        @foreach(\App\Shop\Customer\CustomerIntroduce::USER_TEXT as $key => $value)--}}
+{{--                                                            <option value="{{ $key }}">{{ $value }}</option>--}}
+{{--                                                        @endforeach--}}
+{{--                                                    </select>--}}
+{{--                                                </label>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+                                        <div class="col-md-3">
+                                            <div class="section mb10" id="page_id">
+                                                <label style="width: 100%" for="select" class="field prepend-icon">
+                                                    <select id="users-id"
+                                                            class="change-filter-room-id form-control" name="agent-id[]"
+                                                            multiple="multiple">
                                                         @foreach(\App\Shop\Customer\CustomerIntroduce::USER_TEXT as $key => $value)
                                                             <option value="{{ $key }}">{{ $value }}</option>
                                                         @endforeach
                                                     </select>
+                                                    <i class="arrow"></i>
                                                 </label>
                                             </div>
                                         </div>
-                                        {{--<div class="col-md-2">--}}
-                                        {{--<select class="form-control change-filter-room-id" id="status-sms">--}}
-                                        {{--<option value="">KH gửi SMS</option>--}}
-                                        {{--<option value="1">Gửi SMS</option>--}}
-                                        {{--<option value="2">Chưa gửi SMS</option>--}}
-                                        {{--</select>--}}
-                                        {{--</div>--}}
+                                        <div class="col-md-3">
+                                            <div class="section mb10" id="page_id">
+                                                <label style="width: 100%" for="select" class="field prepend-icon">
+                                                    <select id="status-id"
+                                                            class="change-filter-room-id form-control" name="status-id[]"
+                                                            multiple="multiple">
+                                                        @foreach($status as $item)
+                                                            <option value="{{ $item->id }}">{{ $item->title }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <i class="arrow"></i>
+                                                </label>
+                                            </div>
+                                        </div>
                                         <div class="col-md-2">
                                             <select class="form-control change-filter-room-id" id="status-cs">
                                                 <option value="">Moon</option>
                                                 <option value="1">Ko tồn tại</option>
                                                 <option value="2">Tồn tại</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <select class="form-control change-filter-room-id" id="status-care">
+                                                <option value="">Chuyển</option>
+                                                <option value="1">Trực tiếp sky</option>
+                                                <option value="2">Qua hệ thống</option>
                                             </select>
                                         </div>
                                     </div>
@@ -252,7 +280,7 @@
                         <th>Năm sinh</th>
                         <th>Nội Dung</th>
                         <th>NV CSKH</th>
-                        <th>NV Offline</th>
+                        {{--                        <th>NV Offline</th>--}}
                         <th>Ngày tạo</th>
                         <th>Trạng thái Moon</th>
                         <th>Tình Trạng</th>
@@ -387,12 +415,14 @@
                     d.name = $('#search-form-customer #customer-name').val();
                     d.phone = $('#search-form-customer #customer-phone').val();
                     d.phone_introduce = $('#search-form-customer #introduce-phone').val();
-                    d.user_cskh_filter = $('#search-form-customer #filter_user_cskh').val();
+                    d.user_cskh_filter = $('#search-form-customer #users-id').val();
+                    d.status_cskh_filter = $('#search-form-customer #status-id').val();
+                    // d.user_cskh_filter = $('#search-form-customer #filter_user_cskh').val();
                     // d.user = $('#search-form-customer #user-id').val();
                     d.created_at = $('#search-form-customer #created_at').val();
                     // d.status_sms = $('#search-form-customer #status-sms').val();
                     d.status_moon = $('#search-form-customer #status-cs').val();
-
+                    d.status_care = $('#search-form-customer #status-care').val();
                 }
             },
             "columns": [
@@ -409,7 +439,7 @@
                 {data: 'birthday', name: 'birthday'},
                 {data: 'note', name: 'note'},
                 {data: 'cskh_name', name: 'cskh_name'},
-                {data: 'offline_name', name: 'offline_name'},
+                // {data: 'offline_name', name: 'offline_name'},
                 {data: 'created_at', name: 'created_at'},
                 {
                     data: 'status_moon', name: 'status_moon', render: function (data) {
@@ -448,7 +478,14 @@
             ]
         });
 
-
+        $('#users-id').multiselect({
+            includeSelectAllOption: true,
+            nonSelectedText: '-- Chọn nhân viên --',
+        });
+        $('#status-id').multiselect({
+            includeSelectAllOption: true,
+            nonSelectedText: '-- Trạng thái gọi --',
+        });
     </script>
     <!-- /.content -->
 @endsection

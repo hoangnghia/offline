@@ -144,8 +144,10 @@ class DashboardController
             ->where('ru.role_id', 3)
             ->orderBy('e.created_at', 'desc')
             ->get();
+        $status = CustomerStatus::get();
         return view('admin.ccs', [
             'campaign' => $campaign,
+            'status' => $status,
             'employees' => $employees
         ]);
     }
@@ -183,8 +185,17 @@ class DashboardController
             $customer->whereDate('c.created_at', '>=', $fromDate);
             $customer->whereDate('c.created_at', '<=', $toDate);
         }
-        if (!is_null($datatables->request->get('user_cskh_filter')) && $datatables->request->get('user_cskh_filter') != "") {
-            $customer->where('c.care_ccs', $datatables->request->get('user_cskh_filter'));
+        if (!is_null($datatables->request->get('user_cskh_filter'))) {
+            if (is_array($datatables->request->get('user_cskh_filter')))
+                $customer->whereIn('c.care_ccs', $datatables->request->get('user_cskh_filter'));
+            else
+                $customer->where('c.care_ccs', $datatables->request->get('user_cskh_filter'));
+        }
+        if (!is_null($datatables->request->get('status_cskh_filter'))) {
+            if (is_array($datatables->request->get('status_cskh_filter')))
+                $customer->whereIn('c.status_care', $datatables->request->get('status_cskh_filter'));
+            else
+                $customer->where('c.status_care', $datatables->request->get('status_cskh_filter'));
         }
 
         $datatables->addColumn('cskh_name', function ($model) {
