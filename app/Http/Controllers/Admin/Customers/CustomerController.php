@@ -632,7 +632,7 @@ class CustomerController extends Controller
                 if ($result_api['isExistTicket'] == true) {
                     $list->status = 15;
                 } elseif ($result_api['isExistTicket'] == false && $result_api['TicketId'] == 0) {
-                    $list->status = 29;
+                    $list->status = 30;
                 }
                 if ($result_api['TeamOf'] != null) {
                     $list->team_of = $result_api['TeamOf'];
