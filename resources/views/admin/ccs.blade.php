@@ -347,6 +347,11 @@
             padding: 2px 10px 2px 10px;
             border-radius: 15px;
         }
+        .open>.dropdown-menu {
+            display: block;
+            overflow: scroll;
+            height: 400px;
+        }
     </style>
     <script type="text/javascript">
         $("#checkAll").change(function () {
