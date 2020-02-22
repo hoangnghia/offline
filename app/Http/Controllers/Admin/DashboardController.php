@@ -67,11 +67,15 @@ class DashboardController
 //            ->get();
 
         date_default_timezone_set('Asia/Ho_Chi_Minh');
+//        $dateTimeArr = explode('-', "2020-01-01");
+//        $fromDate = trim($dateTimeArr[0]);
+//        $fromDate = (new \DateTime($fromDate))->format('Y-m-d');
+        $fromDate = "2020-01-01";
+
         $campaign = DB::table('campaign as c')
             ->select('c.*')
-//            ->where('c.status', true)
+            ->whereDate('c.created_at', '>=', $fromDate)
             ->get();
-//        dd($campaign);
         $datatables = DataTables::of($campaign);
         $datatables->addColumn('count', function ($model) {
             $user = DB::table('local_user as lu')
@@ -106,6 +110,8 @@ class DashboardController
     {
 
         date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $fromDate = "2020-01-01";
+
         $employees = DB::table('employees as e')
             ->select('e.*', 'l.campaign_id', 'l.id as local_id', 'l.local_id as local_idd', 'l.taget', 'ca.name as campaign_name')
             ->join('role_user as r', 'r.user_id', '=', 'e.id')
@@ -114,6 +120,7 @@ class DashboardController
             ->where('r.role_id', 3)
             ->where('e.status', true)
             ->orderBy('e.created_at', 'desc')
+            ->whereDate('e.created_at', '>=', $fromDate)
             ->get();
         $datatables = DataTables::of($employees);
         $datatables->addColumn('count', function ($model) {
