@@ -5,7 +5,8 @@
     <title>Quản lý khách hàng - Đăng nhập</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <link rel="stylesheet" href="{{ asset('assets/css/style1.css') }}">
-    <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.11.0.css" type="text/css" media="all">
+{{--    <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.11.0.css" type="text/css" media="all">--}}
+    <link href="{{ asset('css/qunit-1.11.0.css') }}" rel="stylesheet">
     <link href="{{ asset('css/jquery.dataTables.min.css') }}" rel="stylesheet">
 </head>
 <body id="customer" >
