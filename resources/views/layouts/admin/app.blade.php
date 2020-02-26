@@ -38,7 +38,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     {{--<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>--}}
-    <script type="text/javascript" src="http://code.jquery.com/qunit/qunit-1.11.0.js"></script>
+{{--    <script type="text/javascript" src="http://code.jquery.com/qunit/qunit-1.11.0.js"></script>--}}
+    <script type="text/javascript" src="{{ asset('assets/js/qunit-1.11.0.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jquery.mask.js') }}"></script>
 </head>
 <body class="hold-transition skin-purple sidebar-mini">
