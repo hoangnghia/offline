@@ -37,6 +37,8 @@ class CustomerIntroduce extends Authenticatable
     const NGUYEN_THANH_TUYEN = 21;
     const NGUYEN_THI_KIM_NGOC = 22;
     const lE_TRAN_PHUONG_UYEN = 23;
+    const NGUYEN_THI_KIM_THUY = 24;
+    const CAO_NHAT_ANH = 25;
     const CCS = 24;
 
 
@@ -45,12 +47,12 @@ class CustomerIntroduce extends Authenticatable
         self::DUONG_THI_HONG_DIEP => 'Dương Thị Hồng Điệp',
         self::HOANG_LE_QUYEN => 'Hoàng Lệ Quyên',
         self::LE_THI_TUYET_NGA => 'Lê Thị Tuyết Ngân',
-        self::HUYNH_THI_NGOC_DIEM => 'Huynh Thị Ngọc Diễm',
-        self::LE_VAN_THAO => 'Lê Vân Thảo',
+//        self::HUYNH_THI_NGOC_DIEM => 'Huynh Thị Ngọc Diễm',
+//        self::LE_VAN_THAO => 'Lê Vân Thảo',
         self::PHI_TRONG_KHANH => 'Phí  Trọng Khánh',
-        self::TO_THI_CAM_HUONG => 'Tô Thị Cẩm Hương',
+//        self::TO_THI_CAM_HUONG => 'Tô Thị Cẩm Hương',
         self::NGUYEN_THI_NHU_HUYNH => 'Nguyễn Thị Như Huỳnh',
-        self::LE_THI_THUY => 'Lê Thị Thủy',
+//        self::LE_THI_THUY => 'Lê Thị Thủy',
         self::DO_THI_HUONG => 'Đỗ Thị Hương',
         self::MLO_HLIEU => 'MLÔ HLiêu',
         self::TRUONG_MY_HIEP => 'Trương Mỹ Hiệp',
@@ -59,12 +61,14 @@ class CustomerIntroduce extends Authenticatable
         self::PHAM_THUY_DUONG => 'Phạm Thùy Dương',
         self::NGUYEN_LE_THANH_TRUC => 'Nguyễn Lê Thanh Trúc',
 
-        self::NGUYEN_THI_THU_HANG => 'Nguyễn Thị Thu Hằng',
-        self::CHUNG_THUY_THUY_VI => 'Chung Thùy Thúy Vi',
+//        self::NGUYEN_THI_THU_HANG => 'Nguyễn Thị Thu Hằng',
+//        self::CHUNG_THUY_THUY_VI => 'Chung Thùy Thúy Vi',
 //        self::LE_THI_THUY => 'Lê Thị Thủy',
-        self::NGUYEN_THANH_TUYEN => 'Nguyễn Thanh Tuyền',
-        self::NGUYEN_THI_KIM_NGOC => 'Nguyễn Thị Kim Ngọc',
+//        self::NGUYEN_THANH_TUYEN => 'Nguyễn Thanh Tuyền',
+//        self::NGUYEN_THI_KIM_NGOC => 'Nguyễn Thị Kim Ngọc',
         self::lE_TRAN_PHUONG_UYEN => 'Lê Trần Phương Uyên',
+        self::NGUYEN_THI_KIM_THUY => 'Nguyễn Thị Kim Thùy',
+        self::CAO_NHAT_ANH => 'Cao Nhật Anh',
         self::CCS => 'CCS',
 
     ];
