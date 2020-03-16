@@ -37,9 +37,9 @@ class CustomerIntroduce extends Authenticatable
     const NGUYEN_THANH_TUYEN = 21;
     const NGUYEN_THI_KIM_NGOC = 22;
     const lE_TRAN_PHUONG_UYEN = 23;
-    const NGUYEN_THI_KIM_THUY = 24;
+//    const NGUYEN_THI_K_THUY = 24;
     const CAO_NHAT_ANH = 25;
-    const NGUYEN_THI_KIM = 26;
+    const NGUYEN_THI_K_THUY = 26;
     const CCS = 24;
 
 
@@ -68,9 +68,9 @@ class CustomerIntroduce extends Authenticatable
 //        self::NGUYEN_THANH_TUYEN => 'Nguyễn Thanh Tuyền',
 //        self::NGUYEN_THI_KIM_NGOC => 'Nguyễn Thị Kim Ngọc',
         self::lE_TRAN_PHUONG_UYEN => 'Lê Trần Phương Uyên',
-        self::NGUYEN_THI_KIM_THUY => 'Nguyễn Thị Kim Thùy',
+//        self::NGUYEN_THI_KIM_THUY => 'Nguyễn Thị Kim Thùy',
         self::CAO_NHAT_ANH => 'Cao Nhật Anh',
-        self::NGUYEN_THI_KIM => 'Nguyễn Thị Kim',
+        self::NGUYEN_THI_K_THUY => 'Nguyễn Thị Kim Thùy',
         self::CCS => 'CCS',
 
     ];
