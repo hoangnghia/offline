@@ -36,7 +36,7 @@ class DashboardController
         $totalCampaign = Campaign::all()->count();
         $todayCampaign = Campaign::where('time_start', '>=', $today)->where('time_end', '<=', $today)->where('status', true)->get()->count();
         // khach hang
-        $totalCustomer = Customer::all()->count();
+//        $totalCustomer = Customer::all()->count();
         $todayCustomer = Customer::where('created_at', '>=', $today)->get()->count();
         // Tin nhan
         $totalSms = Customer::where('sms_log_id', '!=', null)->get()->count();
@@ -47,7 +47,7 @@ class DashboardController
 
         return view('admin.dashboard', ['totalCampaign' => $totalCampaign,
             'todayCampaign' => $todayCampaign,
-            'totalCustomer' => $totalCustomer,
+//            'totalCustomer' => $totalCustomer,
             'todayCustomer' => $todayCustomer,
             'totalSms' => $totalSms,
             'todaySms' => $todaySms,
