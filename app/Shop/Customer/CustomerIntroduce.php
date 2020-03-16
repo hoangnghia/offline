@@ -39,6 +39,7 @@ class CustomerIntroduce extends Authenticatable
     const lE_TRAN_PHUONG_UYEN = 23;
     const NGUYEN_THI_KIM_THUY = 24;
     const CAO_NHAT_ANH = 25;
+    const NGUYEN_THI_KIM = 26;
     const CCS = 24;
 
 
@@ -69,6 +70,7 @@ class CustomerIntroduce extends Authenticatable
         self::lE_TRAN_PHUONG_UYEN => 'Lê Trần Phương Uyên',
         self::NGUYEN_THI_KIM_THUY => 'Nguyễn Thị Kim Thùy',
         self::CAO_NHAT_ANH => 'Cao Nhật Anh',
+        self::NGUYEN_THI_KIM => 'Nguyễn Thị Kim',
         self::CCS => 'CCS',
 
     ];
