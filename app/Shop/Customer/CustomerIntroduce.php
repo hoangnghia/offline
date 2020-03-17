@@ -70,7 +70,7 @@ class CustomerIntroduce extends Authenticatable
         self::lE_TRAN_PHUONG_UYEN => 'Lê Trần Phương Uyên',
 //        self::NGUYEN_THI_KIM_THUY => 'Nguyễn Thị Kim Thùy',
         self::CAO_NHAT_ANH => 'Cao Nhật Anh',
-        self::NGUYEN_THI_K_THUY => 'Nguyễn Thị Kim Thùy',
+        self::NGUYEN_THI_K_THUY => 'Trần Thị Kim Thùy',
         self::CCS => 'CCS',
 
     ];
