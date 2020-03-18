@@ -91,6 +91,7 @@ class CampaignController extends Controller
                 request()->session()->flash('error', 'Oh ! Có vẻ bạn chưa chọn siêu thị hoặc chợ !!!');
                 return redirect()->route('admin.campaign.create');
             }
+
             $campaign = new Campaign();
             $campaign->name = $request['name'];
             $campaign->note = $request['description'];
@@ -100,6 +101,8 @@ class CampaignController extends Controller
             $campaign->agency_id = $request['agency'];
             $campaign->time_start = date('Y-m-d H:i:s', strtotime($request['set-start-date']));
             $campaign->time_end = date('Y-m-d H:i:s', strtotime($request['set-end-date']));
+            $campaign->time_end_login = $request['time_end'];
+            $campaign->time_start_login = $request['time_start'];
             $campaign->created_at = Carbon::now();
             $campaign->updated_at = Carbon::now();
             $campaign->save();
@@ -127,9 +130,10 @@ class CampaignController extends Controller
             $campaign->note = $request->description;
             $campaign->taget = $request->taget;
             $campaign->age = $request->age;
-//            $campaign->agency_id = $request->agency;
             $campaign->time_start = date('Y-m-d H:i:s', strtotime($request->set_start_date));
             $campaign->time_end = date('Y-m-d H:i:s', strtotime($request->set_end_date));
+            $campaign->time_end_login = $request['time_end'];
+            $campaign->time_start_login = $request['time_start'];
             $campaign->created_at = Carbon::now();
             $campaign->updated_at = Carbon::now();
             $campaign->save();

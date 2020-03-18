@@ -20,13 +20,18 @@ class HomeController extends Controller
      */
     public function index()
     {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         $id = Auth::guard('employee')->user();
+        $datatime = getdate();
+
         $campaign = DB::table('campaign as c')
             ->select('c.*', 'l.user_id', 'l.campaign_id', 'b.name as nameAddress', 'lo.name as local_name', 'lo.address', 'l.taget as user_taget', 'l.local_id', 'l.id as local_user_id')
             ->join('local_user as l', 'l.campaign_id', '=', 'c.id')
             ->join('branchs as b', 'b.id', '=', 'c.address')
             ->join('local as lo', 'lo.id', '=', 'l.local_id')
             ->where('l.user_id', $id->id)
+            ->where('c.time_start_login','<=',$datatime['hours'])
+            ->where('c.time_end_login','>=',$datatime['hours'])
             ->orderBy('l.created_at', 'desc')
             ->get();
         return view('front.employee.campaign', [

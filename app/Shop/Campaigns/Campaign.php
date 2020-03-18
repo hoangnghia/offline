@@ -20,6 +20,8 @@ class Campaign extends Model
         'age',
         'agency_id',
         'status',
+        'time_end_login',
+        'time_start_login',
         'created_at',
         'updated_at'
     ];

@@ -78,9 +78,177 @@
                         <input type="text" id="set-end-date" name="set_end_date"
                                value="{{date('mm/dd/YYYY', strtotime($campaign->time_end))}}"/>
                     </div>
+                    <div class="form-group">
+                        <label for="name">Thời gian hoạt động : <span class="text-danger">*</span></label>
+                        <label for="name">Bắt đầu : <span class="text-danger">*</span></label>
+                        <select id="time_start" name="time_start">
+                            <option value="1"
+                                    @if($campaign->time_start_login == 1) selected @endif>1
+                            </option>
+                            <option value="2"
+                                    @if($campaign->time_start_login == 2) selected @endif>2
+                            </option>
+                            <option value="3"
+                                    @if($campaign->time_start_login == 3) selected @endif>3
+                            </option>
+                            <option value="4"
+                                    @if($campaign->time_start_login == 4) selected @endif>4
+                            </option>
+                            <option value="5"
+                                    @if($campaign->time_start_login == 5) selected @endif>5
+                            </option>
+                            <option value="6"
+                                    @if($campaign->time_start_login == 6) selected @endif>6
+                            </option>
+                            <option value="7"
+                                    @if($campaign->time_start_login == 7) selected @endif>7
+                            </option>
+                            <option value="8"
+                                    @if($campaign->time_start_login == 8) selected @endif>8
+                            </option>
+                            <option value="9"
+                                    @if($campaign->time_start_login == 9) selected @endif>9
+                            </option>
+                            <option value="10"
+                                    @if($campaign->time_start_login == 10) selected @endif>
+                                10
+                            </option>
+                            <option value="11"
+                                    @if($campaign->time_start_login == 11) selected @endif>
+                                11
+                            </option>
+                            <option value="12"
+                                    @if($campaign->time_start_login == 12) selected @endif>
+                                12
+                            </option>
+                            <option value="13"
+                                    @if($campaign->time_start_login == 13) selected @endif>
+                                13
+                            </option>
+                            <option value="14"
+                                    @if($campaign->time_start_login == 14) selected @endif>
+                                14
+                            </option>
+                            <option value="15"
+                                    @if($campaign->time_start_login == 15) selected @endif>
+                                15
+                            </option>
+                            <option value="16"
+                                    @if($campaign->time_start_login == 16) selected @endif>
+                                16
+                            </option>
+                            <option value="17"
+                                    @if($campaign->time_start_login == 17) selected @endif>
+                                17
+                            </option>
+                            <option value="18"
+                                    @if($campaign->time_start_login == 18) selected @endif>
+                                18
+                            </option>
+                            <option value="19"
+                                    @if($campaign->time_start_login == 19) selected @endif>
+                                19
+                            </option>
+                            <option value="20"
+                                    @if($campaign->time_start_login == 20) selected @endif>
+                                20
+                            </option>
+                            <option value="21"
+                                    @if($campaign->time_start_login == 21) selected @endif>
+                                21
+                            </option>
+                            <option value="22"
+                                    @if($campaign->time_start_login == 22) selected @endif>
+                                22
+                            </option>
+                            <option value="23"
+                                    @if($campaign->time_start_login == 23) selected @endif>
+                                23
+                            </option>
+                            <option value="24"
+                                    @if($campaign->time_start_login == 24) selected @endif>
+                                24
+                            </option>
+                        </select>
+                        <label for="name">Kết thúc : <span class="text-danger">*</span></label>
+                        <select id="time_end" name="time_end">
+                            <option value="1"
+                                    @if($campaign->time_end_login == 1) selected @endif>1
+                            </option>
+                            <option value="2"
+                                    @if($campaign->time_end_login == 2) selected @endif>2
+                            </option>
+                            <option value="3"
+                                    @if($campaign->time_end_login == 3) selected @endif>3
+                            </option>
+                            <option value="4"
+                                    @if($campaign->time_end_login == 4) selected @endif>4
+                            </option>
+                            <option value="5"
+                                    @if($campaign->time_end_login == 5) selected @endif>5
+                            </option>
+                            <option value="6"
+                                    @if($campaign->time_end_login == 6) selected @endif>6
+                            </option>
+                            <option value="7"
+                                    @if($campaign->time_end_login == 7) selected @endif>7
+                            </option>
+                            <option value="8"
+                                    @if($campaign->time_end_login == 8) selected @endif>8
+                            </option>
+                            <option value="9"
+                                    @if($campaign->time_end_login == 9) selected @endif>9
+                            </option>
+                            <option value="10"
+                                    @if($campaign->time_end_login == 10) selected @endif>10
+                            </option>
+                            <option value="11"
+                                    @if($campaign->time_end_login == 11) selected @endif>11
+                            </option>
+                            <option value="12"
+                                    @if($campaign->time_end_login == 12) selected @endif>12
+                            </option>
+                            <option value="13"
+                                    @if($campaign->time_end_login == 13) selected @endif>13
+                            </option>
+                            <option value="14"
+                                    @if($campaign->time_end_login == 14) selected @endif>14
+                            </option>
+                            <option value="15"
+                                    @if($campaign->time_end_login == 15) selected @endif>15
+                            </option>
+                            <option value="16"
+                                    @if($campaign->time_end_login == 16) selected @endif>16
+                            </option>
+                            <option value="17"
+                                    @if($campaign->time_end_login == 17) selected @endif>17
+                            </option>
+                            <option value="18"
+                                    @if($campaign->time_end_login == 18) selected @endif>18
+                            </option>
+                            <option value="19"
+                                    @if($campaign->time_end_login == 19) selected @endif>19
+                            </option>
+                            <option value="20"
+                                    @if($campaign->time_end_login == 20) selected @endif>20
+                            </option>
+                            <option value="21"
+                                    @if($campaign->time_end_login == 21) selected @endif>21
+                            </option>
+                            <option value="22"
+                                    @if($campaign->time_end_login == 22) selected @endif>22
+                            </option>
+                            <option value="23"
+                                    @if($campaign->time_end_login == 23) selected @endif>23
+                            </option>
+                            <option value="24"
+                                    @if($campaign->time_end_login == 24) selected @endif>24
+                            </option>
+                        </select>
+                    </div>
                     {{--<div class="form-group">--}}
-                        {{--<label for="name">Chi phí<span class="text-danger">*</span></label>--}}
-                        {{--<input type="text" id="cost" name="cost" value="{{$campaign->cost}}"/>vnđ--}}
+                    {{--<label for="name">Chi phí<span class="text-danger">*</span></label>--}}
+                    {{--<input type="text" id="cost" name="cost" value="{{$campaign->cost}}"/>vnđ--}}
                     {{--</div>--}}
 
                 </div>
