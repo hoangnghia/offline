@@ -51,7 +51,7 @@ class CustomerIntroduce extends Authenticatable
 //        self::HUYNH_THI_NGOC_DIEM => 'Huynh Thị Ngọc Diễm',
 //        self::LE_VAN_THAO => 'Lê Vân Thảo',
         self::PHI_TRONG_KHANH => 'Phí  Trọng Khánh',
-//        self::TO_THI_CAM_HUONG => 'Tô Thị Cẩm Hương',
+        self::TO_THI_CAM_HUONG => 'Tô Thị Cẩm Hương',
         self::NGUYEN_THI_NHU_HUYNH => 'Nguyễn Thị Như Huỳnh',
 //        self::LE_THI_THUY => 'Lê Thị Thủy',
         self::DO_THI_HUONG => 'Đỗ Thị Hương',
