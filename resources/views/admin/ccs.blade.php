@@ -384,7 +384,7 @@
         }
 
         #list-customer-sort tbody > tr:first-child {
-            color: #d6c81d;
+            color: goldenrod;
             font-size: 20px;
             font-weight: bold;;
         }
@@ -393,7 +393,7 @@
             display: block !important;
         }
         #list-customer-sort tbody > tr:nth-child(2),#list-customer-sort tbody > tr:nth-child(3),#list-customer-sort tbody > tr:nth-child(4),#list-customer-sort tbody > tr:nth-child(5)  {
-            color: #afa316;
+            color: goldenrod;
         }
     </style>
     <script type="text/javascript">
