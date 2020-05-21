@@ -159,6 +159,40 @@ class DashboardController
         ]);
     }
 
+    public function sortCSKH(Request $request)
+    {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $customer = DB::table('customer_introduce as e')
+            ->select(DB::raw('count(*) as user_count, e.care_ccs'))
+            ->groupBy('e.care_ccs')
+            ->orderBy('user_count', 'desc');
+        $datatables = DataTables::of($customer);
+        if (!is_null($datatables->request->get('created_at'))) {
+            $dateTimeArr = explode('-', $datatables->request->get('created_at'));
+            $fromDate = trim($dateTimeArr[0]);
+            $toDate = trim($dateTimeArr[1]);
+            $fromDate = (new \DateTime($fromDate))->format('Y-m-d');
+            $toDate = (new \DateTime($toDate))->format('Y-m-d');
+            $customer->whereDate('e.created_at', '>=', $fromDate);
+            $customer->whereDate('e.created_at', '<=', $toDate);
+        }
+        $datatables->addColumn('cskh_name', function ($model) {
+            if (!is_null($model->care_ccs)) {
+                $name = "Chưa chọn";
+                foreach (CustomerIntroduce::USER_TEXT as $key => $value) {
+                    if ($model->care_ccs == $key) {
+                        $name = $value;
+                    } elseif ($model->care_ccs == 207) {
+                        $name = "Team CCS";
+                    }
+                }
+                return $name;
+            }
+            return '(Not set)';
+        });
+        return $datatables->make(true);
+    }
+
     public function getListDataIntroduce()
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');

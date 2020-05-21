@@ -7,6 +7,36 @@
     <!-- Default box -->
         <div class="box">
             <div class="box-body">
+                <h1 style="color: goldenrod;text-align: center;">BẢNG XẾP HẠNG</h1>
+                <form method="get" id="search-form-customer-sort">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="section mb10">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar">
+                                        </i>
+                                    </div>
+                                    <input readonly="" type="text" placeholder="Thời gian tạo"
+                                           value=""
+                                           class="form-control change-filter-sort pull-right"
+                                           name="created_at" id="created_at_sort">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <table id="list-customer-sort" class="table">
+                    <thead>
+                    <tr>
+                        <th class="">STT</th>
+                        <th>Tên Nhân viên</th>
+                        <th>Số lượng</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
                 <h2>Thêm khách hàng</h2>
                 <div id="filter-lead-verified" class="panel mb25 mt5">
                     <div class="panel-heading" style=" border: 1px solid #b5aeae8c; padding: 14px;border-radius: 5px;">
@@ -201,20 +231,6 @@
                                                 </label>
                                             </div>
                                         </div>
-{{--                                        <div class="col-md-2">--}}
-{{--                                            <div class="section mb10" id="date-sent-field">--}}
-{{--                                                <label style="width: 100%" for="introduce-phone"--}}
-{{--                                                       class="field prepend-icon">--}}
-{{--                                                    <select class="form-control change-filter-room-id"--}}
-{{--                                                            id="filter_user_cskh">--}}
-{{--                                                        <option value="">Chọn nhân viên</option>--}}
-{{--                                                        @foreach(\App\Shop\Customer\CustomerIntroduce::USER_TEXT as $key => $value)--}}
-{{--                                                            <option value="{{ $key }}">{{ $value }}</option>--}}
-{{--                                                        @endforeach--}}
-{{--                                                    </select>--}}
-{{--                                                </label>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
                                         <div class="col-md-3">
                                             <div class="section mb10" id="page_id">
                                                 <label style="width: 100%" for="select" class="field prepend-icon">
@@ -233,7 +249,8 @@
                                             <div class="section mb10" id="page_id">
                                                 <label style="width: 100%" for="select" class="field prepend-icon">
                                                     <select id="status-id"
-                                                            class="change-filter-room-id form-control" name="status-id[]"
+                                                            class="change-filter-room-id form-control"
+                                                            name="status-id[]"
                                                             multiple="multiple">
                                                         @foreach($status as $item)
                                                             <option value="{{ $item->id }}">{{ $item->title }}</option>
@@ -347,10 +364,19 @@
             padding: 2px 10px 2px 10px;
             border-radius: 15px;
         }
-        .open>.dropdown-menu {
+
+        .open > .dropdown-menu {
             display: block;
             overflow: scroll;
             height: 400px;
+        }
+
+        #list-customer-sort_filter {
+            display: none
+        }
+
+        #list-customer-sort td {
+            text-align: left
         }
     </style>
     <script type="text/javascript">
@@ -372,9 +398,27 @@
                 'Năm nay': [moment().startOf('year'), moment()]
             }
         }, cb);
+        $('#created_at_sort').daterangepicker({
+            "startDate": moment(),
+            "endDate": moment(),
+            "autoApply": true,
+            "opens": "center",
+            "buttonClasses": "btn-info",
+            ranges: {
+                'Hôm nay': [moment(), moment()],
+                'Hôm qua': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '7 ngày qua': [moment().subtract(6, 'days'), moment()],
+                'Tháng này': [moment().startOf('month'), moment().endOf('month')],
+                'Năm nay': [moment().startOf('year'), moment()]
+            }
+        }, cb);
         $('.change-filter-room-id').change(function (e) {
             oTableCustomer.draw(true);
         });
+        $('.change-filter-sort').change(function (e) {
+            oTableCustomerSort.draw(true);
+        });
+
         $('.change-phone').change(function (e) {
             var phonenumber = $('#phone').val();
             $.ajax({
@@ -482,6 +526,37 @@
                 },
             ]
         });
+        var oTableCustomerSort = $('#list-customer-sort').DataTable({
+            "lengthMenu": [[10, 50, 100, 200], [10, 50, 100, 200]],
+            processing: true,
+            serverSide: true,
+            'columnDefs': [{
+                'targets': 0,
+                'searchable': false,
+                'orderable': false,
+                'className': 'dt-body-center',
+
+            }],
+            "pageLength": 10,
+            ajax: {
+                url: '{!! url('/admin/sort/postDate') !!}',
+                data: function (d) {
+
+                    d.created_at = $('#search-form-customer-sort #created_at_sort').val();
+                }
+            },
+            "columns": [
+                {
+                    "data": "id",
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {data: 'cskh_name', name: 'cskh_name'},
+                {data: 'user_count', name: 'user_count'}
+            ]
+        });
+
 
         $('#users-id').multiselect({
             includeSelectAllOption: true,
@@ -491,6 +566,8 @@
             includeSelectAllOption: true,
             nonSelectedText: '-- Trạng thái gọi --',
         });
+
+
     </script>
     <!-- /.content -->
 @endsection

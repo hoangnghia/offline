@@ -156,13 +156,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
             Route::get('customer/list-crm', 'Customers\CustomerController@listCRM')->name('customer.list-crm');
             Route::get('customer/get-list-crm', 'Customers\CustomerController@getListDataCRM')->name('customer.get-list-crm');
 
-
         });
         // Team CCS
         Route::group(['middleware' => ['role:admin|ccs|offline, guard:employee']], function () {
             Route::get('/offline', 'DashboardController@indexOffline')->name('dashboard.offline');
             Route::get('/cskh', 'DashboardController@indexCCS')->name('dashboard.cskh');
             Route::get('/lead/cskh', 'DashboardController@indexCCS')->name('dashboard');
+
+            Route::GET('sort/postDate', 'DashboardController@sortCSKH')->name('sort.postDate');
             Route::GET('customer/getListDataIntroduce', 'DashboardController@getListDataIntroduce')->name('customer.getListDataIntroduce');
             Route::GET('customer/getListDataIntroduceOffline', 'DashboardController@getListDataIntroduceOffline')->name('customer.getListDataIntroduceOffline');
             Route::POST('customer/postListIntroduce', 'DashboardController@postListIntroduce')->name('customer.postListIntroduce');
