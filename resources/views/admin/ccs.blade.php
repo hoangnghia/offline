@@ -378,6 +378,23 @@
         #list-customer-sort td {
             text-align: left
         }
+
+        .ct-active {
+            color: red;
+        }
+
+        #list-customer-sort tbody > tr:first-child {
+            color: #d6c81d;
+            font-size: 20px;
+            font-weight: bold;;
+        }
+
+        #list-customer-sort tbody > tr:first-child img {
+            display: block !important;
+        }
+        #list-customer-sort tbody > tr:nth-child(2),#list-customer-sort tbody > tr:nth-child(3),#list-customer-sort tbody > tr:nth-child(4),#list-customer-sort tbody > tr:nth-child(5)  {
+            color: #afa316;
+        }
     </style>
     <script type="text/javascript">
         $("#checkAll").change(function () {
@@ -549,9 +566,10 @@
                 {
                     "data": "id",
                     render: function (data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
+                        return meta.row + meta.settings._iDisplayStart + 1 + '<img src="/img/good.jpg" style="width: 25%;float: right;display: none;">';
                     }
                 },
+
                 {data: 'cskh_name', name: 'cskh_name'},
                 {data: 'user_count', name: 'user_count'}
             ]
