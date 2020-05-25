@@ -781,24 +781,27 @@ class DashboardController
                     $urlSend = "https://apicrm.ngocdunggroup.com/api/v1/SC/Social/AddLead";
                     $str_data = '{ "FK_CampaignID": "' . $FK_CampaignID . '", "Phone": "' . $phone . '", "FullName": "' . $FullName . '", "Address": "' . $address . '", "timestamp": "' . $time . '", "token": "' . $token . '","AreaID":"' . $areaID . '","BranchID":"' . $branchID . '","Service_text":"' . $service_text . '","JobCode":"' . $jobcode . '","platform":"' . $platform . '"}';
                     $result = $this->sendPostDataCRM($urlSend, $str_data);
+
                     $result = json_decode($result, true);
-                    if ($result['status'] == 200) {
-                        $result_api = json_decode($result['Result'], true);
-                        $updata = CustomerIntroduce::where('id', $item->id)->first();
-                        $updata->ticket_crm_id = $result_api['TicketId'];
-                        $updata->lead_id = $result_api['LeadId'];
-                        $updata->is_exist_ticket = $result_api['isExistTicket'];
-                        $updata->is_exist_lead = $result_api['isExistLead'];
-                        $updata->team_of = $result_api['TeamOf'];
-                        $updata->Job_code = $str_data;
-                        $updata->updated_at = Carbon::now();
-                        if ($result_api['isExistTicket'] == true) {
-                            $updata->status = 15;
-                        } else {
-                            $updata->status = 888;
+                    if (isset($result['status'])) {
+                        if ($result['status'] == 200) {
+                            $result_api = json_decode($result['Result'], true);
+                            $updata = CustomerIntroduce::where('id', $item->id)->first();
+                            $updata->ticket_crm_id = $result_api['TicketId'];
+                            $updata->lead_id = $result_api['LeadId'];
+                            $updata->is_exist_ticket = $result_api['isExistTicket'];
+                            $updata->is_exist_lead = $result_api['isExistLead'];
+                            $updata->team_of = $result_api['TeamOf'];
+                            $updata->Job_code = $str_data;
+                            $updata->updated_at = Carbon::now();
+                            if ($result_api['isExistTicket'] == true) {
+                                $updata->status = 15;
+                            } else {
+                                $updata->status = 888;
+                            }
+                            $updata->save();
+                            $i++;
                         }
-                        $updata->save();
-                        $i++;
                     }
                 }
             }
