@@ -555,6 +555,14 @@ class DashboardController
             if (substr($phoneIN, 0, 1) != 0) {
                 $phoneIN = '0' . $phoneIN;
             }
+            if (strlen($phone) >= 11 || strlen($phone) < 10 || $phone == "" || !is_numeric($phone)) {
+                request()->session()->flash('error', 'Sai số điện thoại');
+                return redirect('admin/cskh');
+            }
+            if (strlen($phoneIN) >= 11 || strlen($phoneIN) < 10 || $phoneIN == "" || !is_numeric($phoneIN)) {
+                request()->session()->flash('error', 'Sai số điện thoại');
+                return redirect('admin/cskh');
+            }
 
             $timecheck = date('Y-m-d', strtotime("-90 days"));
             $check_data = DB::table('customer_introduce')
