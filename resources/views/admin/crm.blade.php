@@ -53,6 +53,17 @@
                                         <legend>Vui lòng điền các thông tin cần thiết</legend>
                                         <!-- File Button -->
                                         <div class="form-group">
+                                            <label class=" control-label" for="vung_mien">Chọn kênh</label>
+                                            <div class="">
+                                                <select id="channel" name="channel" class="form-control" required>
+                                                    <option value="">Chọn kênh</option>
+                                                    <option value="DOITAC_OFFLINE">DOITAC_OFFLINE</option>
+                                                    <option value="CSKH">CSKH</option>
+                                                    <option value="Tools_OFFLINE">Tools_OFFLINE</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <label class=" control-label" for="vung_mien">Vùng miền</label>
                                             <div class="">
                                                 <select id="vung_mien" name="vung_mien" class="form-control">

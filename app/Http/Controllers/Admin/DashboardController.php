@@ -779,7 +779,8 @@ class DashboardController
                     $tokenList = "CRM2019" . $FullName . $phone . $FK_CampaignID . $time;
                     $token = hash('sha256', $tokenList);
                     $urlSend = "https://apicrm.ngocdunggroup.com/api/v1/SC/Social/AddLead";
-                    $str_data = '{ "FK_CampaignID": "' . $FK_CampaignID . '", "Phone": "' . $phone . '", "FullName": "' . $FullName . '", "Address": "' . $address . '", "timestamp": "' . $time . '", "token": "' . $token . '","AreaID":"' . $areaID . '","BranchID":"' . $branchID . '","Service_text":"' . $service_text . '","JobCode":"' . $jobcode . '","platform":"' . $platform . '"}';
+                    $channel = $request->channel;
+                    $str_data = '{ "FK_CampaignID": "' . $FK_CampaignID . '", "Phone": "' . $phone . '", "FullName": "' . $FullName . '", "Address": "' . $address . '", "timestamp": "' . $time . '", "token": "' . $token . '","AreaID":"' . $areaID . '","BranchID":"' . $branchID . '","Service_text":"' . $service_text . '","JobCode":"' . $jobcode . '","platform":"' . $platform . '","teamPush":"OFFLINE","channel":"' . $channel . '"}';
                     $result = $this->sendPostDataCRM($urlSend, $str_data);
 
                     $result = json_decode($result, true);
